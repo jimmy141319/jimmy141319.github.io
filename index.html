@@ -1,86 +1,132 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<title>Jimmy Studio</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{
-font-family:Arial;
-margin:0;
-background:#111;
-color:white;
-text-align:center
-}
-.hero{
-padding:120px 20px
-}
-h1{
-font-size:48px;
-margin-bottom:10px
-}
-.subtitle{
-color:#aaa;
-font-size:20px
-}
-.products{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:30px;
-padding:60px 20px
-}
-.card{
-background:#1b1b1b;
-padding:40px;
-width:260px;
-border-radius:10px
-}
-.card a{
-color:#4da6ff;
-text-decoration:none
-}
-footer{
-padding:40px;
-color:#777
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimmy Studio</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #1e3a8a 0%, #0f172a 45%, #020617 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .hero {
+      padding: 120px 20px 80px;
+    }
+
+    h1 {
+      font-size: 56px;
+      margin: 0 0 16px;
+    }
+
+    .subtitle {
+      color: #cbd5e1;
+      font-size: 22px;
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      padding: 40px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 30px;
+      width: 300px;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 34px;
+    }
+
+    .card p {
+      color: #cbd5e1;
+      font-size: 18px;
+      line-height: 1.7;
+      min-height: 56px;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #3b82f6);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      padding: 50px 20px 70px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 42px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 340px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="hero">
+    <h1>Jimmy Studio</h1>
+    <div class="subtitle">
+      AI tools · Startup experiments · Digital products
+    </div>
+  </div>
 
-<div class="hero">
-<h1>Jimmy Studio</h1>
-<div class="subtitle">
-Building digital tools for creators & small businesses
-</div>
-</div>
+  <div class="products">
+    <div class="card">
+      <h2>QuickStore</h2>
+      <p>Create a store website in minutes</p>
+      <a href="https://jimmy141319.github.io/Quickstore">Open</a>
+    </div>
 
-<div class="products">
+    <div class="card">
+      <h2>MuStar</h2>
+      <p>Handmade cookies brand</p>
+      <a href="https://jimmy141319.github.io/cake">Open</a>
+    </div>
 
-<div class="card">
-<h2>QuickStore</h2>
-<p>Create a store website in minutes</p>
-<a href="/Quickstore">Open</a>
-</div>
+    <div class="card">
+      <h2>Guide Quiz</h2>
+      <p>Tour guide exam practice</p>
+      <a href="https://jimmy141319.github.io/guide-quiz">Open</a>
+    </div>
+  </div>
 
-<div class="card">
-<h2>MuStar</h2>
-<p>Handmade cookies brand</p>
-<a href="/cake">Open</a>
-</div>
-
-<div class="card">
-<h2>Guide Quiz</h2>
-<p>Tour guide exam practice</p>
-<a href="/guide-quiz">Open</a>
-</div>
-
-</div>
-
-<footer>
-© Jimmy Studio
-</footer>
-
+  <footer>© Jimmy Studio</footer>
 </body>
 </html>
