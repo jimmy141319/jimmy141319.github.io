@@ -4,128 +4,464 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jimmy Studio</title>
+  <meta name="description" content="Jimmy Studio is an AI product studio building tools for small businesses and creators." />
   <style>
-    * {
-      box-sizing: border-box;
+    *{
+      box-sizing:border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle at 20% 20%, #1e3a8a 0%, #0f172a 45%, #020617 100%);
-      color: white;
-      text-align: center;
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(59,130,246,0.35), transparent 30%),
+        radial-gradient(circle at 80% 25%, rgba(168,85,247,0.28), transparent 28%),
+        radial-gradient(circle at 50% 80%, rgba(14,165,233,0.18), transparent 24%),
+        linear-gradient(135deg,#020617,#0f172a 45%,#111827 100%);
     }
 
-    .hero {
-      padding: 120px 20px 80px;
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 
-    h1 {
-      font-size: 56px;
-      margin: 0 0 16px;
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 20px;
     }
 
-    .subtitle {
-      color: #cbd5e1;
-      font-size: 22px;
-      max-width: 760px;
-      margin: 0 auto;
-      line-height: 1.7;
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(14px);
+      background:rgba(2,6,23,0.55);
+      border-bottom:1px solid rgba(255,255,255,0.08);
     }
 
-    .products {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 32px;
-      padding: 40px 20px 80px;
-      max-width: 1200px;
-      margin: 0 auto;
+    .header-wrap{
+      max-width:1200px;
+      margin:auto;
+      padding:18px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 40px 30px;
-      width: 300px;
-      border-radius: 18px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    .logo{
+      font-size:30px;
+      font-weight:800;
+      letter-spacing:-0.5px;
     }
 
-    .card h2 {
-      margin: 0 0 14px;
-      font-size: 34px;
+    .nav{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      color:#cbd5e1;
+      font-size:14px;
+      font-weight:700;
     }
 
-    .card p {
-      color: #cbd5e1;
-      font-size: 18px;
-      line-height: 1.7;
-      min-height: 56px;
+    .hero{
+      padding:110px 0 70px;
+      text-align:center;
     }
 
-    .card a {
-      display: inline-block;
-      margin-top: 18px;
-      padding: 12px 22px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #6366f1, #3b82f6);
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.12);
+      color:#cbd5e1;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:20px;
     }
 
-    footer {
-      padding: 50px 20px 70px;
-      color: #94a3b8;
-      font-size: 14px;
+    .hero h1{
+      font-size:64px;
+      line-height:1.05;
+      margin:0 0 18px;
+      letter-spacing:-1.5px;
     }
 
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 42px;
+    .hero p{
+      max-width:850px;
+      margin:0 auto;
+      font-size:22px;
+      line-height:1.7;
+      color:#cbd5e1;
+    }
+
+    .hero-actions{
+      margin-top:28px;
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:14px 24px;
+      border-radius:14px;
+      font-weight:800;
+      font-size:15px;
+      transition:0.2s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,#6366f1,#3b82f6);
+      box-shadow:0 12px 28px rgba(59,130,246,0.28);
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.1);
+      color:#e2e8f0;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .hero-panel{
+      margin:55px auto 0;
+      max-width:980px;
+      padding:26px;
+      border-radius:24px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(14px);
+      box-shadow:0 25px 50px rgba(0,0,0,0.28);
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:22px;
+      text-align:left;
+      align-items:stretch;
+    }
+
+    .hero-card{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:18px;
+      padding:24px;
+    }
+
+    .hero-card h3{
+      margin:0 0 12px;
+      font-size:24px;
+    }
+
+    .hero-card p{
+      margin:0;
+      font-size:16px;
+      color:#cbd5e1;
+      line-height:1.8;
+    }
+
+    .mini-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .mini-item{
+      padding:14px 16px;
+      border-radius:14px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      color:#e2e8f0;
+      font-weight:700;
+    }
+
+    .section{
+      padding:85px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      font-size:42px;
+      margin:0 0 14px;
+      letter-spacing:-1px;
+    }
+
+    .section-subtitle{
+      text-align:center;
+      max-width:760px;
+      margin:0 auto 40px;
+      color:#cbd5e1;
+      font-size:18px;
+      line-height:1.7;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+
+    .card{
+      padding:32px 26px;
+      border-radius:22px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(12px);
+      box-shadow:0 18px 40px rgba(0,0,0,0.20);
+      text-align:left;
+    }
+
+    .card h3{
+      margin:0 0 12px;
+      font-size:34px;
+    }
+
+    .card p{
+      margin:0 0 20px;
+      color:#cbd5e1;
+      line-height:1.8;
+      font-size:17px;
+      min-height:90px;
+    }
+
+    .card a{
+      display:inline-block;
+      padding:12px 20px;
+      border-radius:12px;
+      background:linear-gradient(135deg,#6366f1,#3b82f6);
+      font-weight:800;
+    }
+
+    .lab-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .lab-item{
+      padding:24px;
+      border-radius:18px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      text-align:left;
+    }
+
+    .lab-item h4{
+      margin:0 0 10px;
+      font-size:22px;
+    }
+
+    .lab-item p{
+      margin:0;
+      color:#cbd5e1;
+      line-height:1.8;
+    }
+
+    .contact-box{
+      max-width:760px;
+      margin:0 auto;
+      padding:32px;
+      border-radius:22px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      text-align:center;
+    }
+
+    .contact-box p{
+      color:#cbd5e1;
+      line-height:1.8;
+      font-size:18px;
+      margin:0 0 22px;
+    }
+
+    .contact-links{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .contact-links a{
+      padding:12px 18px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.10);
+      font-weight:700;
+      color:#e2e8f0;
+    }
+
+    footer{
+      padding:40px 20px 70px;
+      text-align:center;
+      color:#94a3b8;
+      font-size:14px;
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .cards,
+      .lab-grid{
+        grid-template-columns:1fr;
       }
 
-      .subtitle {
-        font-size: 18px;
+      .card p{
+        min-height:auto;
+      }
+    }
+
+    @media (max-width: 640px){
+      .hero{
+        padding:90px 0 50px;
       }
 
-      .card {
-        width: 100%;
-        max-width: 340px;
+      .hero h1{
+        font-size:44px;
+      }
+
+      .hero p{
+        font-size:18px;
+      }
+
+      .section-title{
+        font-size:32px;
+      }
+
+      .logo{
+        font-size:24px;
+      }
+
+      .nav{
+        gap:12px;
+        font-size:13px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="hero">
-    <h1>Jimmy Studio</h1>
-    <div class="subtitle">
-      AI tools · Startup experiments · Digital products
-    </div>
-  </div>
 
-  <div class="products">
-    <div class="card">
-      <h2>QuickStore</h2>
-      <p>Create a store website in minutes</p>
-      <a href="https://jimmy141319.github.io/Quickstore">Open</a>
+  <header>
+    <div class="header-wrap">
+      <div class="logo">Jimmy Studio</div>
+      <div class="nav">
+        <a href="#products">Products</a>
+        <a href="#lab">Startup Lab</a>
+        <a href="#contact">Contact</a>
+      </div>
     </div>
+  </header>
 
-    <div class="card">
-      <h2>MuStar</h2>
-      <p>Handmade cookies brand</p>
-      <a href="https://jimmy141319.github.io/cake">Open</a>
-    </div>
+  <section class="hero">
+    <div class="container">
+      <div class="badge">AI Product Studio</div>
+      <h1>Build AI products for real business problems</h1>
+      <p>
+        Jimmy Studio creates simple digital products, startup experiments, and practical tools for small businesses, creators, and everyday problems worth solving.
+      </p>
 
-    <div class="card">
-      <h2>Guide Quiz</h2>
-      <p>Tour guide exam practice</p>
-      <a href="https://jimmy141319.github.io/guide-quiz">Open</a>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#products">View Products</a>
+        <a class="btn btn-secondary" href="#lab">Open Startup Lab</a>
+      </div>
+
+      <div class="hero-panel">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <h3>What is Jimmy Studio?</h3>
+            <p>
+              A small online startup studio focused on building useful tools fast, testing ideas on the internet, and turning simple business pain points into real digital products.
+            </p>
+          </div>
+
+          <div class="mini-list">
+            <div class="mini-item">QuickStore → AI Website Builder</div>
+            <div class="mini-item">MuStar → Handmade Cookies Brand</div>
+            <div class="mini-item">Guide Quiz → Exam Practice Product</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="container">
+      <h2 class="section-title">Products</h2>
+      <p class="section-subtitle">
+        These are the current products inside Jimmy Studio. Each one starts from a real problem, then becomes a simple tool, brand, or digital experience.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>QuickStore</h3>
+          <p>Create a store website in minutes. Built for small businesses, Instagram sellers, and shops that want a simple online presence.</p>
+          <a href="https://jimmy141319.github.io/Quickstore">Open</a>
+        </div>
+
+        <div class="card">
+          <h3>MuStar</h3>
+          <p>A handmade cookies brand and also a real example of how a simple product website can become a brand presence online.</p>
+          <a href="https://jimmy141319.github.io/cake">Open</a>
+        </div>
+
+        <div class="card">
+          <h3>Guide Quiz</h3>
+          <p>A practice system for tour guide exams. Designed to turn static content into an interactive learning product.</p>
+          <a href="https://jimmy141319.github.io/guide-quiz">Open</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="lab">
+    <div class="container">
+      <h2 class="section-title">Startup Lab</h2>
+      <p class="section-subtitle">
+        Jimmy Studio is also a place to test new product ideas. Small tools can become real businesses when they solve a clear problem well.
+      </p>
+
+      <div class="lab-grid">
+        <div class="lab-item">
+          <h4>Menu AI</h4>
+          <p>Turn simple menu content into a clean product page for restaurants and cafes.</p>
+        </div>
+
+        <div class="lab-item">
+          <h4>Booking AI</h4>
+          <p>Make simple booking pages for freelancers, studios, and personal services.</p>
+        </div>
+
+        <div class="lab-item">
+          <h4>Resume AI</h4>
+          <p>Help users turn messy information into a clean resume and personal profile page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-box">
+        <p>
+          Jimmy Studio is building simple AI tools, websites, and startup experiments.  
+          If you want to work together, build a product, or create a small business website, get in touch.
+        </p>
+
+        <div class="contact-links">
+          <a href="https://jimmy141319.github.io">Website</a>
+          <a href="https://jimmy141319.github.io/Quickstore">QuickStore</a>
+          <a href="https://jimmy141319.github.io/cake">MuStar</a>
+          <a href="https://jimmy141319.github.io/guide-quiz">Guide Quiz</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>© Jimmy Studio</footer>
 </body>
