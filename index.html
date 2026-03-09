@@ -1,293 +1,805 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jimmy Studio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimmy Studio</title>
+  <meta
+    name="description"
+    content="Jimmy Chang · AI Retail Entrepreneur · Building AI products for retail, food brands, restaurants, and stores."
+  />
+  <meta name="theme-color" content="#0b1220" />
+  <style>
+    :root{
+      --bg-1:#020617;
+      --bg-2:#0f172a;
+      --bg-3:#1e3a8a;
+      --text:#ffffff;
+      --muted:#cbd5e1;
+      --soft:#94a3b8;
+      --line:rgba(255,255,255,.10);
+      --card:rgba(255,255,255,.06);
+      --card-2:rgba(255,255,255,.04);
+      --primary:#60a5fa;
+      --primary-2:#6366f1;
+      --success:#22c55e;
+      --shadow:0 20px 50px rgba(0,0,0,.28);
+      --radius:22px;
+      --radius-sm:14px;
+      --max:1180px;
+    }
 
-<style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(59,130,246,.22), transparent 24%),
+        radial-gradient(circle at 88% 12%, rgba(168,85,247,.16), transparent 22%),
+        linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 48%,var(--bg-3) 100%);
+    }
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--max);margin:0 auto;padding:0 20px}
+    .section{padding:88px 0}
+    .center{text-align:center}
 
-body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",Arial;
-background:linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
-color:white;
-}
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(2,6,23,.72);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
+    .nav{
+      min-height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 0;
-}
+    .logo{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-.5px;
+    }
 
-.logo{
-font-size:28px;
-font-weight:800;
-}
+    .logo small{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:600;
+      letter-spacing:.2px;
+      margin-top:2px;
+    }
 
-nav a{
-margin-left:20px;
-color:#3b82f6;
-text-decoration:none;
-font-size:14px;
-}
+    .menu{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      font-size:14px;
+      font-weight:700;
+      color:var(--muted);
+    }
 
-.hero{
-padding:100px 0;
-}
+    .menu a:hover{color:#fff}
 
-.hero h1{
-font-size:64px;
-margin-bottom:10px;
-}
+    .hero{
+      padding:96px 0 62px;
+    }
 
-.subtitle{
-font-size:22px;
-opacity:0.8;
-margin-bottom:30px;
-}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:28px;
+      align-items:center;
+    }
 
-.btn{
-display:inline-block;
-padding:14px 26px;
-border-radius:12px;
-background:#3b82f6;
-color:white;
-text-decoration:none;
-font-weight:700;
-}
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:#dbeafe;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:18px;
+    }
 
-.section{
-padding:80px 0;
-text-align:center;
-}
+    h1{
+      margin:0 0 14px;
+      font-size:66px;
+      line-height:1.03;
+      letter-spacing:-1.8px;
+    }
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:30px;
-margin-top:40px;
-}
+    .lead{
+      margin:0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:20px;
+      line-height:1.9;
+    }
 
-.card{
-background:rgba(255,255,255,0.06);
-padding:30px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,0.08);
-}
+    .hero-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:30px;
+    }
 
-.card h3{
-font-size:28px;
-margin-bottom:10px;
-}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:14px 24px;
+      border-radius:14px;
+      font-weight:800;
+      font-size:15px;
+      border:1px solid transparent;
+      transition:transform .18s ease, opacity .18s ease;
+    }
 
-.card p{
-opacity:0.7;
-margin-bottom:20px;
-}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary-2),var(--primary));
+      box-shadow:0 14px 32px rgba(59,130,246,.28);
+    }
+    .btn-secondary{
+      background:rgba(255,255,255,.07);
+      border-color:rgba(255,255,255,.10);
+      color:#e2e8f0;
+    }
 
-.system{
-background:rgba(255,255,255,0.05);
-padding:30px;
-border-radius:16px;
-max-width:500px;
-margin:auto;
-font-family:monospace;
-line-height:1.6;
-}
+    .hero-panel{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      padding:24px;
+    }
 
-footer{
-text-align:center;
-padding:50px 0;
-opacity:0.6;
-}
+    .profile{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      background:var(--card-2);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
 
-</style>
+    .avatar{
+      width:74px;
+      height:74px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      font-size:24px;
+      background:linear-gradient(135deg,#60a5fa,#8b5cf6);
+      flex:none;
+    }
+
+    .profile small{
+      display:block;
+      color:#93c5fd;
+      margin-bottom:4px;
+      font-weight:700;
+    }
+
+    .profile strong{
+      display:block;
+      font-size:22px;
+      margin-bottom:4px;
+    }
+
+    .profile p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.75;
+      font-size:14px;
+    }
+
+    .stack{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .stack-item{
+      padding:14px 16px;
+      border-radius:16px;
+      background:var(--card-2);
+      border:1px solid var(--line);
+      color:#e2e8f0;
+      font-weight:700;
+    }
+
+    .section-title{
+      margin:0 0 12px;
+      font-size:42px;
+      text-align:center;
+      letter-spacing:-1px;
+    }
+
+    .section-subtitle{
+      max-width:820px;
+      margin:0 auto 38px;
+      text-align:center;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:18px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+      text-align:left;
+    }
+
+    .tag{
+      display:inline-block;
+      margin-bottom:12px;
+      padding:7px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      font-size:12px;
+      color:#dbeafe;
+      font-weight:700;
+    }
+
+    .card h3{
+      margin:0 0 10px;
+      font-size:32px;
+      letter-spacing:-.6px;
+    }
+
+    .card p{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.85;
+    }
+
+    .card .cta{
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--primary-2),var(--primary));
+      font-weight:800;
+    }
+
+    .service-grid,
+    .lab-grid,
+    .why-grid,
+    .pricing-grid,
+    .roadmap-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .tile{
+      background:var(--card-2);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+      text-align:left;
+    }
+
+    .tile h4{
+      margin:0 0 8px;
+      font-size:22px;
+      letter-spacing:-.4px;
+    }
+
+    .tile p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    .tile.center{text-align:center}
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      align-items:start;
+    }
+
+    .box{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:30px;
+    }
+
+    .box h4{
+      margin:0 0 12px;
+      font-size:30px;
+      letter-spacing:-.6px;
+    }
+
+    .box p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:17px;
+    }
+
+    .system-map{
+      background:var(--card-2);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:26px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      color:#dbeafe;
+      line-height:1.95;
+      white-space:pre-line;
+      text-align:left;
+      min-height:100%;
+    }
+
+    .demo-box{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:34px;
+    }
+
+    .demo-steps{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+      margin-top:24px;
+    }
+
+    .step{
+      padding:18px;
+      border-radius:16px;
+      background:var(--card-2);
+      border:1px solid var(--line);
+      text-align:center;
+    }
+
+    .step strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:18px;
+    }
+
+    .pricing-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      text-align:left;
+    }
+
+    .price{
+      font-size:42px;
+      font-weight:900;
+      margin:10px 0 14px;
+      letter-spacing:-1px;
+    }
+
+    .price small{
+      font-size:16px;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .pricing-card ul{
+      list-style:none;
+      padding:0;
+      margin:0 0 18px;
+    }
+
+    .pricing-card li{
+      color:var(--muted);
+      line-height:1.9;
+      padding:4px 0;
+    }
+
+    .roadmap-item{
+      background:var(--card-2);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+      text-align:left;
+    }
+
+    .roadmap-item h4{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+
+    .roadmap-item p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    .contact-links{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:22px;
+    }
+
+    .contact-links a{
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:12px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      color:#e2e8f0;
+      font-weight:700;
+    }
+
+    footer{
+      text-align:center;
+      padding:42px 20px 72px;
+      color:var(--soft);
+      font-size:14px;
+    }
+
+    @media (max-width: 1024px){
+      .hero-grid,
+      .grid-3,
+      .service-grid,
+      .lab-grid,
+      .why-grid,
+      .split,
+      .pricing-grid,
+      .roadmap-grid,
+      .demo-steps{
+        grid-template-columns:1fr;
+      }
+
+      h1{font-size:48px}
+      .lead{font-size:18px}
+    }
+
+    @media (max-width: 680px){
+      .menu{display:none}
+      .logo{font-size:24px}
+      .section-title{font-size:34px}
+      .hero{padding:72px 0 48px}
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        Jimmy Studio
+        <small>AI Product Studio</small>
+      </div>
+      <nav class="menu">
+        <a href="#products">Products</a>
+        <a href="#services">Services</a>
+        <a href="#lab">Startup Lab</a>
+        <a href="#why">Why</a>
+        <a href="#founder">Founder</a>
+        <a href="#demo">Demo</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<header>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge">One Person Company · AI Retail Entrepreneur</div>
+        <h1>Jimmy Chang<br>AI Retail Entrepreneur</h1>
+        <p class="lead">
+          前 CitySuper 上海採購背景，現在透過 Jimmy Studio 打造 AI 商業工具，
+          幫餐廳、品牌、零售店更快建立官網、商店、商品頁與數位系統，讓生意可以被看見、被理解、被成交。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#products">Explore Products</a>
+          <a class="btn btn-secondary" href="#contact">Work With Me</a>
+        </div>
+      </div>
 
-<div class="logo">
-Jimmy Studio
-</div>
+      <div class="hero-panel">
+        <div class="profile">
+          <div class="avatar">JC</div>
+          <div>
+            <small>Entrepreneur</small>
+            <strong>Jimmy Chang</strong>
+            <p>Ex-CitySuper Shanghai · Retail, brand, product, and business logic combined with AI tools.</p>
+          </div>
+        </div>
 
-<nav>
+        <div class="stack">
+          <div class="stack-item">QuickShop → AI Store Builder</div>
+          <div class="stack-item">MuStar → Food Brand Case Study</div>
+          <div class="stack-item">Guide Quiz → Interactive Traffic Tool</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<a href="#products">Products</a>
-<a href="#services">Services</a>
-<a href="#demo">Demo</a>
-<a href="#contact">Contact</a>
+  <section id="products" class="section">
+    <div class="container">
+      <h2 class="section-title">Products</h2>
+      <p class="section-subtitle">
+        Jimmy Studio 目前以三個核心產品作為展示：商店工具、品牌案例、互動式工具。
+        這些產品不是作品集，而是未來可以成交、收費、擴張的系統入口。
+      </p>
 
-</nav>
+      <div class="grid-3">
+        <article class="card">
+          <div class="tag">AI Store Builder</div>
+          <h3>QuickShop</h3>
+          <p>幫餐廳、品牌與零售店快速建立商店頁、商品頁與數位展示入口，朝 SaaS 方向發展。</p>
+          <a class="cta" href="https://jimmy141319.github.io/quickshop">Open</a>
+        </article>
 
-</header>
+        <article class="card">
+          <div class="tag">Brand Case</div>
+          <h3>MuStar</h3>
+          <p>食品與餅乾品牌案例，展示內容敘事、商品展示、品牌感與商業頁面的整合方式。</p>
+          <a class="cta" href="https://jimmy141319.github.io/cake">Open</a>
+        </article>
 
-<section class="hero">
+        <article class="card">
+          <div class="tag">Traffic Tool</div>
+          <h3>Guide Quiz</h3>
+          <p>互動式工具案例，用來展示如何用功能型頁面做流量入口，而不只是形象網站。</p>
+          <a class="cta" href="https://jimmy141319.github.io/guide-quiz">Open</a>
+        </article>
+      </div>
+    </div>
+  </section>
 
-<h1>
-Jimmy Chang
-</h1>
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title">Services</h2>
+      <p class="section-subtitle">
+        我不是只做網站，而是幫客戶建立可以直接拿去做生意的 AI 商業系統。
+      </p>
 
-<div class="subtitle">
-AI Retail Entrepreneur · Building AI Products
-</div>
+      <div class="service-grid">
+        <div class="tile">
+          <h4>AI Website</h4>
+          <p>建立更有品牌感、更容易成交的官網與產品頁，適合品牌主、商家與創業者。</p>
+        </div>
+        <div class="tile">
+          <h4>AI Store</h4>
+          <p>用更快的方式做出商店入口、商品頁與簡單結帳流程，讓品牌更容易開始賣。</p>
+        </div>
+        <div class="tile">
+          <h4>AI Business Tools</h4>
+          <p>把菜單、題庫、預約、商品資料與零售邏輯，轉成真正能使用的數位工具。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<a class="btn" href="#products">
-Explore Products
-</a>
+  <section id="lab" class="section">
+    <div class="container">
+      <h2 class="section-title">Startup Lab</h2>
+      <p class="section-subtitle">
+        除了現在的產品，Jimmy Studio 也持續測試新的 AI idea，找到更容易成交與 scale 的市場方向。
+      </p>
 
-</section>
+      <div class="lab-grid">
+        <div class="tile">
+          <h4>AI Menu</h4>
+          <p>把餐廳菜單轉成可展示、可分享、可接單的數位頁面，面向餐飲市場。</p>
+        </div>
+        <div class="tile">
+          <h4>AI Booking</h4>
+          <p>讓工作室、品牌、顧問與服務業更容易建立簡單的預約流程。</p>
+        </div>
+        <div class="tile">
+          <h4>AI Retail Tools</h4>
+          <p>針對零售、品牌、商品展示與轉換，開發更小、更快、更可賺錢的工具。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section id="products" class="section">
+  <section id="why" class="section">
+    <div class="container">
+      <h2 class="section-title">Why Jimmy Studio</h2>
+      <p class="section-subtitle">
+        這不是一般作品網站，而是一個 One Person Company 的產品系統。
+      </p>
 
-<h2>Products</h2>
+      <div class="why-grid">
+        <div class="tile center">
+          <h4>Small Products</h4>
+          <p>先做小產品，而不是做巨大而複雜的系統，降低風險與時間成本。</p>
+        </div>
+        <div class="tile center">
+          <h4>Fast Iteration</h4>
+          <p>先上線、先展示、先成交，再根據市場反應快速優化。</p>
+        </div>
+        <div class="tile center">
+          <h4>Real Problems</h4>
+          <p>從餐廳、品牌、零售的真實問題出發，不做只好看但沒商業性的頁面。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="products">
+  <section id="founder" class="section">
+    <div class="container split">
+      <div class="box">
+        <h4>Founder</h4>
+        <p>
+          我不是純技術背景，而是來自零售與採購系統。這讓我更重視商品、品牌、通路、轉換與利潤，
+          所以 Jimmy Studio 的產品不是展示而已，而是朝「能賺錢、能 scale、能成為系統」的方向前進。
+        </p>
+      </div>
 
-<div class="card">
+      <div class="system-map">Jimmy Studio
+│
+├ QuickShop   → AI Store Builder
+├ MuStar      → Brand Case
+└ Guide Quiz  → Traffic Tool</div>
+    </div>
+  </section>
 
-<h3>
-QuickShop
-</h3>
+  <section id="demo" class="section">
+    <div class="container">
+      <h2 class="section-title">3-Minute Demo</h2>
+      <p class="section-subtitle">
+        當你遇到店家、品牌主或老闆時，只要 3 分鐘就能讓對方理解 Jimmy Studio 的商業價值。
+      </p>
 
-<p>
-AI Store Builder for restaurants and retail
-</p>
+      <div class="demo-box">
+        <div class="demo-steps">
+          <div class="step">
+            <strong>1. Problem</strong>
+            很多商家不會做網站、不會做 AI，也不知道如何把內容變成系統。
+          </div>
+          <div class="step">
+            <strong>2. Product</strong>
+            用 QuickShop、MuStar、Guide Quiz 示範商店、品牌、工具三種模型。
+          </div>
+          <div class="step">
+            <strong>3. Solution</strong>
+            幫客戶建立 AI 官網、AI 商店、AI 工具，更快開始展示與成交。
+          </div>
+          <div class="step">
+            <strong>4. Business</strong>
+            透過服務收入 + SaaS 收入，建立真正可擴大的 One Person Company。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<a class="btn" href="https://jimmy141319.github.io/quickshop">
-Open
-</a>
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2 class="section-title">Pricing Direction</h2>
+      <p class="section-subtitle">
+        這不是最終定價，但已經是可以開始變現的方向。
+      </p>
 
-</div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="tag">Starter</div>
+          <h3>AI Website</h3>
+          <div class="price">NT$ 20,000<small> 起</small></div>
+          <ul>
+            <li>品牌首頁</li>
+            <li>基本產品展示</li>
+            <li>行動版優化</li>
+            <li>適合小店 / 個人品牌</li>
+          </ul>
+          <a class="btn btn-secondary" href="#contact">Start</a>
+        </div>
 
+        <div class="pricing-card">
+          <div class="tag">Popular</div>
+          <h3>AI Store</h3>
+          <div class="price">NT$ 30,000<small> 起</small></div>
+          <ul>
+            <li>商店頁</li>
+            <li>商品頁</li>
+            <li>品牌內容</li>
+            <li>適合零售 / 食品品牌</li>
+          </ul>
+          <a class="btn btn-primary" href="#contact">Build</a>
+        </div>
 
-<div class="card">
+        <div class="pricing-card">
+          <div class="tag">Scale</div>
+          <h3>AI Tools</h3>
+          <div class="price">Custom<small> Quote</small></div>
+          <ul>
+            <li>題庫 / 菜單 / 預約 / 工具頁</li>
+            <li>流程型產品</li>
+            <li>客製需求</li>
+            <li>適合有特定場景的企業</li>
+          </ul>
+          <a class="btn btn-secondary" href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<h3>
-MuStar
-</h3>
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Roadmap</h2>
+      <p class="section-subtitle">
+        Jimmy Studio 的方向不是一次性接案，而是走向可持續、可擴大的產品化路徑。
+      </p>
 
-<p>
-Cookie Brand Demo
-</p>
+      <div class="roadmap-grid">
+        <div class="roadmap-item">
+          <h4>Phase 1</h4>
+          <p>用 AI Website / AI Store 幫餐廳、品牌、零售店建立第一批案例與收入。</p>
+        </div>
+        <div class="roadmap-item">
+          <h4>Phase 2</h4>
+          <p>把 QuickShop 往 SaaS 化，從服務收入延伸到訂閱收入。</p>
+        </div>
+        <div class="roadmap-item">
+          <h4>Phase 3</h4>
+          <p>透過創業 IP、案例、流量工具與產品矩陣，建立真正的 One Person Company 系統。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<a class="btn" href="https://jimmy141319.github.io/cake">
-Open
-</a>
+  <section id="contact" class="section">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-subtitle">
+        如果你是餐廳、食品品牌、零售店，想更快建立 AI 官網、AI 商店或 AI 商業工具，
+        可以從下面的入口開始了解整個系統。
+      </p>
 
-</div>
+      <div class="box center">
+        <h4>Explore the Ecosystem</h4>
+        <p>先看產品，再談合作，這是 Jimmy Studio 最有效率的方式。</p>
 
+        <div class="contact-links">
+          <a href="https://jimmy141319.github.io">Jimmy Studio</a>
+          <a href="https://jimmy141319.github.io/quickshop">QuickShop</a>
+          <a href="https://jimmy141319.github.io/cake">MuStar</a>
+          <a href="https://jimmy141319.github.io/guide-quiz">Guide Quiz</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="card">
-
-<h3>
-Guide Quiz
-</h3>
-
-<p>
-Interactive Tour Guide Quiz Tool
-</p>
-
-<a class="btn" href="https://jimmy141319.github.io/guide-quiz">
-Open
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="services" class="section">
-
-<h2>
-Services
-</h2>
-
-<p>
-AI Website · AI Store · AI Business Tools
-</p>
-
-</section>
-
-<section class="section">
-
-<h2>
-System
-</h2>
-
-<div class="system">
-
-Jimmy Studio
-
-│  
-├ QuickShop → AI Store Builder  
-├ MuStar → Brand Demo  
-└ Guide Quiz → Traffic Tool  
-
-</div>
-
-</section>
-
-<section id="demo" class="section">
-
-<h2>
-Demo
-</h2>
-
-<p>
-
-Problem → Stores don't know AI  
-Product → Jimmy Studio tools  
-Solution → AI Website + AI Store  
-Business → One Person Company  
-
-</p>
-
-</section>
-
-<section id="contact" class="section">
-
-<h2>
-Contact
-</h2>
-
-<p>
-
-<a href="https://jimmy141319.github.io">Jimmy Studio</a><br>
-<a href="https://jimmy141319.github.io/quickshop">QuickShop</a><br>
-<a href="https://jimmy141319.github.io/cake">MuStar</a><br>
-<a href="https://jimmy141319.github.io/guide-quiz">Guide Quiz</a>
-
-</p>
-
-</section>
-
-<footer>
-
-Jimmy Studio · Jimmy Chang · AI Retail Entrepreneur
-
-</footer>
-
-</div>
+  <footer>
+    © Jimmy Studio · Jimmy Chang · AI Retail Entrepreneur · One Person Company
+  </footer>
 
 </body>
-
 </html>
