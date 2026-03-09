@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jimmy Studio Control Panel</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+margin:0;
+}
+
+header{
+padding:20px;
+font-size:26px;
+font-weight:bold;
+background:#020617;
+border-bottom:1px solid #334155;
+}
+
+.container{
+padding:40px;
+max-width:1200px;
+margin:auto;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:10px;
+}
+
+.title{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.value{
+font-size:30px;
+font-weight:bold;
+}
+
+.progress{
+height:8px;
+background:#334155;
+border-radius:4px;
+margin-top:10px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+background:#3b82f6;
+}
+
+table{
+width:100%;
+margin-top:40px;
+border-collapse:collapse;
+}
+
+td,th{
+padding:14px;
+border-bottom:1px solid #334155;
+}
+
+.done{color:#22c55e}
+.dev{color:#f59e0b}
+.wait{color:#94a3b8}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+Jimmy Studio Control Panel
+</header>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+<div class="title">Monthly Goal</div>
+<div class="value">300K</div>
+</div>
+
+<div class="card">
+<div class="title">Current Revenue</div>
+<div class="value">0</div>
+</div>
+
+<div class="card">
+<div class="title">Clients Needed</div>
+<div class="value">10</div>
+</div>
+
+<div class="card">
+<div class="title">Projects</div>
+<div class="value">4</div>
+</div>
+
+</div>
+
+<h2 style="margin-top:40px">Project Status</h2>
+
+<table>
+
+<tr>
+<th>Project</th>
+<th>Version</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Jimmy Studio</td>
+<td>V20</td>
+<td class="done">Online</td>
+</tr>
+
+<tr>
+<td>QuickShop</td>
+<td>V12</td>
+<td class="dev">Developing</td>
+</tr>
+
+<tr>
+<td>MuStar</td>
+<td>V10</td>
+<td class="wait">Pending</td>
+</tr>
+
+<tr>
+<td>Guide Quiz</td>
+<td>V8</td>
+<td class="wait">Pending</td>
+</tr>
+
+</table>
+
+<h2 style="margin-top:40px">System</h2>
+
+<pre>
+
+Jimmy Studio
+│
+├ QuickShop
+├ MuStar
+└ Guide Quiz
+
+</pre>
+
+<h2 style="margin-top:40px">Website Links</h2>
+
+<p>
+
+<a href="https://jimmy141319.github.io">Jimmy Studio</a><br><br>
+
+<a href="https://jimmy141319.github.io/quickshop">QuickShop</a><br><br>
+
+<a href="https://jimmy141319.github.io/cake">MuStar</a><br><br>
+
+<a href="https://jimmy141319.github.io/guide-quiz">Guide Quiz</a>
+
+</p>
+
+</div>
+
+</body>
+</html>
