@@ -126,7 +126,6 @@
     let score = 0;
     let streak = 0;
     let best = 0;
-
     let questionQueue = [];
     let current = null;
     let lock = false;
@@ -203,18 +202,18 @@
     function choose(word, btn){
       if (lock) return;
       lock = true;
+      disableAll(true);
 
       if (word === current[0]) {
+        const spokenWord = current[0];
+
         btn.classList.add("correct");
         hintEl.innerText = "✅ Correct";
-
-        const spokenWord = current[0];
 
         score++;
         streak++;
         if (streak > best) best = streak;
 
-        // 先處理升級
         if (score > 0 && score % 10 === 0) {
           level++;
           if (level >= levels.length) {
@@ -228,24 +227,26 @@
           refillQueue();
         }
 
-        // 先更新標頭、先換題
         updateHeader();
 
         setTimeout(() => {
-          buildQuestion();      // ✅ 一次就跳
+          buildQuestion();          // 一次就直接下一題
           lock = false;
+          disableAll(false);
           setTimeout(() => speak(spokenWord), 60); // 背景發音
         }, 120);
 
       } else {
         btn.classList.add("wrong");
         hintEl.innerText = "❌ Wrong";
+
         streak = 0;
         updateHeader();
 
         setTimeout(() => {
           btn.classList.remove("wrong");
           lock = false;
+          disableAll(false);
         }, 260);
       }
     }
@@ -260,6 +261,7 @@
       refillQueue();
       updateHeader();
       buildQuestion();
+      disableAll(false);
     }
 
     refillQueue();
