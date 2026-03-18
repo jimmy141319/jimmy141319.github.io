@@ -3,83 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jimmy Kids English V6.1</title>
+<title>Jimmy Kids English V7</title>
+
 <style>
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef1f7;text-align:center;color:#1f2430;}
-.wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px;}
-h1{margin:10px 0 8px;font-size:clamp(40px,8vw,76px);line-height:1.04;color:#4a78f0;font-weight:800;}
-.subtitle{font-size:18px;color:#6f7688;margin-bottom:18px;}
-.topbar{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
-.pill{background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:999px;padding:12px 18px;min-width:120px;font-size:18px;font-weight:800;}
-.emoji{
-  font-size:112px;min-height:130px;display:flex;align-items:center;justify-content:center;
-  margin:24px auto 8px;cursor:pointer;user-select:none;width:220px;height:180px;border-radius:28px;
+body{margin:0;font-family:-apple-system;background:#eef1f7;text-align:center;}
+h1{font-size:60px;color:#4a78f0;margin:20px 0;}
+.subtitle{color:#666;margin-bottom:20px;}
+
+.top{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.box{background:white;padding:12px 20px;border-radius:20px;font-weight:bold;}
+
+.emoji{font-size:100px;margin:30px 0;}
+
+button{border:none;border-radius:20px;padding:14px 24px;font-size:18px;margin:6px;}
+
+.option{background:white;color:#4a78f0;font-weight:bold;}
+.btn{background:#4a78f0;color:white;}
+
+.mode{
+background:#222;color:white;
 }
-.emoji:active{transform:scale(0.98);}
-.btn-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 10px;}
-.btn{border:none;border-radius:20px;padding:15px 24px;font-size:20px;font-weight:800;color:#fff;background:#4a78f0;box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.feedback{min-height:36px;margin:10px 0 6px;font-size:28px;font-weight:900;}
-.feedback.correct{color:#11b35c;}
-.feedback.wrong{color:#d84b4b;}
-.hint{min-height:28px;color:#6f7688;font-size:17px;margin-bottom:18px;}
-.options{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:12px;}
-.option{min-width:128px;padding:14px 18px;border:none;border-radius:20px;background:#fff;color:#4a78f0;font-size:20px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.option:disabled{opacity:.7;}
-.panel{margin:28px auto 0;max-width:700px;background:rgba(255,255,255,.72);border-radius:26px;padding:18px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.panel-title{font-size:18px;font-weight:800;margin-bottom:6px;}
-.panel-text{color:#6f7688;font-size:16px;}
-.win-box{margin:26px auto 0;max-width:700px;background:#fff;border-radius:28px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:28px 18px;}
-.win-title{font-size:38px;font-weight:900;color:#11b35c;margin-bottom:8px;}
-.win-text{font-size:19px;color:#4d5568;margin-bottom:16px;}
-.hide{display:none;}
-@media (max-width:480px){
-  .pill{min-width:108px;font-size:16px;}
-  .option{min-width:110px;font-size:18px;}
-  .btn{font-size:18px;}
+
+.active{
+background:#ff9800 !important;
 }
 </style>
 </head>
+
 <body>
-<div class="wrap">
-  <h1>Jimmy Kids English</h1>
-  <div class="subtitle" id="subtitle">Level 1 · Animals</div>
 
-  <div class="topbar">
-    <div class="pill" id="score">Score: 0</div>
-    <div class="pill" id="streak">Streak: 0</div>
-    <div class="pill" id="best">Best: 0</div>
-    <div class="pill" id="levelPill">Level: 1</div>
-  </div>
+<h1>Jimmy Kids English</h1>
+<div class="subtitle" id="subtitle"></div>
 
-  <div class="emoji" id="emoji" onclick="repeatQuestion()">❓</div>
-
-  <div class="btn-row">
-    <button class="btn" id="speedBtn" onclick="toggleSpeed()">🐢 Slow</button>
-    <button class="btn" onclick="restartGame()">↺ Restart</button>
-  </div>
-
-  <div class="feedback" id="feedback"></div>
-  <div class="hint" id="hint">Listen, then tap the correct English word.</div>
-
-  <div class="options" id="options"></div>
-
-  <div class="panel">
-    <div class="panel-title" id="panelTitle">Level Goal: 15 points</div>
-    <div class="panel-text">Tap the picture to hear the word again.</div>
-  </div>
-
-  <div class="win-box hide" id="winBox">
-    <div class="win-title">🎉 You Win!</div>
-    <div class="win-text">Amazing! You finished all 3 levels.</div>
-    <button class="btn" onclick="restartGame()">Play Again</button>
-  </div>
+<div class="top">
+<div class="box" id="score">Score: 0</div>
+<div class="box" id="streak">Streak: 0</div>
+<div class="box" id="best">Best: 0</div>
+<div class="box" id="level">Level: 1</div>
 </div>
 
+<div class="emoji" id="emoji">❓</div>
+
+<div>
+<button class="btn" onclick="toggleSpeed()" id="speed">🐢 Slow</button>
+<button class="btn" onclick="restart()">↺ Restart</button>
+</div>
+
+<div>
+<button class="mode active" onclick="setMode('picture')" id="pictureBtn">👀 Picture</button>
+<button class="mode" onclick="setMode('listen')" id="listenBtn">🎧 Listening</button>
+</div>
+
+<div id="hint" style="margin:15px;color:#666"></div>
+
+<div id="options"></div>
+
 <script>
-const levels = [
+
+const levels=[
 {
 name:"Animals",
-goal:15,
 words:[
 ["cat","🐱"],["dog","🐶"],["bird","🐦"],["fish","🐟"],["rabbit","🐰"],
 ["lion","🦁"],["tiger","🐯"],["monkey","🐵"],["frog","🐸"],["pig","🐷"],
@@ -91,205 +74,148 @@ words:[
 },
 {
 name:"Food",
-goal:15,
 words:[
 ["apple","🍎"],["banana","🍌"],["orange","🍊"],["grape","🍇"],["watermelon","🍉"],
 ["bread","🍞"],["cake","🍰"],["pizza","🍕"],["rice","🍚"],["ice cream","🍦"],
 ["milk","🥛"],["egg","🥚"],["cheese","🧀"],["noodles","🍜"],["burger","🍔"],
-["hot dog","🌭"],["fries","🍟"],["donut","🍩"],["cookie","🍪"],["chocolate","🍫"],
-["sandwich","🥪"],["salad","🥗"],["soup","🍲"],["pancake","🥞"],["steak","🥩"],
-["shrimp","🍤"],["corn","🌽"],["carrot","🥕"],["potato","🥔"],["fish","🍣"]
+["hot dog","🌭"],["fries","🍟"],["donut","🍩"],["cookie","🍪"],["chocolate","🍫"]
 ]
 },
 {
-name:"Daily Things",
-goal:15,
+name:"Daily",
 words:[
 ["car","🚗"],["bus","🚌"],["book","📘"],["phone","📱"],["ball","⚽"],
 ["chair","🪑"],["clock","🕒"],["house","🏠"],["star","⭐"],["sun","☀️"],
-["moon","🌙"],["bed","🛏️"],["door","🚪"],["window","🪟"],["bag","🎒"],
-["pen","✏️"],["cup","☕"],["bottle","🍼"],["computer","💻"],["tv","📺"],
-["lamp","💡"],["key","🔑"],["bike","🚲"],["train","🚆"],["airplane","✈️"],
-["ship","🚢"],["camera","📷"],["watch","⌚"],["table","🪑"],["pencil","✏️"]
+["moon","🌙"],["bed","🛏️"],["door","🚪"],["window","🪟"],["bag","🎒"]
 ]
 }
 ];
 
-let level = 0;
-let score = 0;
-let streak = 0;
-let best = 0;
-let current = null;
-let normalQueue = [];
-let reviewQueue = [];
-let speed = "slow";
-let locked = false;
-let finished = false;
+let level=0,score=0,streak=0,best=0;
+let queue=[],review=[],current;
+let speed="slow";
+let mode="picture";
 
-function shuffle(arr){
-  return [...arr].sort(()=>Math.random()-0.5);
-}
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
 
-function speak(word){
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = "en-US";
-  u.rate = speed === "slow" ? 0.7 : 1.0;
-  u.pitch = 1;
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
+function speak(w){
+let u=new SpeechSynthesisUtterance(w);
+u.rate=speed==="slow"?0.7:1;
+speechSynthesis.cancel();
+speechSynthesis.speak(u);
 }
 
 function toggleSpeed(){
-  speed = speed === "slow" ? "normal" : "slow";
-  document.getElementById("speedBtn").innerText = speed === "slow" ? "🐢 Slow" : "⚡ Normal";
-  if(current && !finished){
-    speak(current[0]);
-  }
+speed=speed==="slow"?"normal":"slow";
+document.getElementById("speed").innerText=speed==="slow"?"🐢 Slow":"⚡ Normal";
+}
+
+function setMode(m){
+mode=m;
+
+document.getElementById("pictureBtn").classList.remove("active");
+document.getElementById("listenBtn").classList.remove("active");
+
+if(m==="picture"){
+document.getElementById("pictureBtn").classList.add("active");
+}else{
+document.getElementById("listenBtn").classList.add("active");
+}
+
+build();
 }
 
 function resetQueue(){
-  normalQueue = shuffle([...levels[level].words]);
-  reviewQueue = [];
+queue=shuffle([...levels[level].words]);
+review=[];
 }
 
 function nextWord(){
-  if(reviewQueue.length > 0) return reviewQueue.shift();
-  if(normalQueue.length === 0) resetQueue();
-  return normalQueue.shift();
+if(review.length>0)return review.shift();
+if(queue.length===0)resetQueue();
+return queue.shift();
 }
 
-function buildOptions(){
-  const pool = levels[level].words.filter(x => x[0] !== current[0]);
-  let opts = shuffle(pool).slice(0,4).map(x => x[0]);
-  opts.push(current[0]);
-  opts = shuffle(opts);
+function build(){
+current=nextWord();
 
-  const box = document.getElementById("options");
-  box.innerHTML = "";
+if(mode==="picture"){
+document.getElementById("emoji").innerText=current[1];
+}else{
+document.getElementById("emoji").innerText="❓";
+}
 
-  opts.forEach(word=>{
-    const btn = document.createElement("button");
-    btn.className = "option";
-    btn.innerText = word;
-    btn.onclick = ()=>choose(word);
-    box.appendChild(btn);
-  });
+speak(current[0]);
+
+let opts=shuffle([...levels[level].words]).slice(0,4).map(x=>x[0]);
+if(!opts.includes(current[0]))opts[0]=current[0];
+
+let box=document.getElementById("options");
+box.innerHTML="";
+
+shuffle(opts).forEach(w=>{
+let b=document.createElement("button");
+b.className="option";
+b.innerText=w;
+b.onclick=()=>choose(w);
+box.appendChild(b);
+});
+
+document.getElementById("hint").innerText=
+mode==="picture"?"Look & listen":"Listen carefully";
+}
+
+function choose(w){
+
+if(w===current[0]){
+score++;streak++;
+if(streak>best)best=streak;
+
+if(score%15===0){
+level++;
+if(level>=levels.length){
+alert("🎉 Finished!");
+return;
+}
+resetQueue();
+}
+
+update();
+build();
+
+}else{
+streak=0;
+review.push(current);
+update();
+
+document.getElementById("hint").innerText=
+"Correct: "+current[0];
+
+speak(current[0]);
+}
 }
 
 function update(){
-  document.getElementById("score").innerText = "Score: " + score;
-  document.getElementById("streak").innerText = "Streak: " + streak;
-  document.getElementById("best").innerText = "Best: " + best;
-  document.getElementById("levelPill").innerText = "Level: " + (level + 1);
-  document.getElementById("subtitle").innerText = "Level " + (level + 1) + " · " + levels[level].name;
-  document.getElementById("panelTitle").innerText = "Level Goal: " + levels[level].goal + " points";
+document.getElementById("score").innerText="Score: "+score;
+document.getElementById("streak").innerText="Streak: "+streak;
+document.getElementById("best").innerText="Best: "+best;
+document.getElementById("level").innerText="Level: "+(level+1);
+document.getElementById("subtitle").innerText=
+"Level "+(level+1)+" · "+levels[level].name;
 }
 
-function setFeedback(text, cls=""){
-  const el = document.getElementById("feedback");
-  el.innerText = text;
-  el.className = "feedback " + cls;
-}
-
-function newQuestion(){
-  if(finished) return;
-  locked = false;
-  setFeedback("");
-  document.getElementById("hint").innerText = "Listen, then tap the correct English word.";
-
-  current = nextWord();
-  document.getElementById("emoji").innerText = current[1];
-  buildOptions();
-
-  setTimeout(()=>speak(current[0]), 250);
-}
-
-function repeatQuestion(){
-  if(current && !finished){
-    speak(current[0]);
-    document.getElementById("hint").innerText = "Repeated.";
-  }
-}
-
-function wrongToReview(){
-  if(!reviewQueue.some(x => x[0] === current[0])){
-    reviewQueue.push(current);
-  }
-}
-
-function choose(word){
-  if(locked || finished || !current) return;
-
-  if(word === current[0]){
-    locked = true;
-    speak(word);
-    score++;
-    streak++;
-    if(streak > best) best = streak;
-    update();
-    setFeedback("🎉 Correct!", "correct");
-    document.getElementById("hint").innerText = word.toUpperCase();
-
-    if(score >= (level + 1) * levels[level].goal){
-      setTimeout(nextLevel, 700);
-    } else {
-      setTimeout(newQuestion, 700);
-    }
-  } else {
-    streak = 0;
-    update();
-    setFeedback("❌ Wrong", "wrong");
-    document.getElementById("hint").innerText = "Correct answer: " + current[0];
-    speak(current[0]);
-    wrongToReview();
-  }
-}
-
-function nextLevel(){
-  if(level < levels.length - 1){
-    level++;
-    resetQueue();
-    update();
-    setFeedback("🎉 Level Up!", "correct");
-    document.getElementById("hint").innerText = "Welcome to " + levels[level].name + "!";
-    setTimeout(newQuestion, 900);
-  } else {
-    finished = true;
-    document.getElementById("winBox").classList.remove("hide");
-    document.getElementById("options").innerHTML = "";
-    document.getElementById("emoji").innerText = "🏆";
-    setFeedback("Excellent!", "correct");
-    document.getElementById("hint").innerText = "You finished all levels.";
-  }
-}
-
-function restartGame(){
-  speechSynthesis.cancel();
-  level = 0;
-  score = 0;
-  streak = 0;
-  best = 0;
-  current = null;
-  normalQueue = [];
-  reviewQueue = [];
-  speed = "slow";
-  locked = false;
-  finished = false;
-
-  document.getElementById("speedBtn").innerText = "🐢 Slow";
-  document.getElementById("winBox").classList.add("hide");
-  document.getElementById("emoji").innerText = "❓";
-  document.getElementById("options").innerHTML = "";
-  document.getElementById("hint").innerText = "Listen, then tap the correct English word.";
-  setFeedback("");
-  resetQueue();
-  update();
-  newQuestion();
+function restart(){
+level=0;score=0;streak=0;best=0;
+resetQueue();
+update();
+build();
 }
 
 resetQueue();
 update();
-newQuestion();
+build();
+
 </script>
+
 </body>
 </html>
