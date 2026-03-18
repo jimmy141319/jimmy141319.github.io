@@ -126,8 +126,8 @@
     let score = 0;
     let streak = 0;
     let best = 0;
-    let queue = [];
-    let review = [];
+
+    let questionQueue = [];
     let current = null;
     let lock = false;
 
@@ -152,7 +152,7 @@
       speechSynthesis.speak(u);
     }
 
-    function update(){
+    function updateHeader(){
       scoreEl.innerText = "Score: " + score;
       streakEl.innerText = "Streak: " + streak;
       bestEl.innerText = "Best: " + best;
@@ -160,28 +160,32 @@
       subtitleEl.innerText = "Level " + (level + 1) + " · " + levels[level].name;
     }
 
-    function resetQueue(){
-      queue = shuffle(levels[level].words);
-      review = [];
+    function refillQueue(){
+      questionQueue = shuffle(levels[level].words);
     }
 
-    function nextWord(){
-      if (review.length > 0) return review.shift();
-      if (queue.length === 0) resetQueue();
-      return queue.shift();
+    function getNextQuestion(){
+      if (questionQueue.length === 0) {
+        refillQueue();
+      }
+      return questionQueue.shift();
     }
 
-    function build(){
-      current = nextWord();
+    function buildQuestion(){
+      current = getNextQuestion();
       emojiEl.innerText = current[1];
       hintEl.innerText = "";
 
-      let opts = shuffle(levels[level].words).slice(0, 4).map(x => x[0]);
-      if (!opts.includes(current[0])) opts[0] = current[0];
-      opts = shuffle(opts);
+      let choices = shuffle(levels[level].words)
+        .filter(x => x[0] !== current[0])
+        .slice(0, 3)
+        .map(x => x[0]);
+
+      choices.push(current[0]);
+      choices = shuffle(choices);
 
       optionsEl.innerHTML = "";
-      opts.forEach(word => {
+      choices.forEach(word => {
         const btn = document.createElement("button");
         btn.className = "option";
         btn.innerText = word;
@@ -190,63 +194,59 @@
       });
     }
 
-    function disableButtons(disabled){
+    function disableAll(disabled){
       document.querySelectorAll(".option").forEach(btn => {
         btn.disabled = disabled;
       });
     }
 
-    function goNext(){
-      if (score > 0 && score % 10 === 0) {
-        level++;
-        if (level >= levels.length) {
-          update();
-          alert("🎉 Finished!");
-          lock = false;
-          return;
-        }
-        resetQueue();
-      }
-
-      update();
-      build();
-      disableButtons(false);
-      lock = false;
-    }
-
     function choose(word, btn){
       if (lock) return;
       lock = true;
-      disableButtons(true);
 
       if (word === current[0]) {
-        const correctWord = current[0];
-
         btn.classList.add("correct");
         hintEl.innerText = "✅ Correct";
+
+        const spokenWord = current[0];
 
         score++;
         streak++;
         if (streak > best) best = streak;
 
-        // 立刻切題，不等任何事件
+        // 先處理升級
+        if (score > 0 && score % 10 === 0) {
+          level++;
+          if (level >= levels.length) {
+            updateHeader();
+            setTimeout(() => {
+              alert("🎉 Finished!");
+              lock = false;
+            }, 120);
+            return;
+          }
+          refillQueue();
+        }
+
+        // 先更新標頭、先換題
+        updateHeader();
+
         setTimeout(() => {
-          goNext();
-          setTimeout(() => speak(correctWord), 80);
+          buildQuestion();      // ✅ 一次就跳
+          lock = false;
+          setTimeout(() => speak(spokenWord), 60); // 背景發音
         }, 120);
 
       } else {
         btn.classList.add("wrong");
         hintEl.innerText = "❌ Wrong";
-
         streak = 0;
-        review.push(current);
-        update();
+        updateHeader();
 
         setTimeout(() => {
-          disableButtons(false);
+          btn.classList.remove("wrong");
           lock = false;
-        }, 350);
+        }, 260);
       }
     }
 
@@ -257,15 +257,14 @@
       best = 0;
       lock = false;
       speechSynthesis.cancel();
-      resetQueue();
-      update();
-      build();
-      disableButtons(false);
+      refillQueue();
+      updateHeader();
+      buildQuestion();
     }
 
-    resetQueue();
-    update();
-    build();
+    refillQueue();
+    updateHeader();
+    buildQuestion();
   </script>
 
 </body>
