@@ -8,98 +8,109 @@
 <style>
 body{
   margin:0;
-  font-family:sans-serif;
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
   background:#f4f6fb;
   text-align:center;
 }
 
 .container{
-  padding:40px 20px;
+  padding:30px 15px;
 }
 
 h1{
-  font-size:42px;
+  font-size:34px;
   color:#4a78f0;
-}
-
-.subtitle{
-  color:#666;
-  margin-bottom:20px;
+  margin-bottom:10px;
 }
 
 .score{
-  font-size:24px;
-  margin:10px 0;
+  font-size:20px;
+  margin-bottom:10px;
 }
 
 .emoji{
-  font-size:100px;
-  margin:30px 0;
+  font-size:90px;
+  margin:20px 0;
 }
 
 .listen{
   background:#00b894;
   color:white;
-  padding:15px 30px;
-  font-size:20px;
+  padding:12px 25px;
+  font-size:18px;
   border:none;
-  border-radius:12px;
-  margin-bottom:20px;
+  border-radius:10px;
+  margin-bottom:15px;
 }
 
 .options button{
-  margin:8px;
-  padding:12px 20px;
-  font-size:18px;
-  border-radius:20px;
+  margin:6px;
+  padding:10px 16px;
+  font-size:16px;
+  border-radius:12px;
   border:none;
   background:white;
   box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.footer{
-  margin-top:40px;
-  color:#999;
-  font-size:14px;
+.feedback{
+  font-size:22px;
+  height:30px;
+  margin-top:10px;
 }
-</style>
 
+.correct{ color:#00b894; }
+.wrong{ color:#d63031; }
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>Jimmy Kids English</h1>
-<p class="subtitle">Learn English with fun games 🎮</p>
-
+<h1>Kids English</h1>
 <div class="score" id="score">Score: 0</div>
 
 <div class="emoji" id="emoji">🐱</div>
 
-<button class="listen" onclick="speak()">🔊 Listen</button>
+<button class="listen" onclick="manualSpeak()">🔊 Listen</button>
+
+<div class="feedback" id="feedback"></div>
 
 <div class="options" id="options"></div>
-
-<div class="footer">
-Level 1 • Animals
-</div>
 
 </div>
 
 <script>
 const words = [
-  { word: "cat", emoji: "🐱" },
-  { word: "dog", emoji: "🐶" },
-  { word: "bird", emoji: "🐦" },
-  { word: "fish", emoji: "🐟" },
-  { word: "rabbit", emoji: "🐰" }
+  { word:"cat", emoji:"🐱" },
+  { word:"dog", emoji:"🐶" },
+  { word:"bird", emoji:"🐦" },
+  { word:"fish", emoji:"🐟" },
+  { word:"rabbit", emoji:"🐰" }
 ];
 
 let current;
 let score = 0;
+let unlocked = false;
 
-function newQuestion() {
+// 語音（穩定版）
+function speak(text){
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  u.rate = 0.9;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+// 手動播放（解鎖 iPhone）
+function manualSpeak(){
+  unlocked = true;
+  speak(current.word);
+}
+
+// 新題目
+function newQuestion(){
   current = words[Math.floor(Math.random()*words.length)];
   document.getElementById("emoji").innerText = current.emoji;
 
@@ -111,23 +122,32 @@ function newQuestion() {
   });
 
   document.getElementById("options").innerHTML = html;
+  document.getElementById("feedback").innerText = "";
+
+  // 自動發音（已解鎖才會跑）
+  if(unlocked){
+    setTimeout(()=>speak(current.word),300);
+  }
 }
 
-function speak() {
-  const u = new SpeechSynthesisUtterance(current.word);
-  u.lang = "en-US";
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
-}
-
-function check(word) {
+// 檢查答案
+function check(word){
   if(word === current.word){
     score++;
     document.getElementById("score").innerText = "Score: " + score;
+    document.getElementById("feedback").innerText = "Correct!";
+    document.getElementById("feedback").className = "feedback correct";
+  }else{
+    document.getElementById("feedback").innerText = "Try again";
+    document.getElementById("feedback").className = "feedback wrong";
+    speak(current.word);
+    return;
   }
-  newQuestion();
+
+  setTimeout(newQuestion, 600);
 }
 
+// 初始化
 newQuestion();
 </script>
 
