@@ -1,481 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V5</title>
-  <style>
-    :root{
-      --bg:#eef1f7;
-      --blue:#4a78f0;
-      --green:#11b35c;
-      --red:#d84b4b;
-      --text:#1f2430;
-      --muted:#6f7688;
-      --white:#ffffff;
-      --shadow:0 8px 24px rgba(0,0,0,0.08);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jimmy Kids English V5.1</title>
 
-    *{ box-sizing:border-box; }
-
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      text-align:center;
-    }
-
-    .wrap{
-      max-width:860px;
-      margin:0 auto;
-      padding:24px 16px 48px;
-    }
-
-    h1{
-      margin:10px 0 8px;
-      font-size:clamp(40px,8vw,76px);
-      line-height:1.04;
-      color:var(--blue);
-      font-weight:800;
-    }
-
-    .subtitle{
-      font-size:18px;
-      color:var(--muted);
-      margin-bottom:18px;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-    }
-
-    .pill{
-      background:var(--white);
-      box-shadow:var(--shadow);
-      border-radius:999px;
-      padding:12px 18px;
-      min-width:120px;
-      font-size:18px;
-      font-weight:800;
-    }
-
-    .emoji{
-      font-size:112px;
-      min-height:130px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin:24px 0 8px;
-    }
-
-    .btn-row{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin:14px 0 10px;
-    }
-
-    .btn{
-      border:none;
-      border-radius:20px;
-      padding:15px 24px;
-      font-size:20px;
-      font-weight:800;
-      color:#fff;
-      background:var(--blue);
-      box-shadow:var(--shadow);
-    }
-
-    .feedback{
-      min-height:36px;
-      margin:10px 0 6px;
-      font-size:28px;
-      font-weight:900;
-    }
-
-    .feedback.correct{ color:var(--green); }
-    .feedback.wrong{ color:var(--red); }
-
-    .hint{
-      min-height:28px;
-      color:var(--muted);
-      font-size:17px;
-      margin-bottom:18px;
-    }
-
-    .options{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:14px;
-      margin-top:12px;
-    }
-
-    .option{
-      min-width:128px;
-      padding:14px 18px;
-      border:none;
-      border-radius:20px;
-      background:var(--white);
-      color:var(--blue);
-      font-size:20px;
-      font-weight:800;
-      box-shadow:var(--shadow);
-    }
-
-    .option:disabled{
-      opacity:.7;
-    }
-
-    .panel{
-      margin:28px auto 0;
-      max-width:680px;
-      background:rgba(255,255,255,.72);
-      border-radius:26px;
-      padding:18px 16px;
-      box-shadow:var(--shadow);
-    }
-
-    .panel-title{
-      font-size:18px;
-      font-weight:800;
-      margin-bottom:6px;
-    }
-
-    .panel-text{
-      color:var(--muted);
-      font-size:16px;
-    }
-
-    .win-box{
-      margin:26px auto 0;
-      max-width:680px;
-      background:var(--white);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:28px 18px;
-    }
-
-    .win-title{
-      font-size:38px;
-      font-weight:900;
-      color:var(--green);
-      margin-bottom:8px;
-    }
-
-    .win-text{
-      font-size:19px;
-      color:#4d5568;
-      margin-bottom:16px;
-    }
-
-    .hide{
-      display:none;
-    }
-
-    @media (max-width: 480px){
-      .pill{ min-width:108px; font-size:16px; }
-      .option{ min-width:110px; font-size:18px; }
-      .btn{ font-size:18px; }
-    }
-  </style>
+<style>
+body{margin:0;font-family:-apple-system;background:#eef1f7;text-align:center;}
+h1{font-size:60px;color:#4a78f0;margin:20px 0;}
+.subtitle{color:#666;margin-bottom:20px;}
+.top{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.box{background:white;padding:12px 20px;border-radius:20px;font-weight:bold;}
+.emoji{font-size:100px;margin:30px 0;}
+button{border:none;border-radius:20px;padding:14px 24px;font-size:20px;margin:8px;}
+.option{background:white;color:#4a78f0;font-weight:bold;}
+.btn{background:#4a78f0;color:white;}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>Jimmy Kids English</h1>
-    <div class="subtitle" id="subtitle">Level 1 · Animals</div>
 
-    <div class="topbar">
-      <div class="pill" id="score">Score: 0</div>
-      <div class="pill" id="streak">Streak: 0</div>
-      <div class="pill" id="best">Best: 0</div>
-      <div class="pill" id="levelPill">Level: 1</div>
-    </div>
+<h1>Jimmy Kids English</h1>
+<div class="subtitle" id="subtitle"></div>
 
-    <div class="emoji" id="emoji">🐱</div>
+<div class="top">
+<div class="box" id="score">Score: 0</div>
+<div class="box" id="streak">Streak: 0</div>
+<div class="box" id="best">Best: 0</div>
+<div class="box" id="level">Level: 1</div>
+</div>
 
-    <div class="btn-row">
-      <button class="btn" id="speedBtn" onclick="toggleSpeed()">🐢 Slow</button>
-      <button class="btn" onclick="restartGame()">↺ Restart</button>
-    </div>
+<div class="emoji" id="emoji">❓</div>
 
-    <div class="feedback" id="feedback"></div>
-    <div class="hint" id="hint">Tap the correct English word.</div>
+<button class="btn" onclick="toggleSpeed()" id="speed">🐢 Slow</button>
+<button class="btn" onclick="restart()">↺ Restart</button>
 
-    <div class="options" id="options"></div>
+<div id="options"></div>
 
-    <div class="panel">
-      <div class="panel-title" id="panelTitle">Level Goal: 10 points</div>
-      <div class="panel-text">Tap a word → hear it → answer the question</div>
-    </div>
+<script>
 
-    <div class="win-box hide" id="winBox">
-      <div class="win-title">🎉 You Win!</div>
-      <div class="win-text">Amazing! You finished all 3 levels.</div>
-      <button class="btn" onclick="restartGame()">Play Again</button>
-    </div>
-  </div>
+const levels=[
+{
+name:"Animals",
+words:[
+["cat","🐱"],["dog","🐶"],["bird","🐦"],["fish","🐟"],["rabbit","🐰"],
+["lion","🦁"],["tiger","🐯"],["monkey","🐵"],["frog","🐸"],["pig","🐷"],
+["cow","🐮"],["horse","🐴"],["sheep","🐑"],["duck","🦆"],["chicken","🐔"],
+["elephant","🐘"],["bear","🐻"],["panda","🐼"],["fox","🦊"],["wolf","🐺"],
+["deer","🦌"],["zebra","🦓"],["giraffe","🦒"],["kangaroo","🦘"],["koala","🐨"],
+["mouse","🐭"],["hamster","🐹"],["goat","🐐"],["donkey","🫏"],["snake","🐍"]
+]
+},
+{
+name:"Food",
+words:[
+["apple","🍎"],["banana","🍌"],["orange","🍊"],["grape","🍇"],["watermelon","🍉"],
+["bread","🍞"],["cake","🍰"],["pizza","🍕"],["rice","🍚"],["ice cream","🍦"],
+["milk","🥛"],["egg","🥚"],["cheese","🧀"],["noodles","🍜"],["burger","🍔"],
+["hot dog","🌭"],["fries","🍟"],["donut","🍩"],["cookie","🍪"],["chocolate","🍫"],
+["sandwich","🥪"],["salad","🥗"],["soup","🍲"],["pancake","🥞"],["steak","🥩"],
+["shrimp","🍤"],["corn","🌽"],["carrot","🥕"],["potato","🥔"],["fish","🍣"]
+]
+},
+{
+name:"Daily",
+words:[
+["car","🚗"],["bus","🚌"],["book","📘"],["phone","📱"],["ball","⚽"],
+["chair","🪑"],["clock","🕒"],["house","🏠"],["star","⭐"],["sun","☀️"],
+["moon","🌙"],["bed","🛏️"],["door","🚪"],["window","🪟"],["bag","🎒"],
+["pen","✏️"],["cup","☕"],["bottle","🍼"],["computer","💻"],["tv","📺"],
+["lamp","💡"],["key","🔑"],["bike","🚲"],["train","🚆"],["airplane","✈️"],
+["ship","🚢"],["camera","📷"],["watch","⌚"],["table","🪑"],["pencil","✏️"]
+]
+}
+];
 
-  <script>
-    const levels = [
-      {
-        name: "Animals",
-        goal: 10,
-        words: [
-          { word: "cat", emoji: "🐱" },
-          { word: "dog", emoji: "🐶" },
-          { word: "bird", emoji: "🐦" },
-          { word: "fish", emoji: "🐟" },
-          { word: "rabbit", emoji: "🐰" },
-          { word: "lion", emoji: "🦁" },
-          { word: "tiger", emoji: "🐯" },
-          { word: "monkey", emoji: "🐵" },
-          { word: "frog", emoji: "🐸" },
-          { word: "pig", emoji: "🐷" }
-        ]
-      },
-      {
-        name: "Food",
-        goal: 10,
-        words: [
-          { word: "apple", emoji: "🍎" },
-          { word: "banana", emoji: "🍌" },
-          { word: "orange", emoji: "🍊" },
-          { word: "grape", emoji: "🍇" },
-          { word: "watermelon", emoji: "🍉" },
-          { word: "bread", emoji: "🍞" },
-          { word: "cake", emoji: "🍰" },
-          { word: "pizza", emoji: "🍕" },
-          { word: "rice", emoji: "🍚" },
-          { word: "ice cream", emoji: "🍦" }
-        ]
-      },
-      {
-        name: "Daily Things",
-        goal: 10,
-        words: [
-          { word: "car", emoji: "🚗" },
-          { word: "bus", emoji: "🚌" },
-          { word: "book", emoji: "📘" },
-          { word: "phone", emoji: "📱" },
-          { word: "ball", emoji: "⚽" },
-          { word: "chair", emoji: "🪑" },
-          { word: "clock", emoji: "🕒" },
-          { word: "house", emoji: "🏠" },
-          { word: "star", emoji: "⭐" },
-          { word: "sun", emoji: "☀️" }
-        ]
-      }
-    ];
+let level=0,score=0,streak=0,best=0;
+let queue=[],review=[],current;
+let speed="slow";
 
-    let levelIndex = 0;
-    let current = null;
-    let score = 0;
-    let streak = 0;
-    let best = 0;
-    let gameEnded = false;
-    let waitingNext = false;
-    let levelScore = 0;
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
 
-    let normalQueue = [];
-    let reviewQueue = [];
-    let speedMode = "slow";
+function speak(w){
+let u=new SpeechSynthesisUtterance(w);
+u.rate=speed==="slow"?0.7:1;
+speechSynthesis.cancel();
+speechSynthesis.speak(u);
+}
 
-    function shuffle(arr) {
-      return [...arr].sort(() => Math.random() - 0.5);
-    }
+function toggleSpeed(){
+speed=speed==="slow"?"normal":"slow";
+document.getElementById("speed").innerText=speed==="slow"?"🐢 Slow":"⚡ Normal";
+}
 
-    function speakWord(word) {
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = "en-US";
-      u.rate = speedMode === "slow" ? 0.7 : 0.95;
-      u.pitch = 1;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
-    }
+function resetQueue(){
+queue=shuffle([...levels[level].words]);
+review=[];
+}
 
-    function toggleSpeed() {
-      speedMode = speedMode === "slow" ? "normal" : "slow";
-      document.getElementById("speedBtn").innerText =
-        speedMode === "slow" ? "🐢 Slow" : "⚡ Normal";
-      document.getElementById("hint").innerText =
-        speedMode === "slow" ? "Slow speed selected." : "Normal speed selected.";
-    }
+function nextWord(){
+if(review.length>0)return review.shift();
+if(queue.length===0)resetQueue();
+return queue.shift();
+}
 
-    function updateHeader() {
-      document.getElementById("score").innerText = "Score: " + score;
-      document.getElementById("streak").innerText = "Streak: " + streak;
-      document.getElementById("best").innerText = "Best: " + best;
-      document.getElementById("levelPill").innerText = "Level: " + (levelIndex + 1);
-      document.getElementById("subtitle").innerText =
-        "Level " + (levelIndex + 1) + " · " + levels[levelIndex].name;
-      document.getElementById("panelTitle").innerText =
-        "Level Goal: " + levels[levelIndex].goal + " points";
-    }
+function build(){
+current=nextWord();
+document.getElementById("emoji").innerText=current[1];
 
-    function setFeedback(text, type) {
-      const el = document.getElementById("feedback");
-      el.innerText = text;
-      el.className = "feedback " + (type || "");
-    }
+let opts=shuffle([...levels[level].words]).slice(0,4).map(x=>x[0]);
+if(!opts.includes(current[0]))opts[0]=current[0];
 
-    function lockOptions(lock) {
-      document.querySelectorAll(".option").forEach(btn => btn.disabled = lock);
-    }
+let box=document.getElementById("options");
+box.innerHTML="";
 
-    function getCurrentLevelWords() {
-      return levels[levelIndex].words;
-    }
+shuffle(opts).forEach(w=>{
+let b=document.createElement("button");
+b.className="option";
+b.innerText=w;
+b.onclick=()=>choose(w);
+box.appendChild(b);
+});
+}
 
-    function resetLevelQueues() {
-      normalQueue = shuffle(getCurrentLevelWords());
-      reviewQueue = [];
-    }
+function choose(w){
+speak(w);
 
-    function getNextWord() {
-      if (reviewQueue.length > 0) {
-        return reviewQueue.shift();
-      }
+if(w===current[0]){
+score++;streak++;
+if(streak>best)best=streak;
 
-      if (normalQueue.length === 0) {
-        normalQueue = shuffle(getCurrentLevelWords());
-      }
+if(score%15===0){
+level++;
+if(level>=levels.length){
+alert("🎉 Finished!");
+return;
+}
+resetQueue();
+}
 
-      return normalQueue.shift();
-    }
+update();
+build();
+}else{
+streak=0;
+review.push(current);
+update();
+}
+}
 
-    function buildOptions(correctWord) {
-      const currentWords = getCurrentLevelWords();
-      const others = shuffle(
-        currentWords.filter(item => item.word !== correctWord.word)
-      ).slice(0, 4);
+function update(){
+document.getElementById("score").innerText="Score: "+score;
+document.getElementById("streak").innerText="Streak: "+streak;
+document.getElementById("best").innerText="Best: "+best;
+document.getElementById("level").innerText="Level: "+(level+1);
+document.getElementById("subtitle").innerText=
+"Level "+(level+1)+" · "+levels[level].name;
+}
 
-      return shuffle([correctWord, ...others]);
-    }
+function restart(){
+level=0;score=0;streak=0;best=0;
+resetQueue();
+update();
+build();
+}
 
-    function newQuestion() {
-      if (gameEnded) return;
+resetQueue();
+update();
+build();
 
-      waitingNext = false;
-      setFeedback("", "");
-      document.getElementById("hint").innerText = "Tap the correct English word.";
+</script>
 
-      current = getNextWord();
-      document.getElementById("emoji").innerText = current.emoji;
-
-      const options = buildOptions(current);
-      const optionsEl = document.getElementById("options");
-      optionsEl.innerHTML = "";
-
-      options.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = item.word;
-        btn.onclick = () => chooseWord(item.word);
-        optionsEl.appendChild(btn);
-      });
-
-      lockOptions(false);
-    }
-
-    function nextLevel() {
-      if (levelIndex < levels.length - 1) {
-        levelIndex += 1;
-        levelScore = 0;
-        resetLevelQueues();
-        updateHeader();
-        setFeedback("🎉 Level Up!", "correct");
-        document.getElementById("hint").innerText =
-          "Welcome to " + levels[levelIndex].name + "!";
-        setTimeout(() => newQuestion(), 900);
-      } else {
-        winGame();
-      }
-    }
-
-    function winGame() {
-      gameEnded = true;
-      lockOptions(true);
-      document.getElementById("winBox").classList.remove("hide");
-      document.getElementById("hint").innerText = "You finished all levels.";
-      setFeedback("Excellent!", "correct");
-    }
-
-    function addToReviewQueue(wordObj) {
-      const alreadyQueued = reviewQueue.some(item => item.word === wordObj.word);
-      if (!alreadyQueued) {
-        reviewQueue.push(wordObj);
-      }
-    }
-
-    function chooseWord(word) {
-      if (!current || gameEnded || waitingNext) return;
-
-      speakWord(word);
-
-      if (word === current.word) {
-        score += 1;
-        streak += 1;
-        levelScore += 1;
-        if (streak > best) best = streak;
-
-        updateHeader();
-        setFeedback("🎉 Correct!", "correct");
-        document.getElementById("hint").innerText = word.toUpperCase();
-        lockOptions(true);
-        waitingNext = true;
-
-        if (levelScore >= levels[levelIndex].goal) {
-          setTimeout(nextLevel, 700);
-          return;
-        }
-
-        setTimeout(() => newQuestion(), 650);
-      } else {
-        streak = 0;
-        updateHeader();
-        setFeedback("❌ Try again", "wrong");
-        document.getElementById("hint").innerText =
-          "Wrong word added to review. Tap again.";
-        addToReviewQueue(current);
-      }
-    }
-
-    function restartGame() {
-      levelIndex = 0;
-      current = null;
-      score = 0;
-      streak = 0;
-      best = 0;
-      gameEnded = false;
-      waitingNext = false;
-      levelScore = 0;
-      normalQueue = [];
-      reviewQueue = [];
-      speedMode = "slow";
-
-      window.speechSynthesis.cancel();
-
-      document.getElementById("speedBtn").innerText = "🐢 Slow";
-      document.getElementById("winBox").classList.add("hide");
-      document.getElementById("emoji").innerText = "❓";
-      document.getElementById("options").innerHTML = "";
-      document.getElementById("hint").innerText = "Tap the correct English word.";
-      setFeedback("", "");
-      updateHeader();
-      resetLevelQueues();
-      newQuestion();
-    }
-
-    updateHeader();
-    resetLevelQueues();
-    newQuestion();
-  </script>
 </body>
 </html>
