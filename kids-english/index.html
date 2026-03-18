@@ -3,271 +3,786 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English</title>
+  <title>Jimmy Kids English V15</title>
   <style>
+    :root{
+      --bg:#eef1f7;
+      --card:#ffffff;
+      --blue:#4a78f0;
+      --green:#11b35c;
+      --red:#d84b4b;
+      --text:#1f2430;
+      --muted:#6b7280;
+      --shadow:0 8px 22px rgba(0,0,0,0.08);
+      --radius:22px;
+    }
+
+    *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:#eef1f7;
+      background:var(--bg);
+      color:var(--text);
       text-align:center;
     }
+
+    .wrap{
+      max-width:960px;
+      margin:0 auto;
+      padding:20px 14px 40px;
+    }
+
     h1{
-      font-size:60px;
-      color:#4a78f0;
-      margin:20px 0;
+      margin:10px 0 8px;
+      font-size:clamp(34px,7vw,58px);
+      color:var(--blue);
     }
-    .subtitle{
-      color:#666;
-      margin-bottom:20px;
+
+    .sub{
+      color:var(--muted);
+      margin-bottom:18px;
+      font-size:15px;
     }
+
     .top{
       display:flex;
       justify-content:center;
       gap:10px;
       flex-wrap:wrap;
+      margin-bottom:14px;
     }
+
     .box{
-      background:white;
-      padding:12px 20px;
-      border-radius:20px;
-      font-weight:bold;
+      background:var(--card);
+      padding:10px 16px;
+      border-radius:18px;
+      font-weight:700;
+      box-shadow:var(--shadow);
+      min-width:112px;
     }
-    .emoji{
-      font-size:100px;
-      margin:30px 0;
-      min-height:120px;
+
+    .toolbar{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
     }
-    button{
-      border:none;
-      border-radius:20px;
-      padding:14px 24px;
-      font-size:20px;
-      margin:8px;
-      transition:all 0.18s ease;
-    }
-    .option{
-      background:white;
-      color:#4a78f0;
-      font-weight:bold;
-      min-width:120px;
-      box-shadow:0 6px 14px rgba(0,0,0,0.06);
-    }
-    .option.correct{
-      background:#11b35c;
-      color:white;
-      transform:scale(1.05);
-    }
-    .option.wrong{
-      background:#d84b4b;
-      color:white;
-      transform:scale(1.05);
-    }
+
     .btn{
-      background:#4a78f0;
+      border:none;
+      border-radius:16px;
+      padding:12px 18px;
+      font-size:16px;
+      font-weight:700;
+      background:var(--blue);
+      color:white;
+      box-shadow:var(--shadow);
+    }
+
+    .btn.secondary{
+      background:#64748b;
+    }
+
+    .btn.mode{
+      background:white;
+      color:var(--blue);
+    }
+
+    .btn.mode.active{
+      background:var(--blue);
       color:white;
     }
+
+    .stage{
+      background:rgba(255,255,255,0.6);
+      border-radius:26px;
+      padding:18px 14px 24px;
+      box-shadow:var(--shadow);
+      transition:opacity .18s ease, transform .18s ease;
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .stage.switching{
+      opacity:0;
+      transform:translateY(8px);
+    }
+
+    .badge{
+      display:inline-block;
+      background:white;
+      color:var(--muted);
+      padding:8px 14px;
+      border-radius:999px;
+      font-weight:700;
+      box-shadow:var(--shadow);
+      margin-bottom:10px;
+      font-size:14px;
+    }
+
+    .cue{
+      min-height:130px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:90px;
+      margin:8px 0 8px;
+      user-select:none;
+    }
+
+    .cue.sentence{
+      min-height:72px;
+      font-size:22px;
+      font-weight:700;
+      color:var(--blue);
+      padding:10px 12px;
+      line-height:1.5;
+    }
+
     .hint{
-      font-size:26px;
-      margin:10px;
-      min-height:40px;
-      font-weight:bold;
+      min-height:34px;
+      font-size:24px;
+      font-weight:800;
+      margin:6px 0 12px;
+    }
+
+    .hint.ok{ color:var(--green); }
+    .hint.bad{ color:var(--red); }
+
+    .options{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .option{
+      width:min(100%, 540px);
+      border:none;
+      border-radius:18px;
+      background:white;
+      color:var(--text);
+      font-size:18px;
+      font-weight:700;
+      padding:14px 16px;
+      box-shadow:var(--shadow);
+      transition:transform .12s ease, background .18s ease, color .18s ease;
+      text-align:center;
+      line-height:1.45;
+    }
+
+    .option:active{
+      transform:scale(.98);
+    }
+
+    .option.correct{
+      background:var(--green);
+      color:white;
+    }
+
+    .option.wrong{
+      background:var(--red);
+      color:white;
+    }
+
+    .footer-note{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    @media (max-width:520px){
+      .box{ min-width:96px; font-size:14px; }
+      .option{ font-size:17px; }
+      .cue{ font-size:78px; }
+      .cue.sentence{ font-size:20px; }
     }
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <h1>Jimmy Kids English</h1>
+    <div class="sub">Word · Sentence · Listening</div>
 
-  <h1>Jimmy Kids English</h1>
-  <div class="subtitle" id="subtitle"></div>
+    <div class="top">
+      <div class="box" id="scoreBox">Score: 0</div>
+      <div class="box" id="streakBox">Streak: 0</div>
+      <div class="box" id="bestBox">Best: 0</div>
+      <div class="box" id="levelBox">Level: 1</div>
+      <div class="box" id="categoryBox">Animals</div>
+    </div>
 
-  <div class="top">
-    <div class="box" id="score">Score: 0</div>
-    <div class="box" id="streak">Streak: 0</div>
-    <div class="box" id="best">Best: 0</div>
-    <div class="box" id="level">Level: 1</div>
+    <div class="toolbar">
+      <button class="btn mode active" id="wordModeBtn">Word</button>
+      <button class="btn mode" id="sentenceModeBtn">Sentence</button>
+      <button class="btn mode" id="listeningModeBtn">Listening</button>
+      <button class="btn secondary" id="replayBtn">🔊 Replay</button>
+      <button class="btn secondary" id="restartBtn">↺ Restart</button>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="badge" id="modeLabel">Word Mode</div>
+      <div class="cue" id="cue">❓</div>
+      <div class="hint" id="hint"></div>
+      <div class="options" id="options"></div>
+      <div class="footer-note" id="footerNote"></div>
+    </div>
   </div>
 
-  <div class="emoji" id="emoji">❓</div>
-
-  <button class="btn" onclick="restart()">↺ Restart</button>
-
-  <div class="hint" id="hint"></div>
-
-  <div id="options"></div>
-
   <script>
-    const levels = [
+    const CATEGORY_DATA = [
       {
         name: "Animals",
-        words: [
-          ["cat","🐱"],["dog","🐶"],["bird","🐦"],["fish","🐟"],["rabbit","🐰"],
-          ["lion","🦁"],["tiger","🐯"],["monkey","🐵"],["frog","🐸"],["pig","🐷"],
-          ["cow","🐮"],["horse","🐴"],["sheep","🐑"],["duck","🦆"],["chicken","🐔"]
+        items: [
+          { text: "cat", emoji: "🐱", type: "noun" },
+          { text: "dog", emoji: "🐶", type: "noun" },
+          { text: "bird", emoji: "🐦", type: "noun" },
+          { text: "fish", emoji: "🐟", type: "noun" },
+          { text: "rabbit", emoji: "🐰", type: "noun" },
+          { text: "lion", emoji: "🦁", type: "noun" },
+          { text: "tiger", emoji: "🐯", type: "noun" },
+          { text: "monkey", emoji: "🐵", type: "noun" },
+          { text: "frog", emoji: "🐸", type: "noun" },
+          { text: "pig", emoji: "🐷", type: "noun" },
+          { text: "cow", emoji: "🐮", type: "noun" },
+          { text: "horse", emoji: "🐴", type: "noun" },
+          { text: "sheep", emoji: "🐑", type: "noun" },
+          { text: "duck", emoji: "🦆", type: "noun" },
+          { text: "chicken", emoji: "🐔", type: "noun" }
         ]
       },
       {
         name: "Food",
-        words: [
-          ["apple","🍎"],["banana","🍌"],["orange","🍊"],["grape","🍇"],["bread","🍞"],
-          ["cake","🍰"],["pizza","🍕"],["rice","🍚"],["milk","🥛"],["egg","🥚"],
-          ["burger","🍔"],["fries","🍟"],["donut","🍩"],["cookie","🍪"],["chocolate","🍫"]
+        items: [
+          { text: "apple", emoji: "🍎", type: "noun" },
+          { text: "banana", emoji: "🍌", type: "noun" },
+          { text: "orange", emoji: "🍊", type: "noun" },
+          { text: "grape", emoji: "🍇", type: "noun" },
+          { text: "bread", emoji: "🍞", type: "noun" },
+          { text: "cake", emoji: "🍰", type: "noun" },
+          { text: "pizza", emoji: "🍕", type: "noun" },
+          { text: "rice", emoji: "🍚", type: "noun" },
+          { text: "milk", emoji: "🥛", type: "noun" },
+          { text: "egg", emoji: "🥚", type: "noun" },
+          { text: "burger", emoji: "🍔", type: "noun" },
+          { text: "fries", emoji: "🍟", type: "noun" },
+          { text: "donut", emoji: "🍩", type: "noun" },
+          { text: "cookie", emoji: "🍪", type: "noun" },
+          { text: "chocolate", emoji: "🍫", type: "noun" }
         ]
       },
       {
-        name: "Daily",
-        words: [
-          ["car","🚗"],["bus","🚌"],["book","📘"],["phone","📱"],["ball","⚽"],
-          ["chair","🪑"],["clock","🕒"],["house","🏠"],["star","⭐"],["sun","☀️"],
-          ["moon","🌙"],["bed","🛏️"],["door","🚪"],["window","🪟"],["bag","🎒"]
+        name: "School",
+        items: [
+          { text: "book", emoji: "📘", type: "noun" },
+          { text: "pen", emoji: "🖊️", type: "noun" },
+          { text: "pencil", emoji: "✏️", type: "noun" },
+          { text: "bag", emoji: "🎒", type: "noun" },
+          { text: "chair", emoji: "🪑", type: "noun" },
+          { text: "table", emoji: "🪑", type: "noun" },
+          { text: "clock", emoji: "🕒", type: "noun" },
+          { text: "computer", emoji: "💻", type: "noun" },
+          { text: "desk", emoji: "🪑", type: "noun" },
+          { text: "eraser", emoji: "🧽", type: "noun" },
+          { text: "marker", emoji: "🖍️", type: "noun" },
+          { text: "ruler", emoji: "📏", type: "noun" },
+          { text: "paper", emoji: "📄", type: "noun" },
+          { text: "notebook", emoji: "📓", type: "noun" },
+          { text: "teacher", emoji: "🧑‍🏫", type: "noun" }
+        ]
+      },
+      {
+        name: "Family & Body",
+        items: [
+          { text: "father", emoji: "👨", type: "noun" },
+          { text: "mother", emoji: "👩", type: "noun" },
+          { text: "brother", emoji: "👦", type: "noun" },
+          { text: "sister", emoji: "👧", type: "noun" },
+          { text: "baby", emoji: "👶", type: "noun" },
+          { text: "hand", emoji: "✋", type: "noun" },
+          { text: "eye", emoji: "👁️", type: "noun" },
+          { text: "ear", emoji: "👂", type: "noun" },
+          { text: "nose", emoji: "👃", type: "noun" },
+          { text: "mouth", emoji: "👄", type: "noun" },
+          { text: "head", emoji: "🙂", type: "noun" },
+          { text: "leg", emoji: "🦵", type: "noun" },
+          { text: "arm", emoji: "💪", type: "noun" },
+          { text: "foot", emoji: "🦶", type: "noun" },
+          { text: "family", emoji: "👨‍👩‍👧‍👦", type: "noun" }
+        ]
+      },
+      {
+        name: "Daily Things",
+        items: [
+          { text: "car", emoji: "🚗", type: "noun" },
+          { text: "bus", emoji: "🚌", type: "noun" },
+          { text: "bike", emoji: "🚲", type: "noun" },
+          { text: "phone", emoji: "📱", type: "noun" },
+          { text: "ball", emoji: "⚽", type: "noun" },
+          { text: "cup", emoji: "☕", type: "noun" },
+          { text: "bottle", emoji: "🍼", type: "noun" },
+          { text: "plate", emoji: "🍽️", type: "noun" },
+          { text: "spoon", emoji: "🥄", type: "noun" },
+          { text: "bed", emoji: "🛏️", type: "noun" },
+          { text: "door", emoji: "🚪", type: "noun" },
+          { text: "window", emoji: "🪟", type: "noun" },
+          { text: "key", emoji: "🔑", type: "noun" },
+          { text: "watch", emoji: "⌚", type: "noun" },
+          { text: "box", emoji: "📦", type: "noun" }
+        ]
+      },
+      {
+        name: "Places & Transport",
+        items: [
+          { text: "home", emoji: "🏠", type: "place" },
+          { text: "school", emoji: "🏫", type: "place" },
+          { text: "park", emoji: "🌳", type: "place" },
+          { text: "zoo", emoji: "🦓", type: "place" },
+          { text: "shop", emoji: "🏪", type: "place" },
+          { text: "hospital", emoji: "🏥", type: "place" },
+          { text: "library", emoji: "📚", type: "place" },
+          { text: "restaurant", emoji: "🍽️", type: "place" },
+          { text: "farm", emoji: "🚜", type: "place" },
+          { text: "beach", emoji: "🏖️", type: "place" },
+          { text: "train", emoji: "🚆", type: "noun" },
+          { text: "airplane", emoji: "✈️", type: "noun" },
+          { text: "ship", emoji: "🚢", type: "noun" },
+          { text: "road", emoji: "🛣️", type: "place" },
+          { text: "playground", emoji: "🛝", type: "place" }
+        ]
+      },
+      {
+        name: "Actions",
+        items: [
+          { text: "run", emoji: "🏃", type: "action" },
+          { text: "walk", emoji: "🚶", type: "action" },
+          { text: "jump", emoji: "🤾", type: "action" },
+          { text: "sit", emoji: "🪑", type: "action" },
+          { text: "stand", emoji: "🧍", type: "action" },
+          { text: "eat", emoji: "🍽️", type: "action" },
+          { text: "drink", emoji: "🥤", type: "action" },
+          { text: "sleep", emoji: "😴", type: "action" },
+          { text: "read", emoji: "📖", type: "action" },
+          { text: "write", emoji: "✍️", type: "action" },
+          { text: "open", emoji: "📂", type: "action" },
+          { text: "close", emoji: "📕", type: "action" },
+          { text: "swim", emoji: "🏊", type: "action" },
+          { text: "sing", emoji: "🎤", type: "action" },
+          { text: "dance", emoji: "💃", type: "action" }
+        ]
+      },
+      {
+        name: "Colors & Feelings",
+        items: [
+          { text: "red", emoji: "🟥", type: "color" },
+          { text: "blue", emoji: "🟦", type: "color" },
+          { text: "yellow", emoji: "🟨", type: "color" },
+          { text: "green", emoji: "🟩", type: "color" },
+          { text: "black", emoji: "⬛", type: "color" },
+          { text: "white", emoji: "⬜", type: "color" },
+          { text: "happy", emoji: "😊", type: "feeling" },
+          { text: "sad", emoji: "😢", type: "feeling" },
+          { text: "angry", emoji: "😠", type: "feeling" },
+          { text: "tired", emoji: "🥱", type: "feeling" },
+          { text: "big", emoji: "🐘", type: "adjective" },
+          { text: "small", emoji: "🐜", type: "adjective" },
+          { text: "hot", emoji: "☀️", type: "adjective" },
+          { text: "cold", emoji: "🧊", type: "adjective" },
+          { text: "fast", emoji: "⚡", type: "adjective" }
         ]
       }
     ];
 
-    let level = 0;
-    let score = 0;
-    let streak = 0;
-    let best = 0;
-    let questionQueue = [];
-    let current = null;
-    let lock = false;
+    const state = {
+      mode: "word",
+      categoryIndex: 0,
+      levelCorrect: 0,
+      score: 0,
+      streak: 0,
+      best: 0,
+      queue: [],
+      current: null,
+      locked: false,
+      speechUnlocked: false
+    };
 
-    const scoreEl = document.getElementById("score");
-    const streakEl = document.getElementById("streak");
-    const bestEl = document.getElementById("best");
-    const levelEl = document.getElementById("level");
-    const subtitleEl = document.getElementById("subtitle");
-    const emojiEl = document.getElementById("emoji");
-    const optionsEl = document.getElementById("options");
-    const hintEl = document.getElementById("hint");
+    const scoreBox = document.getElementById("scoreBox");
+    const streakBox = document.getElementById("streakBox");
+    const bestBox = document.getElementById("bestBox");
+    const levelBox = document.getElementById("levelBox");
+    const categoryBox = document.getElementById("categoryBox");
+    const modeLabel = document.getElementById("modeLabel");
+    const cue = document.getElementById("cue");
+    const hint = document.getElementById("hint");
+    const options = document.getElementById("options");
+    const footerNote = document.getElementById("footerNote");
+    const stage = document.getElementById("stage");
+
+    const wordModeBtn = document.getElementById("wordModeBtn");
+    const sentenceModeBtn = document.getElementById("sentenceModeBtn");
+    const listeningModeBtn = document.getElementById("listeningModeBtn");
+    const replayBtn = document.getElementById("replayBtn");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function saveProgress(){
+      localStorage.setItem("jimmyKidsV15", JSON.stringify({
+        mode: state.mode,
+        categoryIndex: state.categoryIndex,
+        levelCorrect: state.levelCorrect,
+        score: state.score,
+        streak: state.streak,
+        best: state.best
+      }));
+    }
+
+    function loadProgress(){
+      try{
+        const raw = localStorage.getItem("jimmyKidsV15");
+        if(!raw) return;
+        const saved = JSON.parse(raw);
+        if(typeof saved.mode === "string") state.mode = saved.mode;
+        if(Number.isInteger(saved.categoryIndex)) state.categoryIndex = Math.max(0, Math.min(saved.categoryIndex, CATEGORY_DATA.length - 1));
+        if(Number.isInteger(saved.levelCorrect)) state.levelCorrect = saved.levelCorrect;
+        if(Number.isInteger(saved.score)) state.score = saved.score;
+        if(Number.isInteger(saved.streak)) state.streak = saved.streak;
+        if(Number.isInteger(saved.best)) state.best = saved.best;
+      }catch(e){}
+    }
 
     function shuffle(arr){
       return [...arr].sort(() => Math.random() - 0.5);
     }
 
-    function speak(word){
-      const u = new SpeechSynthesisUtterance(word);
+    function articleFor(word){
+      return /^[aeiou]/i.test(word) ? "an" : "a";
+    }
+
+    function ingForm(base){
+      const map = {
+        run: "running",
+        swim: "swimming",
+        sit: "sitting",
+        write: "writing",
+        dance: "dancing",
+        close: "closing"
+      };
+      if(map[base]) return map[base];
+      if(base.endsWith("e")) return base.slice(0, -1) + "ing";
+      return base + "ing";
+    }
+
+    function makeSentence(item){
+      switch(item.type){
+        case "noun":
+          return `This is ${articleFor(item.text)} ${item.text}.`;
+        case "place":
+          return `This is ${articleFor(item.text)} ${item.text}.`;
+        case "action":
+          return `He is ${ingForm(item.text)}.`;
+        case "color":
+          return `It is ${item.text}.`;
+        case "feeling":
+          return `He is ${item.text}.`;
+        case "adjective":
+          return `It is ${item.text}.`;
+        default:
+          return `This is ${articleFor(item.text)} ${item.text}.`;
+      }
+    }
+
+    function getCategory(){
+      return CATEGORY_DATA[state.categoryIndex];
+    }
+
+    function getModeLabel(){
+      if(state.mode === "word") return "Word Mode";
+      if(state.mode === "sentence") return "Sentence Mode";
+      return "Listening Mode";
+    }
+
+    function speak(text){
+      if(!state.speechUnlocked) return;
+      const u = new SpeechSynthesisUtterance(text);
       u.lang = "en-US";
       u.rate = 0.85;
       speechSynthesis.cancel();
       speechSynthesis.speak(u);
     }
 
+    function markInteraction(){
+      state.speechUnlocked = true;
+    }
+
+    function updateModeButtons(){
+      wordModeBtn.classList.toggle("active", state.mode === "word");
+      sentenceModeBtn.classList.toggle("active", state.mode === "sentence");
+      listeningModeBtn.classList.toggle("active", state.mode === "listening");
+    }
+
     function updateHeader(){
-      scoreEl.innerText = "Score: " + score;
-      streakEl.innerText = "Streak: " + streak;
-      bestEl.innerText = "Best: " + best;
-      levelEl.innerText = "Level: " + (level + 1);
-      subtitleEl.innerText = "Level " + (level + 1) + " · " + levels[level].name;
+      scoreBox.innerText = `Score: ${state.score}`;
+      streakBox.innerText = `Streak: ${state.streak}`;
+      bestBox.innerText = `Best: ${state.best}`;
+      levelBox.innerText = `Level: ${state.categoryIndex + 1}`;
+      categoryBox.innerText = getCategory().name;
+      modeLabel.innerText = getModeLabel();
+      updateModeButtons();
     }
 
-    function refillQueue(){
-      questionQueue = shuffle(levels[level].words);
+    function prepareQueue(){
+      const items = getCategory().items;
+      state.queue = shuffle(items);
     }
 
-    function getNextQuestion(){
-      if (questionQueue.length === 0) {
-        refillQueue();
+    function nextItem(){
+      if(state.queue.length === 0){
+        prepareQueue();
       }
-      return questionQueue.shift();
+      state.current = state.queue.shift();
+    }
+
+    function getTargetPerLevel(){
+      return Math.min(12, getCategory().items.length);
+    }
+
+    function nextLevelIfNeeded(){
+      if(state.levelCorrect < getTargetPerLevel()) return;
+
+      state.categoryIndex++;
+      state.levelCorrect = 0;
+
+      if(state.categoryIndex >= CATEGORY_DATA.length){
+        alert("🎉 Great job! You finished all levels.");
+        state.categoryIndex = 0;
+      }
+      prepareQueue();
+    }
+
+    function switchStage(nextFn){
+      stage.classList.add("switching");
+      setTimeout(() => {
+        nextFn();
+        stage.classList.remove("switching");
+      }, 180);
+    }
+
+    function buildWordQuestion(){
+      const current = state.current;
+      cue.className = "cue";
+      cue.innerText = current.emoji;
+
+      const others = shuffle(getCategory().items.filter(x => x.text !== current.text))
+        .slice(0, 3)
+        .map(x => x.text);
+
+      let choices = shuffle([current.text, ...others]);
+
+      options.innerHTML = "";
+      choices.forEach(text => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = text;
+        btn.onclick = () => chooseWord(text, btn);
+        options.appendChild(btn);
+      });
+
+      hint.className = "hint";
+      hint.innerText = "";
+      footerNote.innerText = "Look at the picture and choose the correct word.";
+    }
+
+    function buildSentenceQuestion(){
+      const current = state.current;
+      cue.className = "cue";
+      cue.innerText = current.emoji;
+
+      const correct = makeSentence(current);
+      const others = shuffle(getCategory().items.filter(x => x.text !== current.text))
+        .slice(0, 2)
+        .map(item => makeSentence(item));
+
+      let choices = shuffle([correct, ...others]);
+
+      options.innerHTML = "";
+      choices.forEach(text => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = text;
+        btn.onclick = () => chooseSentence(text, correct, btn);
+        options.appendChild(btn);
+      });
+
+      hint.className = "hint";
+      hint.innerText = "";
+      footerNote.innerText = "Look at the picture and choose the best sentence.";
+    }
+
+    function buildListeningQuestion(){
+      const current = state.current;
+      cue.className = "cue sentence";
+      cue.innerText = "🎧 Listen and choose the correct sentence.";
+
+      const correct = makeSentence(current);
+      const others = shuffle(getCategory().items.filter(x => x.text !== current.text))
+        .slice(0, 2)
+        .map(item => makeSentence(item));
+
+      let choices = shuffle([correct, ...others]);
+
+      options.innerHTML = "";
+      choices.forEach(text => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = text;
+        btn.onclick = () => chooseSentence(text, correct, btn);
+        options.appendChild(btn);
+      });
+
+      hint.className = "hint";
+      hint.innerText = "";
+      footerNote.innerText = "Tap Replay if you want to hear the sentence again.";
+
+      setTimeout(() => {
+        speak(correct);
+      }, 120);
     }
 
     function buildQuestion(){
-      current = getNextQuestion();
-      emojiEl.innerText = current[1];
-      hintEl.innerText = "";
+      nextItem();
+      updateHeader();
 
-      let choices = shuffle(levels[level].words)
-        .filter(x => x[0] !== current[0])
-        .slice(0, 3)
-        .map(x => x[0]);
+      if(state.mode === "word"){
+        buildWordQuestion();
+      }else if(state.mode === "sentence"){
+        buildSentenceQuestion();
+      }else{
+        buildListeningQuestion();
+      }
 
-      choices.push(current[0]);
-      choices = shuffle(choices);
-
-      optionsEl.innerHTML = "";
-      choices.forEach(word => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = word;
-        btn.onclick = () => choose(word, btn);
-        optionsEl.appendChild(btn);
-      });
+      saveProgress();
     }
 
-    function disableAll(disabled){
+    function disableOptions(disabled){
       document.querySelectorAll(".option").forEach(btn => {
         btn.disabled = disabled;
       });
     }
 
-    function choose(word, btn){
-      if (lock) return;
-      lock = true;
-      disableAll(true);
+    function onCorrect(button, speakText){
+      if(state.locked) return;
+      state.locked = true;
+      disableOptions(true);
 
-      if (word === current[0]) {
-        const spokenWord = current[0];
+      button.classList.add("correct");
+      hint.className = "hint ok";
+      hint.innerText = "✅ Correct";
 
-        btn.classList.add("correct");
-        hintEl.innerText = "✅ Correct";
+      state.score++;
+      state.streak++;
+      state.levelCorrect++;
+      if(state.streak > state.best) state.best = state.streak;
 
-        score++;
-        streak++;
-        if (streak > best) best = streak;
+      nextLevelIfNeeded();
+      updateHeader();
+      saveProgress();
 
-        if (score > 0 && score % 10 === 0) {
-          level++;
-          if (level >= levels.length) {
-            updateHeader();
-            setTimeout(() => {
-              alert("🎉 Finished!");
-              lock = false;
-            }, 120);
-            return;
-          }
-          refillQueue();
-        }
+      setTimeout(() => {
+        switchStage(() => {
+          buildQuestion();
+          state.locked = false;
+          setTimeout(() => speak(speakText), 60);
+        });
+      }, 220);
+    }
 
-        updateHeader();
+    function onWrong(button){
+      if(state.locked) return;
+      state.locked = true;
+      disableOptions(true);
 
-        setTimeout(() => {
-          buildQuestion();          // 一次就直接下一題
-          lock = false;
-          disableAll(false);
-          setTimeout(() => speak(spokenWord), 60); // 背景發音
-        }, 120);
+      button.classList.add("wrong");
+      hint.className = "hint bad";
+      hint.innerText = "❌ Wrong";
 
-      } else {
-        btn.classList.add("wrong");
-        hintEl.innerText = "❌ Wrong";
+      state.streak = 0;
+      updateHeader();
+      saveProgress();
 
-        streak = 0;
-        updateHeader();
+      setTimeout(() => {
+        button.classList.remove("wrong");
+        disableOptions(false);
+        state.locked = false;
+      }, 360);
+    }
 
-        setTimeout(() => {
-          btn.classList.remove("wrong");
-          lock = false;
-          disableAll(false);
-        }, 260);
+    function chooseWord(selected, button){
+      markInteraction();
+      const correct = state.current.text;
+      if(selected === correct){
+        onCorrect(button, correct);
+      }else{
+        onWrong(button);
       }
     }
 
-    function restart(){
-      level = 0;
-      score = 0;
-      streak = 0;
-      best = 0;
-      lock = false;
-      speechSynthesis.cancel();
-      refillQueue();
-      updateHeader();
-      buildQuestion();
-      disableAll(false);
+    function chooseSentence(selected, correctSentence, button){
+      markInteraction();
+      if(selected === correctSentence){
+        onCorrect(button, correctSentence);
+      }else{
+        onWrong(button);
+      }
     }
 
-    refillQueue();
+    function setMode(mode){
+      markInteraction();
+      state.mode = mode;
+      state.locked = false;
+      speechSynthesis.cancel();
+      prepareQueue();
+      switchStage(() => {
+        buildQuestion();
+      });
+    }
+
+    function replayCurrent(){
+      markInteraction();
+      if(!state.current) return;
+      if(state.mode === "word"){
+        speak(state.current.text);
+      }else{
+        speak(makeSentence(state.current));
+      }
+    }
+
+    function restartAll(){
+      markInteraction();
+      speechSynthesis.cancel();
+      state.categoryIndex = 0;
+      state.levelCorrect = 0;
+      state.score = 0;
+      state.streak = 0;
+      state.best = 0;
+      state.locked = false;
+      prepareQueue();
+      switchStage(() => {
+        buildQuestion();
+      });
+    }
+
+    wordModeBtn.onclick = () => setMode("word");
+    sentenceModeBtn.onclick = () => setMode("sentence");
+    listeningModeBtn.onclick = () => setMode("listening");
+    replayBtn.onclick = replayCurrent;
+    restartBtn.onclick = restartAll;
+
+    loadProgress();
     updateHeader();
+    prepareQueue();
     buildQuestion();
   </script>
-
 </body>
 </html>
