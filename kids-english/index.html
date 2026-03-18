@@ -1,67 +1,354 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jimmy Kids English</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimmy Kids English V2</title>
+  <style>
+    :root{
+      --bg:#eef1f7;
+      --blue:#4a78f0;
+      --green:#0aa84f;
+      --red:#d64545;
+      --text:#1f2430;
+      --soft:#ffffff;
+      --shadow:0 6px 18px rgba(0,0,0,0.08);
+      --radius:22px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      text-align:center;
+    }
+
+    .wrap{
+      max-width:760px;
+      margin:0 auto;
+      padding:28px 16px 40px;
+    }
+
+    h1{
+      margin:8px 0 6px;
+      font-size:clamp(38px, 9vw, 78px);
+      line-height:1.05;
+      color:var(--blue);
+      font-weight:800;
+    }
+
+    .sub{
+      margin:0 0 18px;
+      font-size:16px;
+      color:#6d7485;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:8px 0 18px;
+    }
+
+    .pill{
+      background:var(--soft);
+      border-radius:999px;
+      padding:10px 16px;
+      box-shadow:var(--shadow);
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .emoji{
+      font-size:110px;
+      margin:28px 0 16px;
+      min-height:130px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .btn-listen,
+    .btn-start,
+    .btn-restart{
+      border:none;
+      border-radius:18px;
+      padding:16px 28px;
+      font-size:22px;
+      font-weight:700;
+      color:#fff;
+      background:var(--green);
+      box-shadow:var(--shadow);
+    }
+
+    .btn-start,
+    .btn-restart{
+      margin-top:12px;
+    }
+
+    .feedback{
+      min-height:36px;
+      margin:18px 0 8px;
+      font-size:28px;
+      font-weight:800;
+    }
+
+    .feedback.correct{
+      color:var(--green);
+    }
+
+    .feedback.wrong{
+      color:var(--red);
+    }
+
+    .hint{
+      min-height:24px;
+      margin:0 0 18px;
+      font-size:16px;
+      color:#6d7485;
+    }
+
+    .options{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:20px;
+    }
+
+    .option{
+      min-width:126px;
+      border:none;
+      border-radius:20px;
+      padding:14px 18px;
+      font-size:18px;
+      background:#fff;
+      color:var(--blue);
+      box-shadow:var(--shadow);
+      font-weight:700;
+    }
+
+    .option:disabled{
+      opacity:0.7;
+    }
+
+    .win-box{
+      margin-top:22px;
+      background:#fff;
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:22px 18px;
+    }
+
+    .win-title{
+      font-size:34px;
+      font-weight:900;
+      color:var(--green);
+      margin-bottom:10px;
+    }
+
+    .win-text{
+      font-size:18px;
+      color:#4f5668;
+      margin-bottom:8px;
+    }
+
+    .hide{
+      display:none;
+    }
+  </style>
 </head>
+<body>
+  <div class="wrap">
+    <h1>Jimmy Kids English</h1>
+    <p class="sub">Level 1 · Animals</p>
 
-<body style="text-align:center;font-family:sans-serif;background:#eef1f7;margin:0;padding:40px 20px;">
+    <div class="topbar">
+      <div class="pill" id="score">Score: 0</div>
+      <div class="pill" id="streak">Streak: 0</div>
+      <div class="pill" id="best">Best: 0</div>
+    </div>
 
-<h1 style="color:#4a78f0;font-size:48px;">Jimmy Kids English</h1>
-<h2 id="score">Score: 0</h2>
+    <div class="emoji" id="emoji">🐱</div>
 
-<div id="emoji" style="font-size:100px;margin:30px;">🐱</div>
+    <button class="btn-listen" id="listenBtn" onclick="manualSpeak()">🔊 Listen</button>
 
-<button onclick="speak()" style="padding:15px 30px;font-size:24px;background:green;color:white;border:none;border-radius:10px;">
-🔊 Listen
-</button>
+    <div class="feedback" id="feedback"></div>
+    <div class="hint" id="hint">Press Start once, then the game will speak automatically.</div>
 
-<div id="options" style="margin-top:30px;"></div>
+    <button class="btn-start" id="startBtn" onclick="startGame()">▶ Start</button>
 
-<script>
-const words = [
-  { word: "cat", emoji: "🐱" },
-  { word: "dog", emoji: "🐶" },
-  { word: "bird", emoji: "🐦" },
-  { word: "fish", emoji: "🐟" },
-  { word: "rabbit", emoji: "🐰" }
-];
+    <div class="options" id="options"></div>
 
-let current;
-let score = 0;
+    <div class="win-box hide" id="winBox">
+      <div class="win-title">🎉 You Win!</div>
+      <div class="win-text">Great job! You reached 10 points.</div>
+      <button class="btn-restart" onclick="restartGame()">Play Again</button>
+    </div>
+  </div>
 
-function newQuestion() {
-  current = words[Math.floor(Math.random()*words.length)];
-  document.getElementById("emoji").innerText = current.emoji;
+  <script>
+    const words = [
+      { word: "cat", emoji: "🐱" },
+      { word: "dog", emoji: "🐶" },
+      { word: "bird", emoji: "🐦" },
+      { word: "fish", emoji: "🐟" },
+      { word: "rabbit", emoji: "🐰" }
+    ];
 
-  let shuffled = [...words].sort(()=>Math.random()-0.5);
+    let current = null;
+    let score = 0;
+    let streak = 0;
+    let best = 0;
+    let unlocked = false;
+    let gameEnded = false;
+    let waitingNext = false;
 
-  let html = "";
-  shuffled.forEach(w=>{
-    html += `<button onclick="check('${w.word}')" style="margin:8px;padding:12px 20px;font-size:18px;">${w.word}</button>`;
-  });
+    function shuffle(array) {
+      return [...array].sort(() => Math.random() - 0.5);
+    }
 
-  document.getElementById("options").innerHTML = html;
-}
+    function speakWord(word) {
+      const utter = new SpeechSynthesisUtterance(word);
+      utter.lang = "en-US";
+      utter.rate = 0.9;
+      utter.pitch = 1;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+    }
 
-function speak() {
-  const u = new SpeechSynthesisUtterance(current.word);
-  u.lang = "en-US";
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
-}
+    function manualSpeak() {
+      if (!current || gameEnded) return;
+      unlocked = true;
+      document.getElementById("hint").innerText = "Sound unlocked. New questions will speak automatically.";
+      speakWord(current.word);
+    }
 
-function check(word) {
-  if(word === current.word){
-    score++;
-    document.getElementById("score").innerText = "Score: " + score;
-  }
-  newQuestion();
-}
+    function startGame() {
+      unlocked = true;
+      document.getElementById("startBtn").classList.add("hide");
+      document.getElementById("hint").innerText = "Game started. Listen and choose the correct word.";
+      if (!current) {
+        newQuestion(true);
+      } else {
+        speakWord(current.word);
+      }
+    }
 
-newQuestion();
-</script>
+    function updateTopbar() {
+      document.getElementById("score").innerText = "Score: " + score;
+      document.getElementById("streak").innerText = "Streak: " + streak;
+      document.getElementById("best").innerText = "Best: " + best;
+    }
 
+    function setFeedback(text, type) {
+      const box = document.getElementById("feedback");
+      box.innerText = text;
+      box.className = "feedback " + (type || "");
+    }
+
+    function renderOptions() {
+      const optionsEl = document.getElementById("options");
+      const shuffled = shuffle(words);
+      optionsEl.innerHTML = "";
+
+      shuffled.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = item.word;
+        btn.onclick = () => checkAnswer(item.word);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function lockOptions(lock) {
+      document.querySelectorAll(".option").forEach(btn => {
+        btn.disabled = lock;
+      });
+    }
+
+    function newQuestion(autoSpeak = true) {
+      if (gameEnded) return;
+
+      waitingNext = false;
+      setFeedback("", "");
+      document.getElementById("hint").innerText = unlocked
+        ? "Listen and choose the correct word."
+        : "Press Start once, then the game will speak automatically.";
+
+      current = words[Math.floor(Math.random() * words.length)];
+      document.getElementById("emoji").innerText = current.emoji;
+      renderOptions();
+      lockOptions(false);
+
+      if (autoSpeak && unlocked) {
+        setTimeout(() => {
+          if (!gameEnded && current) speakWord(current.word);
+        }, 280);
+      }
+    }
+
+    function winGame() {
+      gameEnded = true;
+      lockOptions(true);
+      document.getElementById("winBox").classList.remove("hide");
+      document.getElementById("hint").innerText = "You finished Level 1.";
+      setFeedback("Excellent!", "correct");
+    }
+
+    function checkAnswer(word) {
+      if (!current || gameEnded || waitingNext) return;
+
+      if (word === current.word) {
+        score += 1;
+        streak += 1;
+        if (streak > best) best = streak;
+        updateTopbar();
+        setFeedback("🎉 Correct!", "correct");
+        document.getElementById("hint").innerText = current.word.toUpperCase();
+        lockOptions(true);
+        waitingNext = true;
+
+        if (score >= 10) {
+          setTimeout(winGame, 500);
+          return;
+        }
+
+        setTimeout(() => {
+          newQuestion(true);
+        }, 650);
+      } else {
+        streak = 0;
+        updateTopbar();
+        setFeedback("❌ Try again", "wrong");
+        document.getElementById("hint").innerText = "Listen carefully and try once more.";
+        if (unlocked) speakWord(current.word);
+      }
+    }
+
+    function restartGame() {
+      score = 0;
+      streak = 0;
+      best = 0;
+      gameEnded = false;
+      waitingNext = false;
+      current = null;
+      updateTopbar();
+      document.getElementById("winBox").classList.add("hide");
+      document.getElementById("startBtn").classList.remove("hide");
+      document.getElementById("emoji").innerText = "🐱";
+      document.getElementById("options").innerHTML = "";
+      setFeedback("", "");
+      document.getElementById("hint").innerText = "Press Start once, then the game will speak automatically.";
+    }
+
+    updateTopbar();
+  </script>
 </body>
 </html>
