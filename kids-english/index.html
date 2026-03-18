@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jimmy Kids English V6</title>
+<title>Jimmy Kids English V6.1</title>
 <style>
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef1f7;text-align:center;color:#1f2430;}
 .wrap{max-width:900px;margin:0 auto;padding:24px 16px 48px;}
@@ -142,9 +142,6 @@ function speak(word){
 function toggleSpeed(){
   speed = speed === "slow" ? "normal" : "slow";
   document.getElementById("speedBtn").innerText = speed === "slow" ? "🐢 Slow" : "⚡ Normal";
-  document.getElementById("hint").innerText = speed === "slow"
-    ? "Slow speed selected."
-    : "Normal speed selected.";
   if(current && !finished){
     speak(current[0]);
   }
@@ -241,8 +238,8 @@ function choose(word){
   } else {
     streak = 0;
     update();
-    setFeedback("❌ Try again", "wrong");
-    document.getElementById("hint").innerText = "Listen again and try one more time.";
+    setFeedback("❌ Wrong", "wrong");
+    document.getElementById("hint").innerText = "Correct answer: " + current[0];
     speak(current[0]);
     wrongToReview();
   }
