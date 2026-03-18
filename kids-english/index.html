@@ -113,10 +113,16 @@ document.getElementById("hint").innerText="Choose the correct word";
 
 function choose(w){
 
+// 🔥 先念你點的字（關鍵修正）
 speak(w);
 
+// 稍微等一下再判斷（讓發音先出來）
+setTimeout(()=>{
+
 if(w===current[0]){
-score++;streak++;
+
+score++;
+streak++;
 if(streak>best)best=streak;
 
 if(score%10===0){
@@ -132,6 +138,7 @@ update();
 build();
 
 }else{
+
 streak=0;
 review.push(current);
 update();
@@ -139,8 +146,15 @@ update();
 document.getElementById("hint").innerText=
 "Correct answer: "+current[0];
 
+// 🔥 再念正確答案
+setTimeout(()=>{
 speak(current[0]);
+},400);
+
 }
+
+},300);
+
 }
 
 function update(){
