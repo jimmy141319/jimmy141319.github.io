@@ -1,43 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jimmy Kids English</title>
+
+<style>
+body{margin:0;font-family:-apple-system;background:#eef1f7;text-align:center;}
+h1{font-size:60px;color:#4a78f0;margin:20px 0;}
+.subtitle{color:#666;margin-bottom:20px;}
+.top{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.box{background:white;padding:12px 20px;border-radius:20px;font-weight:bold;}
+.emoji{font-size:100px;margin:30px 0;}
+button{border:none;border-radius:20px;padding:14px 24px;font-size:20px;margin:8px;}
+.option{background:white;color:#4a78f0;font-weight:bold;}
+.btn{background:#4a78f0;color:white;}
+.hint{margin:10px;font-size:24px;font-weight:bold;min-height:30px;}
+</style>
+</head>
+
+<body>
+
+<h1>Jimmy Kids English</h1>
+<div class="subtitle" id="subtitle"></div>
+
+<div class="top">
+  <div class="box" id="score">Score: 0</div>
+  <div class="box" id="streak">Streak: 0</div>
+  <div class="box" id="best">Best: 0</div>
+  <div class="box" id="level">Level: 1</div>
+</div>
+
+<div class="emoji" id="emoji">❓</div>
+
+<button class="btn" onclick="restart()">↺ Restart</button>
+
+<div class="hint" id="hint"></div>
+
+<div id="options"></div>
+
 <script>
-function choose(clickedWord){
-  if(busy) return;
-  busy = true;
+const levels = [
+{
+name:"Animals",
+words:[
+["cat","🐱"],["dog","🐶"],["bird","🐦"],["fish","🐟"],["rabbit","🐰"],
+["lion","🦁"],["tiger","🐯"],["monkey","🐵"],["frog","🐸"],["pig","🐷"],
+["cow","🐮"],["horse","🐴"],["sheep","🐑"],["duck","🦆"],["chicken","🐔"]
+]
+},
+{
+name:"Food",
+words:[
+["apple","🍎"],["banana","🍌"],["orange","🍊"],["grape","🍇"],["bread","🍞"],
+["cake","🍰"],["pizza","🍕"],["rice","🍚"],["milk","🥛"],["egg","🥚"],
+["burger","🍔"],["fries","🍟"],["donut","🍩"],["cookie","🍪"],["chocolate","🍫"]
+]
+},
+{
+name:"Daily",
+words:[
+["car","🚗"],["bus","🚌"],["book","📘"],["phone","📱"],["ball","⚽"],
+["chair","🪑"],["clock","🕒"],["house","🏠"],["star","⭐"],["sun","☀️"],
+["moon","🌙"],["bed","🛏️"],["door","🚪"],["window","🪟"],["bag","🎒"]
+]
+}
+];
 
-  if(clickedWord === current[0]){
-    // ✅ 正確
+let level=0,score=0,streak=0,best=0;
+let queue=[],review=[],current=null;
+let lock=false;
 
-    document.getElementById("hint").innerText = "✅ Correct!";
-    
-    // 👉 發音（不等待）
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
+
+function speak(word){
+  const u=new SpeechSynthesisUtterance(word);
+  u.lang="en-US";
+  u.rate=0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function resetQueue(){
+  queue=shuffle(levels[level].words);
+  review=[];
+}
+
+function nextWord(){
+  if(review.length>0)return review.shift();
+  if(queue.length===0)resetQueue();
+  return queue.shift();
+}
+
+function build(){
+  current=nextWord();
+  document.getElementById("emoji").innerText=current[1];
+
+  let opts=shuffle(levels[level].words).slice(0,4).map(x=>x[0]);
+  if(!opts.includes(current[0]))opts[0]=current[0];
+
+  const box=document.getElementById("options");
+  box.innerHTML="";
+
+  shuffle(opts).forEach(word=>{
+    const b=document.createElement("button");
+    b.className="option";
+    b.innerText=word;
+    b.onclick=()=>choose(word);
+    box.appendChild(b);
+  });
+
+  document.getElementById("hint").innerText="";
+}
+
+function choose(word){
+  if(lock)return;
+
+  if(word===current[0]){
+    lock=true;
+
+    document.getElementById("hint").innerText="✅ Correct";
+
     speak(current[0]);
 
-    // 👉 直接跳下一題（關鍵）
-    score++;
-    streak++;
-    if(streak > best) best = streak;
+    score++;streak++;
+    if(streak>best)best=streak;
 
-    if(score % 10 === 0){
+    if(score%10===0){
       level++;
-      if(level >= levels.length){
+      if(level>=levels.length){
         update();
         alert("🎉 Finished!");
-        busy = false;
+        lock=false;
         return;
       }
       resetQueue();
     }
 
     update();
-    build(); // 👉 立刻跳
-    busy = false;
+
+    setTimeout(()=>{
+      build();   // 👉 延遲後跳題（核心）
+      lock=false;
+    },600);
 
   }else{
-    // ❌ 錯誤
-    document.getElementById("hint").innerText = "❌ Wrong";
-    streak = 0;
+    document.getElementById("hint").innerText="❌ Wrong";
+    streak=0;
     review.push(current);
     update();
-    busy = false;
   }
 }
+
+function update(){
+  score=Math.max(0,score);
+  document.getElementById("score").innerText="Score: "+score;
+  document.getElementById("streak").innerText="Streak: "+streak;
+  document.getElementById("best").innerText="Best: "+best;
+  document.getElementById("level").innerText="Level: "+(level+1);
+  document.getElementById("subtitle").innerText=
+    "Level "+(level+1)+" · "+levels[level].name;
+}
+
+function restart(){
+  level=0;score=0;streak=0;best=0;
+  speechSynthesis.cancel();
+  resetQueue();
+  update();
+  build();
+}
+
+resetQueue();
+update();
+build();
 </script>
+
+</body>
+</html>
