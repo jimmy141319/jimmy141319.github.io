@@ -15,7 +15,7 @@ h1{font-size:60px;color:#4a78f0;margin:20px 0;}
 button{border:none;border-radius:20px;padding:14px 24px;font-size:20px;margin:8px;}
 .option{background:white;color:#4a78f0;font-weight:bold;}
 .btn{background:#4a78f0;color:white;}
-.hint{margin:10px;color:#666;min-height:30px;font-size:22px;font-weight:bold;}
+.hint{margin:10px;font-size:22px;font-weight:bold;min-height:30px;}
 </style>
 </head>
 
@@ -146,12 +146,12 @@ function choose(clickedWord){
       }
 
       update();
-      build();
+      build(); // 👉 穩定跳題
       busy = false;
-    },700);
+    },600);
 
   }else{
-    // ❌ 錯誤（完全不發音）
+    // ❌ 錯誤
     document.getElementById("hint").innerText = "❌ Wrong";
     streak = 0;
     review.push(current);
