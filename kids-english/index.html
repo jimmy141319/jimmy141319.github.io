@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V2</title>
+  <title>Jimmy Kids English V3</title>
   <style>
     :root{
       --bg:#eef1f7;
       --blue:#4a78f0;
-      --green:#0aa84f;
-      --red:#d64545;
+      --green:#10b455;
+      --red:#d84b4b;
       --text:#1f2430;
-      --soft:#ffffff;
-      --shadow:0 6px 18px rgba(0,0,0,0.08);
-      --radius:22px;
+      --muted:#6f7688;
+      --white:#ffffff;
+      --shadow:0 8px 24px rgba(0,0,0,0.08);
+      --radius:24px;
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{ box-sizing:border-box; }
 
     body{
       margin:0;
@@ -29,23 +28,23 @@
     }
 
     .wrap{
-      max-width:760px;
+      max-width:820px;
       margin:0 auto;
-      padding:28px 16px 40px;
+      padding:28px 16px 48px;
     }
 
     h1{
-      margin:8px 0 6px;
-      font-size:clamp(38px, 9vw, 78px);
-      line-height:1.05;
+      margin:10px 0 8px;
+      font-size:clamp(42px, 8vw, 78px);
+      line-height:1.02;
       color:var(--blue);
       font-weight:800;
     }
 
-    .sub{
-      margin:0 0 18px;
-      font-size:16px;
-      color:#6d7485;
+    .subtitle{
+      font-size:18px;
+      color:var(--muted);
+      margin-bottom:22px;
     }
 
     .topbar{
@@ -53,155 +52,238 @@
       justify-content:center;
       gap:12px;
       flex-wrap:wrap;
-      margin:8px 0 18px;
+      margin-bottom:20px;
     }
 
     .pill{
-      background:var(--soft);
-      border-radius:999px;
-      padding:10px 16px;
+      background:var(--white);
       box-shadow:var(--shadow);
+      border-radius:999px;
+      padding:12px 18px;
+      min-width:128px;
       font-size:18px;
-      font-weight:700;
+      font-weight:800;
     }
 
     .emoji{
-      font-size:110px;
-      margin:28px 0 16px;
-      min-height:130px;
+      font-size:112px;
+      min-height:132px;
       display:flex;
       align-items:center;
       justify-content:center;
+      margin:26px 0 10px;
     }
 
-    .btn-listen,
-    .btn-start,
-    .btn-restart{
+    .btn{
       border:none;
-      border-radius:18px;
+      border-radius:20px;
       padding:16px 28px;
       font-size:22px;
-      font-weight:700;
+      font-weight:800;
       color:#fff;
       background:var(--green);
       box-shadow:var(--shadow);
     }
 
-    .btn-start,
-    .btn-restart{
-      margin-top:12px;
+    .btn + .btn{
+      margin-left:10px;
+    }
+
+    .btn-row{
+      margin:16px 0 12px;
     }
 
     .feedback{
       min-height:36px;
-      margin:18px 0 8px;
+      margin:10px 0 6px;
       font-size:28px;
-      font-weight:800;
+      font-weight:900;
     }
 
-    .feedback.correct{
-      color:var(--green);
-    }
-
-    .feedback.wrong{
-      color:var(--red);
-    }
+    .feedback.correct{ color:var(--green); }
+    .feedback.wrong{ color:var(--red); }
 
     .hint{
-      min-height:24px;
-      margin:0 0 18px;
-      font-size:16px;
-      color:#6d7485;
+      min-height:28px;
+      color:var(--muted);
+      font-size:17px;
+      margin-bottom:18px;
     }
 
     .options{
       display:flex;
-      justify-content:center;
       flex-wrap:wrap;
+      justify-content:center;
       gap:14px;
-      margin-top:20px;
+      margin-top:14px;
     }
 
     .option{
-      min-width:126px;
+      min-width:128px;
+      padding:14px 18px;
       border:none;
       border-radius:20px;
-      padding:14px 18px;
-      font-size:18px;
-      background:#fff;
+      background:var(--white);
       color:var(--blue);
+      font-size:20px;
+      font-weight:800;
       box-shadow:var(--shadow);
-      font-weight:700;
     }
 
     .option:disabled{
-      opacity:0.7;
+      opacity:.7;
+    }
+
+    .panel{
+      margin:28px auto 0;
+      max-width:640px;
+      background:rgba(255,255,255,.65);
+      border-radius:24px;
+      padding:18px 16px;
+      box-shadow:var(--shadow);
+    }
+
+    .progress{
+      font-size:18px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .level-note{
+      color:var(--muted);
+      font-size:16px;
     }
 
     .win-box{
-      margin-top:22px;
-      background:#fff;
-      border-radius:24px;
+      margin:26px auto 0;
+      max-width:640px;
+      background:var(--white);
+      border-radius:28px;
       box-shadow:var(--shadow);
-      padding:22px 18px;
+      padding:28px 18px;
     }
 
     .win-title{
-      font-size:34px;
+      font-size:38px;
       font-weight:900;
       color:var(--green);
-      margin-bottom:10px;
+      margin-bottom:8px;
     }
 
     .win-text{
-      font-size:18px;
-      color:#4f5668;
-      margin-bottom:8px;
+      font-size:19px;
+      color:#4d5568;
+      margin-bottom:16px;
     }
 
     .hide{
       display:none;
+    }
+
+    @media (max-width: 480px){
+      .pill{
+        min-width:110px;
+        font-size:16px;
+      }
+      .option{
+        min-width:110px;
+        font-size:18px;
+      }
+      .btn{
+        font-size:20px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Jimmy Kids English</h1>
-    <p class="sub">Level 1 · Animals</p>
+    <div class="subtitle" id="subtitle">Level 1 · Animals</div>
 
     <div class="topbar">
       <div class="pill" id="score">Score: 0</div>
       <div class="pill" id="streak">Streak: 0</div>
       <div class="pill" id="best">Best: 0</div>
+      <div class="pill" id="levelPill">Level: 1</div>
     </div>
 
     <div class="emoji" id="emoji">🐱</div>
 
-    <button class="btn-listen" id="listenBtn" onclick="manualSpeak()">🔊 Listen</button>
+    <div class="btn-row">
+      <button class="btn" id="listenBtn" onclick="manualSpeak()">🔊 Listen</button>
+      <button class="btn" id="startBtn" onclick="startGame()">▶ Start</button>
+    </div>
 
     <div class="feedback" id="feedback"></div>
     <div class="hint" id="hint">Press Start once, then the game will speak automatically.</div>
 
-    <button class="btn-start" id="startBtn" onclick="startGame()">▶ Start</button>
-
     <div class="options" id="options"></div>
+
+    <div class="panel">
+      <div class="progress" id="progressText">Level Goal: 10 points</div>
+      <div class="level-note" id="levelNote">Animals → Food → Daily Things</div>
+    </div>
 
     <div class="win-box hide" id="winBox">
       <div class="win-title">🎉 You Win!</div>
-      <div class="win-text">Great job! You reached 10 points.</div>
-      <button class="btn-restart" onclick="restartGame()">Play Again</button>
+      <div class="win-text">Amazing! You finished all 3 levels.</div>
+      <button class="btn" onclick="restartGame()">Play Again</button>
     </div>
   </div>
 
   <script>
-    const words = [
-      { word: "cat", emoji: "🐱" },
-      { word: "dog", emoji: "🐶" },
-      { word: "bird", emoji: "🐦" },
-      { word: "fish", emoji: "🐟" },
-      { word: "rabbit", emoji: "🐰" }
+    const levels = [
+      {
+        name: "Animals",
+        goal: 10,
+        words: [
+          { word: "cat", emoji: "🐱" },
+          { word: "dog", emoji: "🐶" },
+          { word: "bird", emoji: "🐦" },
+          { word: "fish", emoji: "🐟" },
+          { word: "rabbit", emoji: "🐰" },
+          { word: "lion", emoji: "🦁" },
+          { word: "monkey", emoji: "🐵" },
+          { word: "tiger", emoji: "🐯" },
+          { word: "frog", emoji: "🐸" },
+          { word: "pig", emoji: "🐷" }
+        ]
+      },
+      {
+        name: "Food",
+        goal: 10,
+        words: [
+          { word: "apple", emoji: "🍎" },
+          { word: "banana", emoji: "🍌" },
+          { word: "grape", emoji: "🍇" },
+          { word: "orange", emoji: "🍊" },
+          { word: "watermelon", emoji: "🍉" },
+          { word: "bread", emoji: "🍞" },
+          { word: "cake", emoji: "🍰" },
+          { word: "pizza", emoji: "🍕" },
+          { word: "rice", emoji: "🍚" },
+          { word: "ice cream", emoji: "🍦" }
+        ]
+      },
+      {
+        name: "Daily Things",
+        goal: 10,
+        words: [
+          { word: "car", emoji: "🚗" },
+          { word: "bus", emoji: "🚌" },
+          { word: "book", emoji: "📘" },
+          { word: "phone", emoji: "📱" },
+          { word: "ball", emoji: "⚽" },
+          { word: "chair", emoji: "🪑" },
+          { word: "clock", emoji: "🕒" },
+          { word: "house", emoji: "🏠" },
+          { word: "star", emoji: "⭐" },
+          { word: "sun", emoji: "☀️" }
+        ]
+      }
     ];
 
+    let levelIndex = 0;
     let current = null;
     let score = 0;
     let streak = 0;
@@ -209,31 +291,32 @@
     let unlocked = false;
     let gameEnded = false;
     let waitingNext = false;
+    let levelScore = 0;
 
-    function shuffle(array) {
-      return [...array].sort(() => Math.random() - 0.5);
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
     }
 
     function speakWord(word) {
-      const utter = new SpeechSynthesisUtterance(word);
-      utter.lang = "en-US";
-      utter.rate = 0.9;
-      utter.pitch = 1;
+      const u = new SpeechSynthesisUtterance(word);
+      u.lang = "en-US";
+      u.rate = 0.9;
+      u.pitch = 1;
       window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utter);
+      window.speechSynthesis.speak(u);
     }
 
     function manualSpeak() {
       if (!current || gameEnded) return;
       unlocked = true;
-      document.getElementById("hint").innerText = "Sound unlocked. New questions will speak automatically.";
+      document.getElementById("hint").innerText = "Sound unlocked. The game will speak automatically.";
       speakWord(current.word);
     }
 
     function startGame() {
       unlocked = true;
       document.getElementById("startBtn").classList.add("hide");
-      document.getElementById("hint").innerText = "Game started. Listen and choose the correct word.";
+      document.getElementById("hint").innerText = "Listen and choose the correct word.";
       if (!current) {
         newQuestion(true);
       } else {
@@ -241,36 +324,34 @@
       }
     }
 
-    function updateTopbar() {
+    function updateHeader() {
       document.getElementById("score").innerText = "Score: " + score;
       document.getElementById("streak").innerText = "Streak: " + streak;
       document.getElementById("best").innerText = "Best: " + best;
+      document.getElementById("levelPill").innerText = "Level: " + (levelIndex + 1);
+      document.getElementById("subtitle").innerText = "Level " + (levelIndex + 1) + " · " + levels[levelIndex].name;
+      document.getElementById("progressText").innerText =
+        "Level Goal: " + levels[levelIndex].goal + " points";
     }
 
     function setFeedback(text, type) {
-      const box = document.getElementById("feedback");
-      box.innerText = text;
-      box.className = "feedback " + (type || "");
-    }
-
-    function renderOptions() {
-      const optionsEl = document.getElementById("options");
-      const shuffled = shuffle(words);
-      optionsEl.innerHTML = "";
-
-      shuffled.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = item.word;
-        btn.onclick = () => checkAnswer(item.word);
-        optionsEl.appendChild(btn);
-      });
+      const el = document.getElementById("feedback");
+      el.innerText = text;
+      el.className = "feedback " + (type || "");
     }
 
     function lockOptions(lock) {
-      document.querySelectorAll(".option").forEach(btn => {
-        btn.disabled = lock;
-      });
+      document.querySelectorAll(".option").forEach(btn => btn.disabled = lock);
+    }
+
+    function getCurrentLevelWords() {
+      return levels[levelIndex].words;
+    }
+
+    function buildOptions(correctWord) {
+      const currentWords = getCurrentLevelWords();
+      const others = shuffle(currentWords.filter(item => item.word !== correctWord.word)).slice(0, 4);
+      return shuffle([correctWord, ...others]);
     }
 
     function newQuestion(autoSpeak = true) {
@@ -282,9 +363,22 @@
         ? "Listen and choose the correct word."
         : "Press Start once, then the game will speak automatically.";
 
-      current = words[Math.floor(Math.random() * words.length)];
+      const currentWords = getCurrentLevelWords();
+      current = currentWords[Math.floor(Math.random() * currentWords.length)];
       document.getElementById("emoji").innerText = current.emoji;
-      renderOptions();
+
+      const options = buildOptions(current);
+      const optionsEl = document.getElementById("options");
+      optionsEl.innerHTML = "";
+
+      options.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = item.word;
+        btn.onclick = () => checkAnswer(item.word);
+        optionsEl.appendChild(btn);
+      });
+
       lockOptions(false);
 
       if (autoSpeak && unlocked) {
@@ -294,11 +388,24 @@
       }
     }
 
+    function nextLevel() {
+      if (levelIndex < levels.length - 1) {
+        levelIndex += 1;
+        levelScore = 0;
+        updateHeader();
+        setFeedback("🎉 Level Up!", "correct");
+        document.getElementById("hint").innerText = "Welcome to " + levels[levelIndex].name + "!";
+        setTimeout(() => newQuestion(true), 900);
+      } else {
+        winGame();
+      }
+    }
+
     function winGame() {
       gameEnded = true;
       lockOptions(true);
       document.getElementById("winBox").classList.remove("hide");
-      document.getElementById("hint").innerText = "You finished Level 1.";
+      document.getElementById("hint").innerText = "You finished all levels.";
       setFeedback("Excellent!", "correct");
     }
 
@@ -308,24 +415,23 @@
       if (word === current.word) {
         score += 1;
         streak += 1;
+        levelScore += 1;
         if (streak > best) best = streak;
-        updateTopbar();
+        updateHeader();
         setFeedback("🎉 Correct!", "correct");
         document.getElementById("hint").innerText = current.word.toUpperCase();
         lockOptions(true);
         waitingNext = true;
 
-        if (score >= 10) {
-          setTimeout(winGame, 500);
+        if (levelScore >= levels[levelIndex].goal) {
+          setTimeout(nextLevel, 700);
           return;
         }
 
-        setTimeout(() => {
-          newQuestion(true);
-        }, 650);
+        setTimeout(() => newQuestion(true), 650);
       } else {
         streak = 0;
-        updateTopbar();
+        updateHeader();
         setFeedback("❌ Try again", "wrong");
         document.getElementById("hint").innerText = "Listen carefully and try once more.";
         if (unlocked) speakWord(current.word);
@@ -333,22 +439,28 @@
     }
 
     function restartGame() {
+      levelIndex = 0;
+      current = null;
       score = 0;
       streak = 0;
       best = 0;
+      unlocked = false;
       gameEnded = false;
       waitingNext = false;
-      current = null;
-      updateTopbar();
+      levelScore = 0;
+
+      window.speechSynthesis.cancel();
+
       document.getElementById("winBox").classList.add("hide");
       document.getElementById("startBtn").classList.remove("hide");
       document.getElementById("emoji").innerText = "🐱";
       document.getElementById("options").innerHTML = "";
-      setFeedback("", "");
       document.getElementById("hint").innerText = "Press Start once, then the game will speak automatically.";
+      setFeedback("", "");
+      updateHeader();
     }
 
-    updateTopbar();
+    updateHeader();
   </script>
 </body>
 </html>
