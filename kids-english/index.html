@@ -15,6 +15,7 @@ h1{font-size:60px;color:#4a78f0;margin:20px 0;}
 button{border:none;border-radius:20px;padding:14px 24px;font-size:20px;margin:8px;}
 .option{background:white;color:#4a78f0;font-weight:bold;}
 .btn{background:#4a78f0;color:white;}
+.hint{margin:10px;color:#666;min-height:30px;}
 </style>
 </head>
 
@@ -34,7 +35,7 @@ button{border:none;border-radius:20px;padding:14px 24px;font-size:20px;margin:8p
 
 <button class="btn" onclick="restart()">↺ Restart</button>
 
-<div id="hint" style="margin:10px;color:#666"></div>
+<div class="hint" id="hint"></div>
 
 <div id="options"></div>
 
@@ -79,26 +80,38 @@ function shuffle(arr){
   return [...arr].sort(()=>Math.random()-0.5);
 }
 
-function speakThen(word, after){
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = "en-US";
-  u.rate = 0.8;
+function speakQueue(words, done){
+  speechSynthesis.cancel();
 
-  let finished = false;
-  function done(){
-    if(finished) return;
-    finished = true;
-    if(after) after();
+  const items = [...words];
+  function next(){
+    if(items.length === 0){
+      if(done) done();
+      return;
+    }
+
+    const word = items.shift();
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang = "en-US";
+    u.rate = 0.8;
+
+    let finished = false;
+    function endOnce(){
+      if(finished) return;
+      finished = true;
+      setTimeout(next, 80);
+    }
+
+    u.onend = endOnce;
+    u.onerror = endOnce;
+
+    speechSynthesis.speak(u);
+
+    // iPhone / Safari 保底
+    setTimeout(endOnce, Math.max(900, word.length * 220));
   }
 
-  u.onend = done;
-  u.onerror = done;
-
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
-
-  // Safari / iPhone 保底
-  setTimeout(done, Math.max(700, word.length * 180));
+  next();
 }
 
 function resetQueue(){
@@ -133,19 +146,20 @@ function build(){
   document.getElementById("hint").innerText = "Choose the correct word";
 }
 
+function setButtonsDisabled(disabled){
+  document.querySelectorAll(".option").forEach(btn=>{
+    btn.disabled = disabled;
+  });
+}
+
 function choose(clickedWord){
   if(busy || !current) return;
   busy = true;
+  setButtonsDisabled(true);
 
-  // 先鎖住，避免連點
-  const buttons = document.querySelectorAll(".option");
-  buttons.forEach(btn => btn.disabled = true);
-
-  // 第一步：一定先念「你點的字」
-  speakThen(clickedWord, function(){
-
-    // 第二步：發音結束後才判斷
-    if(clickedWord === current[0]){
+  if(clickedWord === current[0]){
+    // 正確：只念你點的字，念完才進下一題
+    speakQueue([clickedWord], function(){
       score++;
       streak++;
       if(streak > best) best = streak;
@@ -163,24 +177,25 @@ function choose(clickedWord){
 
       update();
       build();
+      setButtonsDisabled(false);
       busy = false;
+    });
 
-    }else{
+  }else{
+    // 錯誤：先念你點的字，再顯示正解，再念正解
+    speakQueue([clickedWord], function(){
       streak = 0;
       review.push(current);
       update();
 
       document.getElementById("hint").innerText = "Correct answer: " + current[0];
 
-      // 第三步：再念正確答案
-      speakThen(current[0], function(){
-        // 錯題不跳題，停留原題，重新開放按鈕
-        const retryButtons = document.querySelectorAll(".option");
-        retryButtons.forEach(btn => btn.disabled = false);
+      speakQueue([current[0]], function(){
+        setButtonsDisabled(false);
         busy = false;
       });
-    }
-  });
+    });
+  }
 }
 
 function update(){
@@ -198,10 +213,11 @@ function restart(){
   streak = 0;
   best = 0;
   busy = false;
-  window.speechSynthesis.cancel();
+  speechSynthesis.cancel();
   resetQueue();
   update();
   build();
+  setButtonsDisabled(false);
 }
 
 resetQueue();
