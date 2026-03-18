@@ -12,7 +12,7 @@ h1{font-size:60px;color:#4a78f0;margin:20px 0;}
 .top{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
 .box{background:white;padding:12px 20px;border-radius:20px;font-weight:bold;}
 
-.stage{transition:0.22s;opacity:1}
+.stage{transition:0.2s;opacity:1}
 .stage.hide{opacity:0;transform:translateY(8px)}
 
 .emoji{font-size:100px;margin:30px 0;min-height:120px;}
@@ -60,26 +60,12 @@ let queue=[],review=[],current=null,lock=false;
 
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
 
-function speak(word,callback){
+function speak(word){
   const u=new SpeechSynthesisUtterance(word);
   u.lang="en-US";
-  u.rate=0.8;
-
-  let done=false;
-  function finish(){
-    if(done)return;
-    done=true;
-    callback();
-  }
-
-  u.onend=finish;
-  u.onerror=finish;
-
+  u.rate=0.85;
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
-
-  // 👉 保底（關鍵）
-  setTimeout(finish,1000);
 }
 
 function resetQueue(){
@@ -124,9 +110,11 @@ function choose(word,btn){
     if(streak>best)best=streak;
     update();
 
-    speak(current[0],()=>{
-      switchNext();
-    });
+    // ✅ 先跳題（關鍵）
+    switchNext();
+
+    // ✅ 再背景發音（不卡UI）
+    setTimeout(()=>speak(current[0]),100);
 
   }else{
     btn.classList.add("wrong");
@@ -134,7 +122,7 @@ function choose(word,btn){
     streak=0;
     review.push(current);
     update();
-    setTimeout(()=>lock=false,500);
+    setTimeout(()=>lock=false,400);
   }
 }
 
@@ -144,7 +132,7 @@ function switchNext(){
     build();
     stage.classList.remove("hide");
     lock=false;
-  },220);
+  },180);
 }
 
 function update(){
