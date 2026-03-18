@@ -38,9 +38,21 @@ h1{
   font-weight:bold;
 }
 
+.stage{
+  transition:opacity 0.22s ease, transform 0.22s ease;
+  opacity:1;
+  transform:translateY(0);
+}
+
+.stage.switching{
+  opacity:0;
+  transform:translateY(8px);
+}
+
 .emoji{
   font-size:100px;
   margin:30px 0;
+  min-height:120px;
 }
 
 button{
@@ -49,7 +61,7 @@ button{
   padding:14px 24px;
   font-size:20px;
   margin:8px;
-  transition:all 0.2s ease;
+  transition:all 0.18s ease;
 }
 
 .option{
@@ -102,13 +114,15 @@ button{
   <div class="box" id="level">Level: 1</div>
 </div>
 
-<div class="emoji" id="emoji">❓</div>
+<div id="stage" class="stage">
+  <div class="emoji" id="emoji">❓</div>
 
-<button class="btn" onclick="restart()">↺ Restart</button>
+  <button class="btn" onclick="restart()">↺ Restart</button>
 
-<div class="hint" id="hint"></div>
+  <div class="hint" id="hint"></div>
 
-<div id="options"></div>
+  <div id="options"></div>
+</div>
 
 <script>
 const levels = [
@@ -138,130 +152,147 @@ words:[
 }
 ];
 
-let level=0,score=0,streak=0,best=0;
-let queue=[],review=[],current=null;
-let lock=false;
+let level = 0;
+let score = 0;
+let streak = 0;
+let best = 0;
+let queue = [];
+let review = [];
+let current = null;
+let lock = false;
 
-function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
+function shuffle(a){
+  return [...a].sort(()=>Math.random()-0.5);
+}
 
-function speak(word,callback){
-  const u=new SpeechSynthesisUtterance(word);
-  u.lang="en-US";
-  u.rate=0.8;
+function speak(word, callback){
+  const u = new SpeechSynthesisUtterance(word);
+  u.lang = "en-US";
+  u.rate = 0.8;
 
-  let done=false;
+  let done = false;
   function finish(){
-    if(done)return;
-    done=true;
-    if(callback)callback();
+    if(done) return;
+    done = true;
+    if(callback) callback();
   }
 
-  u.onend=finish;
-  u.onerror=finish;
+  u.onend = finish;
+  u.onerror = finish;
 
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
 
-  setTimeout(finish,Math.max(700,word.length*180));
+  setTimeout(finish, Math.max(700, word.length * 180));
 }
 
 function resetQueue(){
-  queue=shuffle(levels[level].words);
-  review=[];
+  queue = shuffle(levels[level].words);
+  review = [];
 }
 
 function nextWord(){
-  if(review.length>0)return review.shift();
-  if(queue.length===0)resetQueue();
+  if(review.length > 0) return review.shift();
+  if(queue.length === 0) resetQueue();
   return queue.shift();
 }
 
+function switchToNextQuestion(){
+  const stage = document.getElementById("stage");
+  stage.classList.add("switching");
+
+  setTimeout(()=>{
+    build();
+    stage.classList.remove("switching");
+    lock = false;
+  }, 220);
+}
+
 function build(){
-  current=nextWord();
-  document.getElementById("emoji").innerText=current[1];
+  current = nextWord();
+  document.getElementById("emoji").innerText = current[1];
 
-  let opts=shuffle(levels[level].words).slice(0,4).map(x=>x[0]);
-  if(!opts.includes(current[0]))opts[0]=current[0];
+  let opts = shuffle(levels[level].words).slice(0,4).map(x=>x[0]);
+  if(!opts.includes(current[0])) opts[0] = current[0];
 
-  const box=document.getElementById("options");
-  box.innerHTML="";
+  const box = document.getElementById("options");
+  box.innerHTML = "";
 
   shuffle(opts).forEach(word=>{
-    const b=document.createElement("button");
-    b.className="option";
-    b.innerText=word;
-    b.onclick=()=>choose(word,b);
+    const b = document.createElement("button");
+    b.className = "option";
+    b.innerText = word;
+    b.onclick = ()=>choose(word,b);
     box.appendChild(b);
   });
 
-  document.getElementById("hint").innerText="";
+  document.getElementById("hint").innerText = "";
 }
 
 function setAllDisabled(disabled){
   document.querySelectorAll(".option").forEach(btn=>{
-    btn.disabled=disabled;
+    btn.disabled = disabled;
   });
 }
 
-function choose(word,button){
-  if(lock)return;
-  lock=true;
+function choose(word, button){
+  if(lock) return;
+  lock = true;
   setAllDisabled(true);
 
-  if(word===current[0]){
+  if(word === current[0]){
     button.classList.add("correct");
-    document.getElementById("hint").innerText="✅ Correct";
+    document.getElementById("hint").innerText = "✅ Correct";
 
     score++;
     streak++;
-    if(streak>best)best=streak;
+    if(streak > best) best = streak;
     update();
 
-    speak(current[0],()=>{
-      if(score%10===0){
+    speak(current[0], ()=>{
+      if(score % 10 === 0){
         level++;
-        if(level>=levels.length){
+        if(level >= levels.length){
           alert("🎉 Finished!");
-          lock=false;
+          lock = false;
           return;
         }
         resetQueue();
       }
 
-      build();
-      lock=false;
+      switchToNextQuestion();
     });
 
   }else{
     button.classList.add("wrong");
-    document.getElementById("hint").innerText="❌ Wrong";
+    document.getElementById("hint").innerText = "❌ Wrong";
 
-    streak=0;
+    streak = 0;
     review.push(current);
     update();
 
     setTimeout(()=>{
       setAllDisabled(false);
-      lock=false;
-    },500);
+      lock = false;
+    }, 500);
   }
 }
 
 function update(){
-  document.getElementById("score").innerText="Score: "+score;
-  document.getElementById("streak").innerText="Streak: "+streak;
-  document.getElementById("best").innerText="Best: "+best;
-  document.getElementById("level").innerText="Level: "+(level+1);
-  document.getElementById("subtitle").innerText=
-    "Level "+(level+1)+" · "+levels[level].name;
+  document.getElementById("score").innerText = "Score: " + score;
+  document.getElementById("streak").innerText = "Streak: " + streak;
+  document.getElementById("best").innerText = "Best: " + best;
+  document.getElementById("level").innerText = "Level: " + (level + 1);
+  document.getElementById("subtitle").innerText =
+    "Level " + (level + 1) + " · " + levels[level].name;
 }
 
 function restart(){
-  level=0;
-  score=0;
-  streak=0;
-  best=0;
-  lock=false;
+  level = 0;
+  score = 0;
+  streak = 0;
+  best = 0;
+  lock = false;
   speechSynthesis.cancel();
   resetQueue();
   update();
