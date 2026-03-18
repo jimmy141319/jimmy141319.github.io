@@ -1,7 +1,67 @@
 <!DOCTYPE html>
 <html>
-<body>
-<h1>Jimmy Kids English</h1>
-<p>It works!</p>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jimmy Kids English</title>
+</head>
+
+<body style="text-align:center;font-family:sans-serif;background:#eef1f7;margin:0;padding:40px 20px;">
+
+<h1 style="color:#4a78f0;font-size:48px;">Jimmy Kids English</h1>
+<h2 id="score">Score: 0</h2>
+
+<div id="emoji" style="font-size:100px;margin:30px;">🐱</div>
+
+<button onclick="speak()" style="padding:15px 30px;font-size:24px;background:green;color:white;border:none;border-radius:10px;">
+🔊 Listen
+</button>
+
+<div id="options" style="margin-top:30px;"></div>
+
+<script>
+const words = [
+  { word: "cat", emoji: "🐱" },
+  { word: "dog", emoji: "🐶" },
+  { word: "bird", emoji: "🐦" },
+  { word: "fish", emoji: "🐟" },
+  { word: "rabbit", emoji: "🐰" }
+];
+
+let current;
+let score = 0;
+
+function newQuestion() {
+  current = words[Math.floor(Math.random()*words.length)];
+  document.getElementById("emoji").innerText = current.emoji;
+
+  let shuffled = [...words].sort(()=>Math.random()-0.5);
+
+  let html = "";
+  shuffled.forEach(w=>{
+    html += `<button onclick="check('${w.word}')" style="margin:8px;padding:12px 20px;font-size:18px;">${w.word}</button>`;
+  });
+
+  document.getElementById("options").innerHTML = html;
+}
+
+function speak() {
+  const u = new SpeechSynthesisUtterance(current.word);
+  u.lang = "en-US";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function check(word) {
+  if(word === current.word){
+    score++;
+    document.getElementById("score").innerText = "Score: " + score;
+  }
+  newQuestion();
+}
+
+newQuestion();
+</script>
+
 </body>
 </html>
