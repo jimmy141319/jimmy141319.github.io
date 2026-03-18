@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jimmy Kids English V17</title>
+<title>Jimmy Kids English V18</title>
 
 <style>
 body{
@@ -12,54 +12,49 @@ body{
   background:#eef1f7;
   text-align:center;
 }
-h1{
-  color:#4a78f0;
-  font-size:36px;
-}
+h1{color:#4a78f0;}
+
 .box{
   display:inline-block;
   background:white;
   padding:10px 14px;
-  border-radius:16px;
+  border-radius:14px;
   margin:4px;
   font-weight:bold;
 }
+
 button{
   border:none;
-  border-radius:16px;
+  border-radius:14px;
   padding:14px;
-  margin:8px;
-  font-size:18px;
+  margin:6px;
   width:80%;
   max-width:320px;
+  font-size:18px;
 }
-.option{
-  background:white;
+
+.mode{background:white;color:#4a78f0;}
+.active{background:#4a78f0;color:white;}
+
+.correct{background:#11b35c;color:white;}
+.wrong{background:#d84b4b;color:white;}
+
+.big{font-size:80px;margin:20px;}
+
+.progress{
+  width:80%;
+  max-width:300px;
+  margin:10px auto;
+  background:#ddd;
+  border-radius:10px;
+  overflow:hidden;
 }
-.correct{
-  background:#11b35c;
-  color:white;
-}
-.wrong{
-  background:#d84b4b;
-  color:white;
-}
-.big{
-  font-size:90px;
-  margin:20px;
-}
-.mode{
-  background:white;
-  color:#4a78f0;
-}
-.active{
+.bar{
+  height:10px;
   background:#4a78f0;
-  color:white;
+  width:0%;
 }
-.hint{
-  font-size:22px;
-  min-height:30px;
-}
+
 </style>
 </head>
 
@@ -69,6 +64,7 @@ button{
 
 <div class="box" id="score">Score:0</div>
 <div class="box" id="streak">Streak:0</div>
+<div class="box" id="level">Level:1</div>
 
 <br>
 
@@ -77,193 +73,219 @@ button{
 <button class="mode" onclick="setMode('listen')" id="m3">Listening</button>
 
 <div class="big" id="display">🐶</div>
-<div class="hint" id="hint"></div>
+
+<div class="progress">
+  <div class="bar" id="bar"></div>
+</div>
+
 <div id="options"></div>
 
+<button onclick="speakCurrent()">🔊 Replay</button>
+
 <script>
-const words = [
-"dog","cat","fish","rabbit","lion","tiger","frog","cow","pig","sheep",
-"chicken","duck","monkey","horse","bird",
-"apple","banana","orange","grape","cake","bread",
-"car","bus","bike","train","plane",
-"book","pen","pencil","bag","chair","table",
-"sun","moon","star","rain","cloud",
-"red","blue","green","yellow","black","white"
+
+// ===== LEVELS（關鍵）=====
+const levels = [
+{
+name:"Animals",
+data:[
+{w:"dog",e:"🐶"},
+{w:"cat",e:"🐱"},
+{w:"lion",e:"🦁"},
+{w:"tiger",e:"🐯"},
+{w:"rabbit",e:"🐰"},
+{w:"cow",e:"🐮"},
+{w:"pig",e:"🐷"},
+{w:"sheep",e:"🐑"}
+]
+},
+{
+name:"Food",
+data:[
+{w:"apple",e:"🍎"},
+{w:"banana",e:"🍌"},
+{w:"cake",e:"🍰"},
+{w:"bread",e:"🍞"}
+]
+},
+{
+name:"Color",
+data:[
+{w:"red",e:"🟥"},
+{w:"blue",e:"🟦"},
+{w:"green",e:"🟩"},
+{w:"yellow",e:"🟨"}
+]
+}
 ];
 
-const emojiMap = {
-dog:"🐶",cat:"🐱",fish:"🐟",rabbit:"🐰",lion:"🦁",tiger:"🐯",frog:"🐸",cow:"🐮",
-pig:"🐷",sheep:"🐑",chicken:"🐔",duck:"🦆",monkey:"🐵",horse:"🐴",bird:"🐦",
-apple:"🍎",banana:"🍌",orange:"🍊",grape:"🍇",cake:"🍰",bread:"🍞",
-car:"🚗",bus:"🚌",bike:"🚲",train:"🚆",plane:"✈️",
-book:"📘",pen:"🖊️",pencil:"✏️",bag:"🎒",chair:"🪑",table:"🪑",
-sun:"☀️",moon:"🌙",star:"⭐",rain:"🌧️",cloud:"☁️",
-red:"🟥",blue:"🟦",green:"🟩",yellow:"🟨",black:"⬛",white:"⬜"
-};
-
-let mode="word";
+let levelIndex=0;
 let current="";
 let score=0;
 let streak=0;
+let progress=0;
+let mode="word";
 
-function speak(text){
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang="en-US";
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
-}
-
+// ===== MODE =====
 function setMode(m){
-  mode=m;
-  m1.classList.remove("active");
-  m2.classList.remove("active");
-  m3.classList.remove("active");
+mode=m;
+m1.classList.remove("active");
+m2.classList.remove("active");
+m3.classList.remove("active");
 
-  if(m==="word") m1.classList.add("active");
-  if(m==="sentence") m2.classList.add("active");
-  if(m==="listen") m3.classList.add("active");
+if(m==="word") m1.classList.add("active");
+if(m==="sentence") m2.classList.add("active");
+if(m==="listen") m3.classList.add("active");
 
-  next();
+next();
 }
 
+// ===== SPEAK =====
+function speak(text){
+const u=new SpeechSynthesisUtterance(text);
+u.lang="en-US";
+speechSynthesis.cancel();
+speechSynthesis.speak(u);
+}
+
+function speakCurrent(){
+if(mode==="sentence"){
+speak("This is a "+current);
+}else{
+speak(current);
+}
+}
+
+// ===== NEXT =====
 function next(){
-  current = words[Math.floor(Math.random()*words.length)];
 
-  hint.innerText="";
-  options.innerHTML="";
+const lv=levels[levelIndex].data;
+const item=lv[Math.floor(Math.random()*lv.length)];
 
-  if(mode==="word"){
-    display.innerText=emojiMap[current];
-    buildWord();
-  }
+current=item.w;
+display.innerText=item.e;
 
-  if(mode==="sentence"){
-    display.innerText=emojiMap[current];
-    buildSentence();
-  }
+options.innerHTML="";
 
-  if(mode==="listen"){
-    display.innerText="🎧";
-    buildListen();
-  }
+if(mode==="word") buildWord(lv);
+if(mode==="sentence") buildSentence(lv);
+if(mode==="listen") buildListen(lv);
+
+updateUI();
 }
 
-function buildWord(){
-  let arr=[current];
+// ===== BUILD =====
+function buildWord(lv){
 
-  while(arr.length<4){
-    let w=words[Math.floor(Math.random()*words.length)];
-    if(!arr.includes(w)) arr.push(w);
-  }
+let arr=[current];
 
-  arr.sort(()=>Math.random()-0.5);
-
-  arr.forEach(a=>{
-    const b=document.createElement("button");
-    b.className="option";
-    b.innerText=a;
-    b.onclick=()=>selectWord(a,b);
-    options.appendChild(b);
-  });
+while(arr.length<4){
+let w=lv[Math.floor(Math.random()*lv.length)].w;
+if(!arr.includes(w)) arr.push(w);
 }
 
-function buildSentence(){
-  const correct="This is a "+current;
-  let arr=[correct];
+arr.sort(()=>Math.random()-0.5);
 
-  while(arr.length<3){
-    let w=words[Math.floor(Math.random()*words.length)];
-    let s="This is a "+w;
-    if(!arr.includes(s)) arr.push(s);
-  }
-
-  arr.sort(()=>Math.random()-0.5);
-
-  arr.forEach(a=>{
-    const b=document.createElement("button");
-    b.className="option";
-    b.innerText=a;
-    b.onclick=()=>selectSentence(a,b,correct);
-    options.appendChild(b);
-  });
+arr.forEach(a=>{
+let b=document.createElement("button");
+b.innerText=a;
+b.onclick=()=>check(a,b);
+options.appendChild(b);
+});
 }
 
-function buildListen(){
-  const correct=current;
-  let arr=[correct];
+function buildSentence(lv){
 
-  while(arr.length<4){
-    let w=words[Math.floor(Math.random()*words.length)];
-    if(!arr.includes(w)) arr.push(w);
-  }
+const correct="This is a "+current;
 
-  arr.sort(()=>Math.random()-0.5);
+let arr=[correct];
 
-  arr.forEach(a=>{
-    const b=document.createElement("button");
-    b.className="option";
-    b.innerText=a;
-    b.onclick=()=>selectWord(a,b);
-    options.appendChild(b);
-  });
-
-  // 不自動播放（避免iPhone被擋）
+while(arr.length<3){
+let w=lv[Math.floor(Math.random()*lv.length)].w;
+let s="This is a "+w;
+if(!arr.includes(s)) arr.push(s);
 }
 
-function selectWord(a,b){
-  if(a===current){
-    b.classList.add("correct");
-    speak(a);
+arr.sort(()=>Math.random()-0.5);
 
-    score++;
-    streak++;
-
-    feedback();
-
-    setTimeout(next,300);
-  }else{
-    b.classList.add("wrong");
-    streak=0;
-    hint.innerText="❌";
-  }
-  update();
+arr.forEach(a=>{
+let b=document.createElement("button");
+b.innerText=a;
+b.onclick=()=>checkSentence(a,b,correct);
+options.appendChild(b);
+});
 }
 
-function selectSentence(a,b,correct){
-  if(a===correct){
-    b.classList.add("correct");
-    speak(correct);
-
-    score++;
-    streak++;
-
-    feedback();
-
-    setTimeout(next,300);
-  }else{
-    b.classList.add("wrong");
-    streak=0;
-    hint.innerText="❌";
-  }
-  update();
+function buildListen(lv){
+buildWord(lv);
 }
 
-function feedback(){
-  if(streak>=10) hint.innerText="🔥 Amazing!";
-  else if(streak>=5) hint.innerText="💪 Great!";
-  else if(streak>=3) hint.innerText="👍 Nice!";
-  else hint.innerText="✅";
+// ===== CHECK =====
+function check(a,b){
+
+if(a===current){
+b.classList.add("correct");
+speak(a);
+success();
+}else{
+b.classList.add("wrong");
+fail();
 }
 
-function update(){
-  scoreEl.innerText="Score:"+score;
-  streakEl.innerText="Streak:"+streak;
+updateUI();
+}
+
+function checkSentence(a,b,correct){
+
+if(a===correct){
+b.classList.add("correct");
+speak(correct);
+success();
+}else{
+b.classList.add("wrong");
+fail();
+}
+
+updateUI();
+}
+
+// ===== LOGIC =====
+function success(){
+score++;
+streak++;
+progress++;
+
+if(progress>=5){
+levelIndex++;
+progress=0;
+
+if(levelIndex>=levels.length){
+levelIndex=0;
+}
+}
+
+setTimeout(next,300);
+}
+
+function fail(){
+streak=0;
+}
+
+// ===== UI =====
+function updateUI(){
+scoreEl.innerText="Score:"+score;
+streakEl.innerText="Streak:"+streak;
+levelEl.innerText="Level:"+(levelIndex+1);
+
+bar.style.width=(progress*20)+"%";
 }
 
 const scoreEl=document.getElementById("score");
 const streakEl=document.getElementById("streak");
+const levelEl=document.getElementById("level");
 
 next();
+
 </script>
 
 </body>
