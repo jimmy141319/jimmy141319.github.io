@@ -73,10 +73,15 @@ let lock=false;
 
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
 
-function speak(word){
+function speak(word,callback){
   const u=new SpeechSynthesisUtterance(word);
   u.lang="en-US";
   u.rate=0.8;
+
+  u.onend = () => {
+    if(callback) callback();
+  };
+
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
@@ -121,8 +126,6 @@ function choose(word){
 
     document.getElementById("hint").innerText="✅ Correct";
 
-    speak(current[0]);
-
     score++;streak++;
     if(streak>best)best=streak;
 
@@ -139,10 +142,11 @@ function choose(word){
 
     update();
 
-    setTimeout(()=>{
-      build();   // 👉 延遲後跳題（核心）
+    // 👉 等語音播完才跳題（核心）
+    speak(current[0],()=>{
+      build();
       lock=false;
-    },600);
+    });
 
   }else{
     document.getElementById("hint").innerText="❌ Wrong";
@@ -153,7 +157,6 @@ function choose(word){
 }
 
 function update(){
-  score=Math.max(0,score);
   document.getElementById("score").innerText="Score: "+score;
   document.getElementById("streak").innerText="Streak: "+streak;
   document.getElementById("best").innerText="Best: "+best;
