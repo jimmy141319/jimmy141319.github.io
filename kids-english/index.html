@@ -6,7 +6,7 @@
 <title>Jimmy Kids English</title>
 
 <style>
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef1f7;text-align:center;}
+body{margin:0;font-family:-apple-system;background:#eef1f7;text-align:center;}
 h1{font-size:60px;color:#4a78f0;margin:20px 0;}
 .subtitle{color:#666;margin-bottom:20px;}
 .top{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
@@ -15,7 +15,7 @@ h1{font-size:60px;color:#4a78f0;margin:20px 0;}
 button{border:none;border-radius:20px;padding:14px 24px;font-size:20px;margin:8px;}
 .option{background:white;color:#4a78f0;font-weight:bold;}
 .btn{background:#4a78f0;color:white;}
-.hint{margin:10px;color:#666;min-height:30px;}
+.hint{margin:10px;color:#666;min-height:30px;font-size:22px;font-weight:bold;}
 </style>
 </head>
 
@@ -80,38 +80,12 @@ function shuffle(arr){
   return [...arr].sort(()=>Math.random()-0.5);
 }
 
-function speakQueue(words, done){
+function speak(word){
+  const u = new SpeechSynthesisUtterance(word);
+  u.lang = "en-US";
+  u.rate = 0.8;
   speechSynthesis.cancel();
-
-  const items = [...words];
-  function next(){
-    if(items.length === 0){
-      if(done) done();
-      return;
-    }
-
-    const word = items.shift();
-    const u = new SpeechSynthesisUtterance(word);
-    u.lang = "en-US";
-    u.rate = 0.8;
-
-    let finished = false;
-    function endOnce(){
-      if(finished) return;
-      finished = true;
-      setTimeout(next, 80);
-    }
-
-    u.onend = endOnce;
-    u.onerror = endOnce;
-
-    speechSynthesis.speak(u);
-
-    // iPhone / Safari 保底
-    setTimeout(endOnce, Math.max(900, word.length * 220));
-  }
-
-  next();
+  speechSynthesis.speak(u);
 }
 
 function resetQueue(){
@@ -143,27 +117,23 @@ function build(){
     box.appendChild(b);
   });
 
-  document.getElementById("hint").innerText = "Choose the correct word";
-}
-
-function setButtonsDisabled(disabled){
-  document.querySelectorAll(".option").forEach(btn=>{
-    btn.disabled = disabled;
-  });
+  document.getElementById("hint").innerText = "";
 }
 
 function choose(clickedWord){
-  if(busy || !current) return;
+  if(busy) return;
   busy = true;
-  setButtonsDisabled(true);
 
   if(clickedWord === current[0]){
-    // 正確：只念你點的字，念完才進下一題
-    speakQueue([clickedWord], function(){
-      score++;
-      streak++;
-      if(streak > best) best = streak;
+    // ✅ 正確
+    document.getElementById("hint").innerText = "✅ Correct!";
+    speak(current[0]);
 
+    score++;
+    streak++;
+    if(streak > best) best = streak;
+
+    setTimeout(()=>{
       if(score % 10 === 0){
         level++;
         if(level >= levels.length){
@@ -177,24 +147,16 @@ function choose(clickedWord){
 
       update();
       build();
-      setButtonsDisabled(false);
       busy = false;
-    });
+    },700);
 
   }else{
-    // 錯誤：先念你點的字，再顯示正解，再念正解
-    speakQueue([clickedWord], function(){
-      streak = 0;
-      review.push(current);
-      update();
-
-      document.getElementById("hint").innerText = "Correct answer: " + current[0];
-
-      speakQueue([current[0]], function(){
-        setButtonsDisabled(false);
-        busy = false;
-      });
-    });
+    // ❌ 錯誤（完全不發音）
+    document.getElementById("hint").innerText = "❌ Wrong";
+    streak = 0;
+    review.push(current);
+    update();
+    busy = false;
   }
 }
 
@@ -217,7 +179,6 @@ function restart(){
   resetQueue();
   update();
   build();
-  setButtonsDisabled(false);
 }
 
 resetQueue();
