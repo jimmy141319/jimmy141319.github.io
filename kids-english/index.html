@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V4</title>
+  <title>Jimmy Kids English V5</title>
   <style>
     :root{
       --bg:#eef1f7;
@@ -88,16 +88,8 @@
       font-size:20px;
       font-weight:800;
       color:#fff;
-      background:var(--green);
-      box-shadow:var(--shadow);
-    }
-
-    .btn.secondary{
       background:var(--blue);
-    }
-
-    .btn.gray{
-      background:#7d8799;
+      box-shadow:var(--shadow);
     }
 
     .feedback{
@@ -206,28 +198,27 @@
       <div class="pill" id="levelPill">Level: 1</div>
     </div>
 
-    <div class="emoji" id="emoji">❓</div>
+    <div class="emoji" id="emoji">🐱</div>
 
     <div class="btn-row">
-      <button class="btn" onclick="manualSpeak()">🔊 Listen</button>
-      <button class="btn secondary" id="startBtn" onclick="startGame()">▶ Start</button>
-      <button class="btn gray" id="speedBtn" onclick="toggleSpeed()">🐢 Slow</button>
+      <button class="btn" id="speedBtn" onclick="toggleSpeed()">🐢 Slow</button>
+      <button class="btn" onclick="restartGame()">↺ Restart</button>
     </div>
 
     <div class="feedback" id="feedback"></div>
-    <div class="hint" id="hint">Press Start once, then the game will speak automatically.</div>
+    <div class="hint" id="hint">Tap the correct English word.</div>
 
     <div class="options" id="options"></div>
 
     <div class="panel">
       <div class="panel-title" id="panelTitle">Level Goal: 10 points</div>
-      <div class="panel-text" id="panelText">Animals → Food → Daily Things</div>
+      <div class="panel-text">Tap a word → hear it → answer the question</div>
     </div>
 
     <div class="win-box hide" id="winBox">
       <div class="win-title">🎉 You Win!</div>
       <div class="win-text">Amazing! You finished all 3 levels.</div>
-      <button class="btn secondary" onclick="restartGame()">Play Again</button>
+      <button class="btn" onclick="restartGame()">Play Again</button>
     </div>
   </div>
 
@@ -288,7 +279,6 @@
     let score = 0;
     let streak = 0;
     let best = 0;
-    let unlocked = false;
     let gameEnded = false;
     let waitingNext = false;
     let levelScore = 0;
@@ -316,28 +306,6 @@
         speedMode === "slow" ? "🐢 Slow" : "⚡ Normal";
       document.getElementById("hint").innerText =
         speedMode === "slow" ? "Slow speed selected." : "Normal speed selected.";
-      if (current && unlocked && !gameEnded) {
-        speakWord(current.word);
-      }
-    }
-
-    function manualSpeak() {
-      if (!current || gameEnded) return;
-      unlocked = true;
-      document.getElementById("hint").innerText = "Sound unlocked. The game will speak automatically.";
-      speakWord(current.word);
-    }
-
-    function startGame() {
-      unlocked = true;
-      document.getElementById("startBtn").classList.add("hide");
-      document.getElementById("hint").innerText = "Listen and choose the correct word.";
-      if (!current) {
-        resetLevelQueues();
-        newQuestion(true);
-      } else {
-        speakWord(current.word);
-      }
     }
 
     function updateHeader() {
@@ -391,14 +359,12 @@
       return shuffle([correctWord, ...others]);
     }
 
-    function newQuestion(autoSpeak = true) {
+    function newQuestion() {
       if (gameEnded) return;
 
       waitingNext = false;
       setFeedback("", "");
-      document.getElementById("hint").innerText = unlocked
-        ? "Listen and choose the correct word."
-        : "Press Start once, then the game will speak automatically.";
+      document.getElementById("hint").innerText = "Tap the correct English word.";
 
       current = getNextWord();
       document.getElementById("emoji").innerText = current.emoji;
@@ -411,17 +377,11 @@
         const btn = document.createElement("button");
         btn.className = "option";
         btn.innerText = item.word;
-        btn.onclick = () => checkAnswer(item.word);
+        btn.onclick = () => chooseWord(item.word);
         optionsEl.appendChild(btn);
       });
 
       lockOptions(false);
-
-      if (autoSpeak && unlocked) {
-        setTimeout(() => {
-          if (!gameEnded && current) speakWord(current.word);
-        }, 280);
-      }
     }
 
     function nextLevel() {
@@ -433,7 +393,7 @@
         setFeedback("🎉 Level Up!", "correct");
         document.getElementById("hint").innerText =
           "Welcome to " + levels[levelIndex].name + "!";
-        setTimeout(() => newQuestion(true), 900);
+        setTimeout(() => newQuestion(), 900);
       } else {
         winGame();
       }
@@ -454,8 +414,10 @@
       }
     }
 
-    function checkAnswer(word) {
+    function chooseWord(word) {
       if (!current || gameEnded || waitingNext) return;
+
+      speakWord(word);
 
       if (word === current.word) {
         score += 1;
@@ -465,7 +427,7 @@
 
         updateHeader();
         setFeedback("🎉 Correct!", "correct");
-        document.getElementById("hint").innerText = current.word.toUpperCase();
+        document.getElementById("hint").innerText = word.toUpperCase();
         lockOptions(true);
         waitingNext = true;
 
@@ -474,15 +436,14 @@
           return;
         }
 
-        setTimeout(() => newQuestion(true), 650);
+        setTimeout(() => newQuestion(), 650);
       } else {
         streak = 0;
         updateHeader();
         setFeedback("❌ Try again", "wrong");
         document.getElementById("hint").innerText =
-          "Wrong word added to review. Listen carefully.";
+          "Wrong word added to review. Tap again.";
         addToReviewQueue(current);
-        if (unlocked) speakWord(current.word);
       }
     }
 
@@ -492,7 +453,6 @@
       score = 0;
       streak = 0;
       best = 0;
-      unlocked = false;
       gameEnded = false;
       waitingNext = false;
       levelScore = 0;
@@ -504,16 +464,18 @@
 
       document.getElementById("speedBtn").innerText = "🐢 Slow";
       document.getElementById("winBox").classList.add("hide");
-      document.getElementById("startBtn").classList.remove("hide");
       document.getElementById("emoji").innerText = "❓";
       document.getElementById("options").innerHTML = "";
-      document.getElementById("hint").innerText =
-        "Press Start once, then the game will speak automatically.";
+      document.getElementById("hint").innerText = "Tap the correct English word.";
       setFeedback("", "");
       updateHeader();
+      resetLevelQueues();
+      newQuestion();
     }
 
     updateHeader();
+    resetLevelQueues();
+    newQuestion();
   </script>
 </body>
 </html>
