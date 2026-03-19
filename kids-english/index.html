@@ -1,185 +1,808 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jimmy Kids English Pro</title>
-
-<style>
-body{margin:0;font-family:-apple-system;background:#eef1f7;text-align:center}
-h1{color:#4a78f0;margin:10px 0}
-.row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px}
-.pill,.btn{padding:10px 16px;border-radius:16px;border:none;font-weight:bold}
-.pill{background:#fff}
-.btn{background:#64748b;color:#fff}
-.active{background:#4a78f0;color:#fff}
-.option{margin:10px auto;padding:16px;border-radius:16px;background:#fff;width:80%;font-size:20px}
-.correct{background:#12b76a;color:#fff}
-.wrong{background:#ef4444;color:#fff}
-.stage{background:#fff;margin:10px;padding:20px;border-radius:20px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimmy Kids English V20.1</title>
+  <style>
+    :root{
+      --bg:#eef1f7;
+      --card:#ffffff;
+      --blue:#4a78f0;
+      --blue2:#7a9cff;
+      --green:#12b76a;
+      --red:#ef4444;
+      --gold:#f4b400;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      text-align:center;
+    }
+    .wrap{
+      max-width:960px;
+      margin:0 auto;
+      padding:16px 14px 36px;
+    }
+    h1{
+      margin:10px 0 6px;
+      font-size:clamp(34px,7vw,56px);
+      color:var(--blue);
+    }
+    .sub{
+      color:var(--muted);
+      margin-bottom:14px;
+      font-size:15px;
+    }
+    .row{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .pill,.btn,.level-btn{
+      border:none;
+      border-radius:18px;
+      padding:12px 18px;
+      font-size:16px;
+      font-weight:700;
+      box-shadow:var(--shadow);
+    }
+    .pill{
+      background:var(--card);
+      color:var(--text);
+      min-width:102px;
+    }
+    .btn{
+      background:#64748b;
+      color:#fff;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:var(--blue);
+    }
+    .btn.unlock{
+      background:#10b981;
+    }
+    .mode-btn{
+      background:#fff;
+      color:var(--blue);
+    }
+    .mode-btn.active,
+    .level-btn.active{
+      background:var(--blue);
+      color:#fff;
+    }
+    .level-btn{
+      background:#fff;
+      color:var(--blue);
+      min-width:62px;
+      cursor:pointer;
+    }
+    .level-btn.locked{
+      background:#e5e7eb;
+      color:#9ca3af;
+    }
+    .stage{
+      background:rgba(255,255,255,.72);
+      border-radius:26px;
+      padding:18px 14px 24px;
+      box-shadow:var(--shadow);
+      min-height:600px;
+      transition:opacity .16s ease, transform .16s ease;
+    }
+    .stage.switching{
+      opacity:.45;
+      transform:translateY(4px);
+    }
+    .badge{
+      display:inline-block;
+      background:#fff;
+      color:var(--muted);
+      border-radius:999px;
+      padding:8px 16px;
+      font-weight:700;
+      box-shadow:var(--shadow);
+      margin-bottom:10px;
+    }
+    .cue{
+      min-height:142px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:92px;
+      margin:8px 0 10px;
+      user-select:none;
+      padding:0 10px;
+      line-height:1.35;
+    }
+    .cue.text{
+      font-size:24px;
+      color:var(--blue);
+      font-weight:800;
+      min-height:110px;
+    }
+    .hint{
+      min-height:36px;
+      font-size:24px;
+      font-weight:800;
+      margin:8px 0 10px;
+    }
+    .hint.ok{color:var(--green)}
+    .hint.bad{color:var(--red)}
+    .progress-wrap{
+      width:min(100%,580px);
+      margin:8px auto 16px;
+      text-align:left;
+    }
+    .progress-label{
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .progress-bar{
+      width:100%;
+      height:12px;
+      background:#dbe3f3;
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .progress-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--blue),var(--blue2));
+      transition:width .18s ease;
+    }
+    .options{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+    }
+    .option{
+      width:min(100%,620px);
+      border:none;
+      border-radius:20px;
+      background:#fff;
+      color:var(--text);
+      font-size:19px;
+      font-weight:700;
+      padding:16px 16px;
+      box-shadow:var(--shadow);
+      transition:transform .12s ease, background .16s ease, color .16s ease;
+      line-height:1.45;
+      cursor:pointer;
+    }
+    .option:active{transform:scale(.985)}
+    .option.correct{
+      background:var(--green);
+      color:#fff;
+      transform:scale(1.02);
+    }
+    .option.wrong{
+      background:var(--red);
+      color:#fff;
+    }
+    .option:disabled{
+      opacity:.98;
+      cursor:default;
+    }
+    .footer{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+    .pro-note{
+      margin-top:10px;
+      color:#92400e;
+      font-size:14px;
+      font-weight:700;
+    }
+    @media (max-width:560px){
+      .pill{min-width:92px}
+      .option{font-size:18px}
+      .cue{font-size:82px}
+      .cue.text{font-size:21px}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <h1>Jimmy Kids English</h1>
+    <div class="sub">V20.1 · Big Content Version</div>
 
-<h1>Jimmy Kids English</h1>
+    <div class="row">
+      <div class="pill" id="scoreBox">Score: 0</div>
+      <div class="pill" id="streakBox">Streak: 0</div>
+      <div class="pill" id="bestBox">Best: 0</div>
+      <div class="pill" id="levelBox">Level: 1</div>
+      <div class="pill" id="categoryBox">Animals</div>
+    </div>
 
-<div class="row">
-<div class="pill" id="score">Score:0</div>
-<div class="pill" id="streak">Streak:0</div>
-<div class="pill" id="level">Level:1</div>
-</div>
+    <div class="row" id="levelsBar"></div>
 
-<div class="row" id="levels"></div>
+    <div class="row">
+      <button class="pill mode-btn active" id="wordBtn">Word</button>
+      <button class="pill mode-btn" id="sentenceBtn">Sentence</button>
+      <button class="pill mode-btn" id="listeningBtn">Listening</button>
+      <button class="btn" id="replayBtn">🔊 Replay</button>
+      <button class="btn" id="restartBtn">↺ Restart</button>
+      <button class="btn unlock" id="unlockBtn">🔓 Unlock Full Version</button>
+    </div>
 
-<div class="row">
-<button class="pill active" onclick="setMode('word')" id="wordBtn">Word</button>
-<button class="pill" onclick="setMode('sentence')" id="sentenceBtn">Sentence</button>
-<button class="btn" onclick="replay()">🔊</button>
-<button class="btn" onclick="restart()">↺</button>
-</div>
+    <div class="stage" id="stage">
+      <div class="badge" id="modeLabel">Word Mode</div>
+      <div class="cue" id="cue">❓</div>
+      <div class="hint" id="hint"></div>
 
-<div>
-<button onclick="buy()" style="background:#10b981;color:#fff;padding:12px 20px;border:none;border-radius:14px;font-size:16px">
-🔓 Unlock Full Version
-</button>
-</div>
+      <div class="progress-wrap">
+        <div class="progress-label" id="progressLabel">Level progress: 0 / 10</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
 
-<div class="stage">
-<div id="emoji" style="font-size:80px">🐶</div>
-<div id="options"></div>
-</div>
+      <div class="options" id="options"></div>
+      <div class="footer" id="footer">Look at the picture and choose the correct word.</div>
+      <div class="pro-note" id="proNote"></div>
+    </div>
+  </div>
 
-<script>
-const LEVELS=[
-{name:"Animals",items:["dog","cat","lion","tiger","cow","pig","sheep","horse","duck","chicken"]},
-{name:"Food",items:["apple","banana","cake","pizza","milk","egg"]},
-{name:"School",items:["book","pen","bag","chair","desk"]},
-{name:"Daily",items:["car","bus","phone","ball","bed"]},
-{name:"Colors",items:["red","blue","green","yellow"]}
-];
+  <script>
+    const LEVELS = [
+      {
+        name: "Animals",
+        target: 10,
+        items: [
+          { text:"dog", emoji:"🐶", type:"noun" },
+          { text:"cat", emoji:"🐱", type:"noun" },
+          { text:"lion", emoji:"🦁", type:"noun" },
+          { text:"tiger", emoji:"🐯", type:"noun" },
+          { text:"rabbit", emoji:"🐰", type:"noun" },
+          { text:"cow", emoji:"🐮", type:"noun" },
+          { text:"pig", emoji:"🐷", type:"noun" },
+          { text:"sheep", emoji:"🐑", type:"noun" },
+          { text:"horse", emoji:"🐴", type:"noun" },
+          { text:"duck", emoji:"🦆", type:"noun" },
+          { text:"chicken", emoji:"🐔", type:"noun" },
+          { text:"frog", emoji:"🐸", type:"noun" },
+          { text:"monkey", emoji:"🐵", type:"noun" },
+          { text:"bird", emoji:"🐦", type:"noun" },
+          { text:"fish", emoji:"🐟", type:"noun" },
+          { text:"elephant", emoji:"🐘", type:"noun" },
+          { text:"giraffe", emoji:"🦒", type:"noun" },
+          { text:"bear", emoji:"🐻", type:"noun" },
+          { text:"panda", emoji:"🐼", type:"noun" },
+          { text:"snake", emoji:"🐍", type:"noun" }
+        ]
+      },
+      {
+        name: "Food",
+        target: 10,
+        items: [
+          { text:"apple", emoji:"🍎", type:"noun" },
+          { text:"banana", emoji:"🍌", type:"noun" },
+          { text:"orange", emoji:"🍊", type:"noun" },
+          { text:"grape", emoji:"🍇", type:"noun" },
+          { text:"watermelon", emoji:"🍉", type:"noun" },
+          { text:"pear", emoji:"🍐", type:"noun" },
+          { text:"peach", emoji:"🍑", type:"noun" },
+          { text:"bread", emoji:"🍞", type:"noun" },
+          { text:"cake", emoji:"🍰", type:"noun" },
+          { text:"pizza", emoji:"🍕", type:"noun" },
+          { text:"rice", emoji:"🍚", type:"noun" },
+          { text:"noodles", emoji:"🍜", type:"noun" },
+          { text:"egg", emoji:"🥚", type:"noun" },
+          { text:"milk", emoji:"🥛", type:"noun" },
+          { text:"juice", emoji:"🧃", type:"noun" },
+          { text:"ice cream", emoji:"🍦", type:"noun" },
+          { text:"cookie", emoji:"🍪", type:"noun" },
+          { text:"hamburger", emoji:"🍔", type:"noun" },
+          { text:"hot dog", emoji:"🌭", type:"noun" },
+          { text:"chocolate", emoji:"🍫", type:"noun" }
+        ]
+      },
+      {
+        name: "School",
+        target: 10,
+        items: [
+          { text:"book", emoji:"📘", type:"noun" },
+          { text:"pen", emoji:"🖊️", type:"noun" },
+          { text:"pencil", emoji:"✏️", type:"noun" },
+          { text:"bag", emoji:"🎒", type:"noun" },
+          { text:"chair", emoji:"🪑", type:"noun" },
+          { text:"table", emoji:"🪑", type:"noun" },
+          { text:"desk", emoji:"🪑", type:"noun" },
+          { text:"teacher", emoji:"👩‍🏫", type:"noun" },
+          { text:"student", emoji:"🧑‍🎓", type:"noun" },
+          { text:"classroom", emoji:"🏫", type:"noun" },
+          { text:"school", emoji:"🏫", type:"noun" },
+          { text:"clock", emoji:"🕒", type:"noun" },
+          { text:"computer", emoji:"💻", type:"noun" },
+          { text:"paper", emoji:"📄", type:"noun" },
+          { text:"eraser", emoji:"🧽", type:"noun" },
+          { text:"ruler", emoji:"📏", type:"noun" },
+          { text:"box", emoji:"📦", type:"noun" },
+          { text:"door", emoji:"🚪", type:"noun" },
+          { text:"window", emoji:"🪟", type:"noun" },
+          { text:"board", emoji:"🟩", type:"noun" }
+        ]
+      },
+      {
+        name: "Daily Things",
+        target: 10,
+        items: [
+          { text:"car", emoji:"🚗", type:"noun" },
+          { text:"bus", emoji:"🚌", type:"noun" },
+          { text:"bike", emoji:"🚲", type:"noun" },
+          { text:"train", emoji:"🚆", type:"noun" },
+          { text:"phone", emoji:"📱", type:"noun" },
+          { text:"ball", emoji:"⚽", type:"noun" },
+          { text:"cup", emoji:"☕", type:"noun" },
+          { text:"bottle", emoji:"🍼", type:"noun" },
+          { text:"plate", emoji:"🍽️", type:"noun" },
+          { text:"spoon", emoji:"🥄", type:"noun" },
+          { text:"bed", emoji:"🛏️", type:"noun" },
+          { text:"key", emoji:"🔑", type:"noun" },
+          { text:"watch", emoji:"⌚", type:"noun" },
+          { text:"hat", emoji:"🧢", type:"noun" },
+          { text:"shirt", emoji:"👕", type:"noun" },
+          { text:"pants", emoji:"👖", type:"noun" },
+          { text:"shoes", emoji:"👟", type:"noun" },
+          { text:"toy", emoji:"🧸", type:"noun" },
+          { text:"lamp", emoji:"💡", type:"noun" },
+          { text:"box", emoji:"📦", type:"noun" }
+        ]
+      },
+      {
+        name: "Colors",
+        target: 8,
+        items: [
+          { text:"red", emoji:"🟥", type:"color" },
+          { text:"blue", emoji:"🟦", type:"color" },
+          { text:"green", emoji:"🟩", type:"color" },
+          { text:"yellow", emoji:"🟨", type:"color" },
+          { text:"black", emoji:"⬛", type:"color" },
+          { text:"white", emoji:"⬜", type:"color" },
+          { text:"pink", emoji:"🩷", type:"color" },
+          { text:"purple", emoji:"🟪", type:"color" }
+        ]
+      },
+      {
+        name: "Family",
+        target: 8,
+        items: [
+          { text:"father", emoji:"👨", type:"noun" },
+          { text:"mother", emoji:"👩", type:"noun" },
+          { text:"brother", emoji:"👦", type:"noun" },
+          { text:"sister", emoji:"👧", type:"noun" },
+          { text:"baby", emoji:"👶", type:"noun" },
+          { text:"grandpa", emoji:"👴", type:"noun" },
+          { text:"grandma", emoji:"👵", type:"noun" },
+          { text:"family", emoji:"👨‍👩‍👧‍👦", type:"noun" }
+        ]
+      },
+      {
+        name: "Actions",
+        target: 8,
+        items: [
+          { text:"run", emoji:"🏃", type:"action" },
+          { text:"walk", emoji:"🚶", type:"action" },
+          { text:"jump", emoji:"🤾", type:"action" },
+          { text:"sit", emoji:"🪑", type:"action" },
+          { text:"stand", emoji:"🧍", type:"action" },
+          { text:"eat", emoji:"🍽️", type:"action" },
+          { text:"drink", emoji:"🥤", type:"action" },
+          { text:"sleep", emoji:"😴", type:"action" },
+          { text:"read", emoji:"📖", type:"action" },
+          { text:"write", emoji:"✍️", type:"action" }
+        ]
+      }
+    ];
 
-let isPro=localStorage.getItem("pro")=="yes";
+    const state = {
+      mode: "word",
+      currentLevel: 0,
+      unlockedLevel: 0,
+      score: 0,
+      streak: 0,
+      best: 0,
+      levelProgress: 0,
+      queue: [],
+      current: null,
+      lock: false,
+      speechUnlocked: false
+    };
 
-function buy(){
-window.open("https://gumroad.com"); //換成你的連結
-}
+    const isPro = () => localStorage.getItem("proUnlocked") === "yes";
 
-function unlock(){
-let code=prompt("Enter code");
-if(code=="jimmy123"){
-localStorage.setItem("pro","yes");
-alert("Unlocked!");
-location.reload();
-}else{
-alert("Wrong code");
-}
-}
+    const els = {
+      scoreBox: document.getElementById("scoreBox"),
+      streakBox: document.getElementById("streakBox"),
+      bestBox: document.getElementById("bestBox"),
+      levelBox: document.getElementById("levelBox"),
+      categoryBox: document.getElementById("categoryBox"),
+      levelsBar: document.getElementById("levelsBar"),
+      wordBtn: document.getElementById("wordBtn"),
+      sentenceBtn: document.getElementById("sentenceBtn"),
+      listeningBtn: document.getElementById("listeningBtn"),
+      replayBtn: document.getElementById("replayBtn"),
+      restartBtn: document.getElementById("restartBtn"),
+      unlockBtn: document.getElementById("unlockBtn"),
+      stage: document.getElementById("stage"),
+      modeLabel: document.getElementById("modeLabel"),
+      cue: document.getElementById("cue"),
+      hint: document.getElementById("hint"),
+      progressLabel: document.getElementById("progressLabel"),
+      progressFill: document.getElementById("progressFill"),
+      options: document.getElementById("options"),
+      footer: document.getElementById("footer"),
+      proNote: document.getElementById("proNote")
+    };
 
-document.querySelector("button").onclick=unlock;
+    function save(){
+      localStorage.setItem("jimmyKidsV201", JSON.stringify({
+        mode: state.mode,
+        currentLevel: state.currentLevel,
+        unlockedLevel: state.unlockedLevel,
+        score: state.score,
+        streak: state.streak,
+        best: state.best,
+        levelProgress: state.levelProgress
+      }));
+    }
 
-let state={
-level:0,
-score:0,
-streak:0,
-mode:"word",
-current:null
-};
+    function load(){
+      try{
+        const raw = localStorage.getItem("jimmyKidsV201");
+        if(!raw) return;
+        const d = JSON.parse(raw);
+        if(typeof d.mode === "string") state.mode = d.mode;
+        if(Number.isInteger(d.currentLevel)) state.currentLevel = Math.max(0, Math.min(d.currentLevel, LEVELS.length - 1));
+        if(Number.isInteger(d.unlockedLevel)) state.unlockedLevel = Math.max(0, Math.min(d.unlockedLevel, LEVELS.length - 1));
+        if(Number.isInteger(d.score)) state.score = d.score;
+        if(Number.isInteger(d.streak)) state.streak = d.streak;
+        if(Number.isInteger(d.best)) state.best = d.best;
+        if(Number.isInteger(d.levelProgress)) state.levelProgress = d.levelProgress;
+      }catch(e){}
+    }
 
-function renderLevels(){
-let el=document.getElementById("levels");
-el.innerHTML="";
-LEVELS.forEach((l,i)=>{
-let b=document.createElement("button");
-b.innerText="L"+(i+1);
-b.className="pill";
-if(i==state.level)b.classList.add("active");
-b.onclick=()=>{
-if(!isPro && i>0){alert("Unlock to continue");return;}
-state.level=i;
-next();
-};
-el.appendChild(b);
-});
-}
+    function shuffle(arr){
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
 
-function setMode(m){
-state.mode=m;
-document.getElementById("wordBtn").classList.toggle("active",m=="word");
-document.getElementById("sentenceBtn").classList.toggle("active",m=="sentence");
-next();
-}
+    function articleFor(word){
+      return /^[aeiou]/i.test(word) ? "an" : "a";
+    }
 
-function next(){
-let list=LEVELS[state.level].items;
-state.current=list[Math.floor(Math.random()*list.length)];
+    function ingForm(base){
+      const map = {
+        run:"running",
+        swim:"swimming",
+        sit:"sitting",
+        write:"writing"
+      };
+      if(map[base]) return map[base];
+      if(base.endsWith("e")) return base.slice(0,-1) + "ing";
+      return base + "ing";
+    }
 
-document.getElementById("emoji").innerText="❓";
+    function makeSentence(item){
+      if(item.type === "color"){
+        return `It is ${item.text}.`;
+      }
+      if(item.type === "action"){
+        return `He is ${ingForm(item.text)}.`;
+      }
+      return `This is ${articleFor(item.text)} ${item.text}.`;
+    }
 
-let correct=state.current;
+    function markInteraction(){
+      state.speechUnlocked = true;
+    }
 
-let opts=[correct];
-while(opts.length<4){
-let r=list[Math.floor(Math.random()*list.length)];
-if(!opts.includes(r))opts.push(r);
-}
-opts.sort(()=>Math.random()-0.5);
+    function speak(text){
+      if(!state.speechUnlocked) return;
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      u.rate = 0.9;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    }
 
-let box=document.getElementById("options");
-box.innerHTML="";
+    function unlockPro(){
+      markInteraction();
+      const code = prompt("Enter unlock code:");
+      if(code === "jimmy123"){
+        localStorage.setItem("proUnlocked","yes");
+        alert("Unlocked!");
+        location.reload();
+      }else if(code){
+        alert("Wrong code");
+      }
+    }
 
-opts.forEach(o=>{
-let btn=document.createElement("div");
-btn.className="option";
-btn.innerText=state.mode=="word"?o:"This is a "+o;
-btn.onclick=()=>check(o,correct,btn);
-box.appendChild(btn);
-});
+    function currentPack(){
+      return LEVELS[state.currentLevel];
+    }
 
-update();
-}
+    function prepareQueue(){
+      state.queue = shuffle(currentPack().items);
+    }
 
-function check(sel,correct,btn){
-if(sel==correct){
-btn.classList.add("correct");
-state.score++;
-state.streak++;
-speak(correct);
-setTimeout(next,400);
-}else{
-btn.classList.add("wrong");
-state.streak=0;
-setTimeout(()=>btn.classList.remove("wrong"),300);
-}
-update();
-}
+    function nextItem(){
+      if(state.queue.length === 0) prepareQueue();
+      state.current = state.queue.shift();
+    }
 
-function speak(t){
-let u=new SpeechSynthesisUtterance(t);
-u.lang="en-US";
-speechSynthesis.speak(u);
-}
+    function updateModeButtons(){
+      els.wordBtn.classList.toggle("active", state.mode === "word");
+      els.sentenceBtn.classList.toggle("active", state.mode === "sentence");
+      els.listeningBtn.classList.toggle("active", state.mode === "listening");
+    }
 
-function replay(){
-speak(state.current);
-}
+    function updateHeader(){
+      els.scoreBox.innerText = `Score: ${state.score}`;
+      els.streakBox.innerText = `Streak: ${state.streak}`;
+      els.bestBox.innerText = `Best: ${state.best}`;
+      els.levelBox.innerText = `Level: ${state.currentLevel + 1}`;
+      els.categoryBox.innerText = currentPack().name;
+      els.modeLabel.innerText =
+        state.mode === "word" ? "Word Mode" :
+        state.mode === "sentence" ? "Sentence Mode" : "Listening Mode";
 
-function restart(){
-state.score=0;
-state.streak=0;
-state.level=0;
-next();
-}
+      els.progressLabel.innerText = `Level progress: ${state.levelProgress} / ${currentPack().target}`;
+      els.progressFill.style.width = `${(state.levelProgress / currentPack().target) * 100}%`;
 
-function update(){
-document.getElementById("score").innerText="Score:"+state.score;
-document.getElementById("streak").innerText="Streak:"+state.streak;
-document.getElementById("level").innerText="Level:"+(state.level+1);
-}
+      els.proNote.innerText = isPro()
+        ? "✅ Full version unlocked"
+        : "Free version: only Level 1 is open. Unlock to play all levels.";
 
-renderLevels();
-next();
-</script>
+      updateModeButtons();
+      renderLevels();
+    }
 
+    function renderLevels(){
+      els.levelsBar.innerHTML = "";
+      LEVELS.forEach((lv, i) => {
+        const btn = document.createElement("button");
+        btn.className = "level-btn";
+        btn.innerText = `L${i+1}`;
+        if(i === state.currentLevel) btn.classList.add("active");
+        if(!isPro() && i > 0) btn.classList.add("locked");
+        btn.onclick = () => {
+          markInteraction();
+          if(!isPro() && i > 0){
+            alert("Unlock Full Version to open more levels.");
+            return;
+          }
+          state.currentLevel = i;
+          state.levelProgress = 0;
+          prepareQueue();
+          switchStage(buildQuestion);
+        };
+        els.levelsBar.appendChild(btn);
+      });
+    }
+
+    function switchStage(fn){
+      els.stage.classList.add("switching");
+      setTimeout(() => {
+        fn();
+        els.stage.classList.remove("switching");
+      }, 140);
+    }
+
+    function disableOptions(disabled){
+      document.querySelectorAll(".option").forEach(btn => btn.disabled = disabled);
+    }
+
+    function buildWordOptions(){
+      const correct = state.current.text;
+      const others = shuffle(currentPack().items.filter(x => x.text !== correct)).slice(0,3).map(x => x.text);
+      const choices = shuffle([correct, ...others]);
+
+      choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = choice;
+        btn.onclick = () => handleChoice(choice, correct, btn, correct);
+        els.options.appendChild(btn);
+      });
+
+      els.footer.innerText = "Look at the picture and choose the correct word.";
+    }
+
+    function buildSentenceOptions(){
+      const correct = makeSentence(state.current);
+      const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text)).slice(0,2).map(makeSentence);
+      const choices = shuffle([correct, ...others]);
+
+      choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = choice;
+        btn.onclick = () => handleChoice(choice, correct, btn, correct);
+        els.options.appendChild(btn);
+      });
+
+      els.footer.innerText = "Look at the picture and choose the best sentence.";
+    }
+
+    function buildListeningOptions(){
+      const correctSentence = makeSentence(state.current);
+      const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text)).slice(0,2).map(makeSentence);
+      const choices = shuffle([correctSentence, ...others]);
+
+      choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = choice;
+        btn.onclick = () => handleChoice(choice, correctSentence, btn, correctSentence);
+        els.options.appendChild(btn);
+      });
+
+      els.footer.innerText = "Tap Replay, listen, then choose the correct sentence.";
+    }
+
+    function buildQuestion(){
+      nextItem();
+      updateHeader();
+      els.hint.className = "hint";
+      els.hint.innerText = "";
+      els.options.innerHTML = "";
+
+      if(state.mode === "listening"){
+        els.cue.className = "cue text";
+        els.cue.innerText = "🎧 Listen and choose.";
+        buildListeningOptions();
+      } else {
+        els.cue.className = "cue";
+        els.cue.innerText = state.current.emoji;
+        if(state.mode === "word"){
+          buildWordOptions();
+        } else {
+          buildSentenceOptions();
+        }
+      }
+
+      save();
+    }
+
+    function levelUpIfNeeded(){
+      if(state.levelProgress < currentPack().target) return false;
+
+      if(state.currentLevel < LEVELS.length - 1){
+        if(!isPro() && state.currentLevel >= 0){
+          state.levelProgress = 0;
+          prepareQueue();
+          alert("🎉 Level 1 complete! Unlock Full Version to continue.");
+          return false;
+        }
+
+        state.unlockedLevel = Math.max(state.unlockedLevel, state.currentLevel + 1);
+        state.currentLevel += 1;
+        state.levelProgress = 0;
+        prepareQueue();
+        return true;
+      }
+
+      state.levelProgress = 0;
+      prepareQueue();
+      alert("🎉 Great job! You finished all levels.");
+      return false;
+    }
+
+    function correctMessage(){
+      if(state.streak >= 10) return "🔥 Amazing!";
+      if(state.streak >= 5) return "💪 Great!";
+      if(state.streak >= 3) return "👍 Nice!";
+      return "✅ Correct";
+    }
+
+    function handleChoice(selected, correct, button, speakText){
+      if(state.lock) return;
+      state.lock = true;
+      disableOptions(true);
+      markInteraction();
+
+      if(selected === correct){
+        button.classList.add("correct");
+
+        state.score += 1;
+        state.streak += 1;
+        state.levelProgress += 1;
+        if(state.streak > state.best) state.best = state.streak;
+
+        const leveled = levelUpIfNeeded();
+
+        els.hint.className = "hint ok";
+        els.hint.innerText = leveled ? "🎉 Level Up!" : correctMessage();
+
+        updateHeader();
+        save();
+
+        speak(speakText);
+
+        setTimeout(() => {
+          switchStage(() => {
+            buildQuestion();
+            disableOptions(false);
+            state.lock = false;
+          });
+        }, 330);
+
+      } else {
+        button.classList.add("wrong");
+        els.hint.className = "hint bad";
+        els.hint.innerText = "❌ Try again";
+
+        state.streak = 0;
+        updateHeader();
+        save();
+
+        setTimeout(() => {
+          button.classList.remove("wrong");
+          disableOptions(false);
+          state.lock = false;
+        }, 320);
+      }
+    }
+
+    function setMode(mode){
+      markInteraction();
+      if(state.mode === mode) return;
+      state.mode = mode;
+      state.lock = false;
+      speechSynthesis.cancel();
+      prepareQueue();
+      switchStage(buildQuestion);
+    }
+
+    function replayCurrent(){
+      markInteraction();
+      if(!state.current) return;
+      if(state.mode === "word"){
+        speak(state.current.text);
+      } else {
+        speak(makeSentence(state.current));
+      }
+    }
+
+    function restartAll(){
+      markInteraction();
+      speechSynthesis.cancel();
+      state.mode = "word";
+      state.currentLevel = 0;
+      state.unlockedLevel = 0;
+      state.score = 0;
+      state.streak = 0;
+      state.best = 0;
+      state.levelProgress = 0;
+      state.lock = false;
+      prepareQueue();
+      switchStage(buildQuestion);
+    }
+
+    els.wordBtn.onclick = () => setMode("word");
+    els.sentenceBtn.onclick = () => setMode("sentence");
+    els.listeningBtn.onclick = () => setMode("listening");
+    els.replayBtn.onclick = replayCurrent;
+    els.restartBtn.onclick = restartAll;
+    els.unlockBtn.onclick = unlockPro;
+
+    load();
+    updateHeader();
+    prepareQueue();
+    buildQuestion();
+  </script>
 </body>
 </html>
