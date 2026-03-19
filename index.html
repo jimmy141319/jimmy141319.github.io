@@ -1,354 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V2</title>
-  <style>
-    :root{
-      --bg:#eef1f7;
-      --blue:#4a78f0;
-      --green:#0aa84f;
-      --red:#d64545;
-      --text:#1f2430;
-      --soft:#ffffff;
-      --shadow:0 6px 18px rgba(0,0,0,0.08);
-      --radius:22px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JimmyStudio</title>
 
-    *{
-      box-sizing:border-box;
-    }
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont;
+  background:#eef1f7;
+  color:#1f2937;
+}
 
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      text-align:center;
-    }
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:30px 16px 50px;
+}
 
-    .wrap{
-      max-width:760px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
+/* HEADER */
+.header{
+  text-align:center;
+  margin-bottom:30px;
+}
 
-    h1{
-      margin:8px 0 6px;
-      font-size:clamp(38px, 9vw, 78px);
-      line-height:1.05;
-      color:var(--blue);
-      font-weight:800;
-    }
+h1{
+  font-size:42px;
+  margin:10px 0;
+  color:#4f46e5;
+}
 
-    .sub{
-      margin:0 0 18px;
-      font-size:16px;
-      color:#6d7485;
-    }
+.sub{
+  color:#6b7280;
+  font-size:16px;
+}
 
-    .topbar{
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin:8px 0 18px;
-    }
+/* DASH STATS */
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:25px 0;
+}
 
-    .pill{
-      background:var(--soft);
-      border-radius:999px;
-      padding:10px 16px;
-      box-shadow:var(--shadow);
-      font-size:18px;
-      font-weight:700;
-    }
+.stat{
+  background:white;
+  padding:12px 18px;
+  border-radius:14px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
+  font-weight:600;
+}
 
-    .emoji{
-      font-size:110px;
-      margin:28px 0 16px;
-      min-height:130px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+/* PRODUCT GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+  margin-top:20px;
+}
 
-    .btn-listen,
-    .btn-start,
-    .btn-restart{
-      border:none;
-      border-radius:18px;
-      padding:16px 28px;
-      font-size:22px;
-      font-weight:700;
-      color:#fff;
-      background:var(--green);
-      box-shadow:var(--shadow);
-    }
+.card{
+  background:white;
+  padding:22px;
+  border-radius:20px;
+  box-shadow:0 12px 24px rgba(0,0,0,0.08);
+  text-align:center;
+}
 
-    .btn-start,
-    .btn-restart{
-      margin-top:12px;
-    }
+.card h3{
+  margin-bottom:8px;
+  font-size:22px;
+}
 
-    .feedback{
-      min-height:36px;
-      margin:18px 0 8px;
-      font-size:28px;
-      font-weight:800;
-    }
+.status{
+  font-size:13px;
+  margin-bottom:12px;
+  color:#6b7280;
+}
 
-    .feedback.correct{
-      color:var(--green);
-    }
+.btn{
+  display:inline-block;
+  margin-top:10px;
+  padding:12px 18px;
+  border-radius:12px;
+  background:#10b981;
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
 
-    .feedback.wrong{
-      color:var(--red);
-    }
+.btn.gray{
+  background:#9ca3af;
+}
 
-    .hint{
-      min-height:24px;
-      margin:0 0 18px;
-      font-size:16px;
-      color:#6d7485;
-    }
+.btn.line{
+  background:#06c755;
+}
 
-    .options{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-top:20px;
-    }
+/* SECTION */
+.section{
+  margin-top:50px;
+  text-align:center;
+}
 
-    .option{
-      min-width:126px;
-      border:none;
-      border-radius:20px;
-      padding:14px 18px;
-      font-size:18px;
-      background:#fff;
-      color:var(--blue);
-      box-shadow:var(--shadow);
-      font-weight:700;
-    }
+.section h2{
+  margin-bottom:10px;
+}
 
-    .option:disabled{
-      opacity:0.7;
-    }
-
-    .win-box{
-      margin-top:22px;
-      background:#fff;
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      padding:22px 18px;
-    }
-
-    .win-title{
-      font-size:34px;
-      font-weight:900;
-      color:var(--green);
-      margin-bottom:10px;
-    }
-
-    .win-text{
-      font-size:18px;
-      color:#4f5668;
-      margin-bottom:8px;
-    }
-
-    .hide{
-      display:none;
-    }
-  </style>
+/* FOOTER */
+.footer{
+  margin-top:60px;
+  text-align:center;
+  color:#6b7280;
+  font-size:14px;
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>Jimmy Kids English</h1>
-    <p class="sub">Level 1 · Animals</p>
 
-    <div class="topbar">
-      <div class="pill" id="score">Score: 0</div>
-      <div class="pill" id="streak">Streak: 0</div>
-      <div class="pill" id="best">Best: 0</div>
-    </div>
+<div class="container">
 
-    <div class="emoji" id="emoji">🐱</div>
+<!-- HEADER -->
+<div class="header">
+  <h1>JimmyStudio</h1>
+  <div class="sub">
+    Building simple products that generate real income<br>
+    打造能真正產生現金流的產品
+  </div>
+</div>
 
-    <button class="btn-listen" id="listenBtn" onclick="manualSpeak()">🔊 Listen</button>
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">🚀 Products: 2</div>
+  <div class="stat">💰 Monetized: Yes</div>
+  <div class="stat">📦 Status: Active</div>
+</div>
 
-    <div class="feedback" id="feedback"></div>
-    <div class="hint" id="hint">Press Start once, then the game will speak automatically.</div>
+<!-- PRODUCTS -->
+<div class="grid">
 
-    <button class="btn-start" id="startBtn" onclick="startGame()">▶ Start</button>
-
-    <div class="options" id="options"></div>
-
-    <div class="win-box hide" id="winBox">
-      <div class="win-title">🎉 You Win!</div>
-      <div class="win-text">Great job! You reached 10 points.</div>
-      <button class="btn-restart" onclick="restartGame()">Play Again</button>
-    </div>
+  <!-- Kids English -->
+  <div class="card">
+    <h3>Kids English</h3>
+    <div class="status">🟢 Live · Digital Product</div>
+    <p>AI 英文學習遊戲（已上線）</p>
+    <a class="btn" href="https://jimmy141319.github.io/guide-quiz/">Start</a>
   </div>
 
-  <script>
-    const words = [
-      { word: "cat", emoji: "🐱" },
-      { word: "dog", emoji: "🐶" },
-      { word: "bird", emoji: "🐦" },
-      { word: "fish", emoji: "🐟" },
-      { word: "rabbit", emoji: "🐰" }
-    ];
+  <!-- Mustar -->
+  <div class="card">
+    <h3>Mustar</h3>
+    <div class="status">🟡 Selling · Handmade Food</div>
+    <p>手作堅果塔（每日新鮮製作）</p>
+    <a class="btn" href="https://jimmy141319.github.io/cake/">Order</a>
+  </div>
 
-    let current = null;
-    let score = 0;
-    let streak = 0;
-    let best = 0;
-    let unlocked = false;
-    let gameEnded = false;
-    let waitingNext = false;
+  <!-- MotoOne -->
+  <div class="card">
+    <h3>MotoOne</h3>
+    <div class="status">⚪ Coming Soon</div>
+    <p>安全帽電商品牌（準備中）</p>
+    <a class="btn gray">Coming Soon</a>
+  </div>
 
-    function shuffle(array) {
-      return [...array].sort(() => Math.random() - 0.5);
-    }
+</div>
 
-    function speakWord(word) {
-      const utter = new SpeechSynthesisUtterance(word);
-      utter.lang = "en-US";
-      utter.rate = 0.9;
-      utter.pitch = 1;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utter);
-    }
+<!-- WHAT WE DO -->
+<div class="section">
+  <h2>What We Build</h2>
+  <p>
+    ✔ AI Products<br>
+    ✔ Simple Websites<br>
+    ✔ Brand Launch Systems<br>
+    ✔ Real Cashflow Models
+  </p>
+</div>
 
-    function manualSpeak() {
-      if (!current || gameEnded) return;
-      unlocked = true;
-      document.getElementById("hint").innerText = "Sound unlocked. New questions will speak automatically.";
-      speakWord(current.word);
-    }
+<!-- CONTACT -->
+<div class="section">
+  <h2>Contact</h2>
+  <a class="btn line" href="https://line.me/ti/p/~jimmy141319">
+    Add LINE
+  </a>
+</div>
 
-    function startGame() {
-      unlocked = true;
-      document.getElementById("startBtn").classList.add("hide");
-      document.getElementById("hint").innerText = "Game started. Listen and choose the correct word.";
-      if (!current) {
-        newQuestion(true);
-      } else {
-        speakWord(current.word);
-      }
-    }
+<!-- FOOTER -->
+<div class="footer">
+  © JimmyStudio
+</div>
 
-    function updateTopbar() {
-      document.getElementById("score").innerText = "Score: " + score;
-      document.getElementById("streak").innerText = "Streak: " + streak;
-      document.getElementById("best").innerText = "Best: " + best;
-    }
+</div>
 
-    function setFeedback(text, type) {
-      const box = document.getElementById("feedback");
-      box.innerText = text;
-      box.className = "feedback " + (type || "");
-    }
-
-    function renderOptions() {
-      const optionsEl = document.getElementById("options");
-      const shuffled = shuffle(words);
-      optionsEl.innerHTML = "";
-
-      shuffled.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = item.word;
-        btn.onclick = () => checkAnswer(item.word);
-        optionsEl.appendChild(btn);
-      });
-    }
-
-    function lockOptions(lock) {
-      document.querySelectorAll(".option").forEach(btn => {
-        btn.disabled = lock;
-      });
-    }
-
-    function newQuestion(autoSpeak = true) {
-      if (gameEnded) return;
-
-      waitingNext = false;
-      setFeedback("", "");
-      document.getElementById("hint").innerText = unlocked
-        ? "Listen and choose the correct word."
-        : "Press Start once, then the game will speak automatically.";
-
-      current = words[Math.floor(Math.random() * words.length)];
-      document.getElementById("emoji").innerText = current.emoji;
-      renderOptions();
-      lockOptions(false);
-
-      if (autoSpeak && unlocked) {
-        setTimeout(() => {
-          if (!gameEnded && current) speakWord(current.word);
-        }, 280);
-      }
-    }
-
-    function winGame() {
-      gameEnded = true;
-      lockOptions(true);
-      document.getElementById("winBox").classList.remove("hide");
-      document.getElementById("hint").innerText = "You finished Level 1.";
-      setFeedback("Excellent!", "correct");
-    }
-
-    function checkAnswer(word) {
-      if (!current || gameEnded || waitingNext) return;
-
-      if (word === current.word) {
-        score += 1;
-        streak += 1;
-        if (streak > best) best = streak;
-        updateTopbar();
-        setFeedback("🎉 Correct!", "correct");
-        document.getElementById("hint").innerText = current.word.toUpperCase();
-        lockOptions(true);
-        waitingNext = true;
-
-        if (score >= 10) {
-          setTimeout(winGame, 500);
-          return;
-        }
-
-        setTimeout(() => {
-          newQuestion(true);
-        }, 650);
-      } else {
-        streak = 0;
-        updateTopbar();
-        setFeedback("❌ Try again", "wrong");
-        document.getElementById("hint").innerText = "Listen carefully and try once more.";
-        if (unlocked) speakWord(current.word);
-      }
-    }
-
-    function restartGame() {
-      score = 0;
-      streak = 0;
-      best = 0;
-      gameEnded = false;
-      waitingNext = false;
-      current = null;
-      updateTopbar();
-      document.getElementById("winBox").classList.add("hide");
-      document.getElementById("startBtn").classList.remove("hide");
-      document.getElementById("emoji").innerText = "🐱";
-      document.getElementById("options").innerHTML = "";
-      setFeedback("", "");
-      document.getElementById("hint").innerText = "Press Start once, then the game will speak automatically.";
-    }
-
-    updateTopbar();
-  </script>
 </body>
 </html>
