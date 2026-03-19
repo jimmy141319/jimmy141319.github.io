@@ -3,24 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V22</title>
+  <title>Jimmy Kids English V23</title>
   <style>
     :root{
       --bg:#eef1f7;
       --card:#ffffff;
       --blue:#4a78f0;
-      --blue-dark:#355ed0;
-      --green:#12b76a;
+      --blue-dark:#365fd3;
+      --green:#10b981;
       --red:#ef4444;
       --gold:#f59e0b;
       --text:#1f2937;
       --muted:#6b7280;
       --shadow:0 10px 24px rgba(0,0,0,.08);
-      --radius:22px;
     }
-
     *{box-sizing:border-box}
-
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -28,34 +25,42 @@
       color:var(--text);
       text-align:center;
     }
-
     .wrap{
       max-width:1040px;
       margin:0 auto;
       padding:16px 14px 40px;
     }
-
     .hero{
-      background:linear-gradient(135deg, #ffffff, #eef4ff);
+      background:linear-gradient(135deg,#ffffff,#eef4ff);
       border-radius:28px;
-      padding:18px 16px 20px;
+      padding:20px 16px 22px;
       box-shadow:var(--shadow);
       margin-bottom:14px;
     }
-
     h1{
       margin:8px 0 6px;
       font-size:clamp(34px,7vw,58px);
       color:var(--blue);
     }
-
     .sub{
       color:var(--muted);
-      margin-bottom:12px;
+      margin-bottom:10px;
       font-size:15px;
-      line-height:1.5;
+      line-height:1.6;
     }
-
+    .headline{
+      font-size:22px;
+      font-weight:800;
+      color:var(--blue);
+      margin:6px 0 10px;
+      line-height:1.4;
+    }
+    .price{
+      font-size:28px;
+      font-weight:900;
+      color:#111827;
+      margin:4px 0 14px;
+    }
     .value{
       display:flex;
       flex-wrap:wrap;
@@ -63,7 +68,6 @@
       gap:8px;
       margin-bottom:14px;
     }
-
     .tag{
       display:inline-block;
       background:#fff;
@@ -74,21 +78,14 @@
       box-shadow:var(--shadow);
       font-size:14px;
     }
-
-    .cta-row,
-    .stats-row,
-    .levels-row,
-    .modes-row{
+    .row{
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
       gap:10px;
       margin-bottom:12px;
     }
-
-    .pill,
-    .btn,
-    .level-btn{
+    .pill,.btn,.level-btn{
       border:none;
       border-radius:18px;
       padding:12px 18px;
@@ -96,15 +93,12 @@
       font-weight:700;
       box-shadow:var(--shadow);
     }
-
     .pill{
       background:var(--card);
       color:var(--text);
-      min-width:106px;
+      min-width:102px;
     }
-
     .btn{
-      background:#64748b;
       color:#fff;
       cursor:pointer;
       text-decoration:none;
@@ -113,35 +107,29 @@
       justify-content:center;
       gap:6px;
     }
-
     .btn.primary{ background:var(--blue); }
     .btn.primary:hover{ background:var(--blue-dark); }
-    .btn.unlock{ background:#10b981; }
     .btn.line{ background:#06c755; }
-
+    .btn.secondary{ background:#64748b; }
     .mode-btn{
       background:#fff;
       color:var(--blue);
     }
-
     .mode-btn.active,
     .level-btn.active{
       background:var(--blue);
       color:#fff;
     }
-
     .level-btn{
       background:#fff;
       color:var(--blue);
       min-width:62px;
       cursor:pointer;
     }
-
     .level-btn.locked{
       background:#e5e7eb;
       color:#9ca3af;
     }
-
     .trial-box{
       background:#fff8e7;
       color:#92400e;
@@ -152,21 +140,18 @@
       line-height:1.5;
       margin-bottom:14px;
     }
-
     .stage{
       background:rgba(255,255,255,.74);
       border-radius:28px;
       padding:18px 14px 26px;
       box-shadow:var(--shadow);
-      min-height:660px;
+      min-height:640px;
       transition:opacity .16s ease, transform .16s ease;
     }
-
     .stage.switching{
       opacity:.45;
       transform:translateY(4px);
     }
-
     .mode-badge{
       display:inline-block;
       background:#fff;
@@ -177,7 +162,6 @@
       box-shadow:var(--shadow);
       margin-bottom:10px;
     }
-
     .cue{
       min-height:150px;
       display:flex;
@@ -189,32 +173,21 @@
       padding:0 10px;
       line-height:1.35;
     }
-
-    .cue.text{
-      font-size:24px;
-      color:var(--blue);
-      font-weight:800;
-      min-height:90px;
-    }
-
     .hint{
-      min-height:60px;
+      min-height:62px;
       font-size:24px;
       font-weight:800;
       margin:8px 0 12px;
       line-height:1.4;
       padding:0 8px;
     }
-
-    .hint.ok{ color:var(--green); }
-    .hint.bad{ color:var(--red); }
-
+    .hint.ok{ color:#10b981; }
+    .hint.bad{ color:#ef4444; }
     .progress-wrap{
-      width:min(100%,680px);
+      width:min(100%,700px);
       margin:8px auto 16px;
       text-align:left;
     }
-
     .progress-label{
       font-size:14px;
       color:var(--muted);
@@ -223,7 +196,6 @@
       justify-content:space-between;
       gap:10px;
     }
-
     .progress-bar{
       width:100%;
       height:12px;
@@ -231,21 +203,18 @@
       border-radius:999px;
       overflow:hidden;
     }
-
     .progress-fill{
       height:100%;
       width:0%;
-      background:linear-gradient(90deg, var(--blue), #7a9cff);
+      background:linear-gradient(90deg,var(--blue),#7a9cff);
       transition:width .18s ease;
     }
-
     .options{
       display:flex;
       flex-direction:column;
       align-items:center;
       gap:12px;
     }
-
     .option{
       width:min(100%,700px);
       border:none;
@@ -260,22 +229,20 @@
       line-height:1.45;
       cursor:pointer;
     }
-
     .option:active{ transform:scale(.985); }
     .option.correct{
-      background:var(--green);
+      background:#10b981;
       color:#fff;
       transform:scale(1.02);
     }
     .option.wrong{
-      background:var(--red);
+      background:#ef4444;
       color:#fff;
     }
     .option:disabled{
       opacity:.98;
       cursor:default;
     }
-
     .footer{
       margin-top:16px;
       color:var(--muted);
@@ -283,22 +250,19 @@
       line-height:1.6;
       min-height:50px;
     }
-
     .note{
-      margin-top:8px;
+      margin-top:10px;
       color:#92400e;
-      font-size:14px;
-      font-weight:700;
-      min-height:22px;
+      font-size:16px;
+      font-weight:800;
+      min-height:24px;
     }
-
-    .mini-cards{
+    .cards{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
       gap:12px;
       margin-top:14px;
     }
-
     .card{
       background:#fff;
       border-radius:20px;
@@ -306,27 +270,25 @@
       box-shadow:var(--shadow);
       text-align:left;
     }
-
     .card h3{
       margin:0 0 8px;
       font-size:18px;
       color:var(--blue);
     }
-
     .card p{
       margin:0;
       color:var(--muted);
       line-height:1.55;
       font-size:14px;
     }
-
     @media (max-width:600px){
       .pill{min-width:92px}
       .option{font-size:18px}
       .cue{font-size:84px}
-      .cue.text{font-size:21px}
       .hint{font-size:22px}
       .btn,.pill,.level-btn{padding:11px 14px;font-size:15px}
+      .headline{font-size:20px}
+      .price{font-size:24px}
     }
   </style>
 </head>
@@ -334,28 +296,28 @@
   <div class="wrap">
     <div class="hero">
       <h1>Jimmy Kids English</h1>
-      <div class="sub">
-        10 minutes a day · Learn English with pictures, sentences, and listening
-      </div>
+      <div class="sub">For Grade 3 kids · Learn with pictures, sentences, and listening</div>
+      <div class="headline">每天 10 分鐘，孩子會更敢開口說英文</div>
+      <div class="price">完整版開通價 NT$299</div>
 
       <div class="value">
-        <div class="tag">🎮 Game-based learning</div>
-        <div class="tag">🔊 Voice support</div>
-        <div class="tag">📚 Word + Sentence + Listening</div>
-        <div class="tag">👦 Great for Grade 3</div>
+        <div class="tag">🎮 遊戲化學習</div>
+        <div class="tag">🔊 圖片＋聲音</div>
+        <div class="tag">📚 單字＋句子＋聽力</div>
+        <div class="tag">👦 適合國小三年級</div>
       </div>
 
-      <div class="cta-row">
-        <button class="btn unlock" id="unlockBtn">🚀 Unlock Full Version</button>
-        <a class="btn line" id="lineBtn" href="https://line.me/ti/p/~jimmy141319" target="_blank" rel="noopener">👉 Add LINE</a>
+      <div class="row">
+        <button class="btn primary" id="unlockBtn">👉 立即解鎖完整課程（NT$299）</button>
+        <a class="btn line" id="lineBtn" href="https://line.me/ti/p/~jimmy141319" target="_blank" rel="noopener">👉 加 LINE 立即開通</a>
       </div>
     </div>
 
     <div class="trial-box" id="trialBox">
-      🎁 Free Trial: Level 1 unlocked · Full version opens all levels and future updates
+      🎁 免費試用中：目前可玩 Level 1。玩完後想繼續，直接加 LINE 開通完整版。
     </div>
 
-    <div class="stats-row">
+    <div class="row">
       <div class="pill" id="scoreBox">Score: 0</div>
       <div class="pill" id="streakBox">Streak: 0</div>
       <div class="pill" id="bestBox">Best: 0</div>
@@ -363,14 +325,14 @@
       <div class="pill" id="categoryBox">Animals</div>
     </div>
 
-    <div class="levels-row" id="levelsBar"></div>
+    <div class="row" id="levelsBar"></div>
 
-    <div class="modes-row">
+    <div class="row">
       <button class="pill mode-btn active" id="wordBtn">Word</button>
       <button class="pill mode-btn" id="sentenceBtn">Sentence</button>
       <button class="pill mode-btn" id="listeningBtn">Listening</button>
-      <button class="btn" id="replayBtn">🔊 Replay</button>
-      <button class="btn" id="restartBtn">↺ Restart</button>
+      <button class="btn secondary" id="replayBtn">🔊 Replay</button>
+      <button class="btn secondary" id="restartBtn">↺ Restart</button>
     </div>
 
     <div class="stage" id="stage">
@@ -393,18 +355,18 @@
       <div class="note" id="proNote"></div>
     </div>
 
-    <div class="mini-cards">
+    <div class="cards">
       <div class="card">
-        <h3>Free Trial</h3>
-        <p>Play Level 1 for free. Let your child try the game before upgrading.</p>
+        <h3>免費試用</h3>
+        <p>先玩 Level 1，讓孩子直接試玩，不用先付錢也能感受內容。</p>
       </div>
       <div class="card">
-        <h3>Full Version</h3>
-        <p>Unlock all levels, more words, more sentences, and future updates.</p>
+        <h3>完整版</h3>
+        <p>解鎖全部關卡、更多單字、更多句子、更多聽力內容，之後更新也可繼續用。</p>
       </div>
       <div class="card">
-        <h3>For Parents</h3>
-        <p>Simple, direct, and easy to use. Children can play without extra teaching.</p>
+        <h3>加 LINE 開通</h3>
+        <p>想直接開通完整版，按上方綠色按鈕即可。你也可以先試玩，再決定是否升級。</p>
       </div>
     </div>
   </div>
@@ -432,12 +394,7 @@
           { text:"frog", emoji:"🐸", type:"noun" },
           { text:"monkey", emoji:"🐵", type:"noun" },
           { text:"bird", emoji:"🐦", type:"noun" },
-          { text:"fish", emoji:"🐟", type:"noun" },
-          { text:"elephant", emoji:"🐘", type:"noun" },
-          { text:"giraffe", emoji:"🦒", type:"noun" },
-          { text:"bear", emoji:"🐻", type:"noun" },
-          { text:"panda", emoji:"🐼", type:"noun" },
-          { text:"snake", emoji:"🐍", type:"noun" }
+          { text:"fish", emoji:"🐟", type:"noun" }
         ]
       },
       {
@@ -448,22 +405,12 @@
           { text:"banana", emoji:"🍌", type:"noun" },
           { text:"orange", emoji:"🍊", type:"noun" },
           { text:"grape", emoji:"🍇", type:"noun" },
-          { text:"watermelon", emoji:"🍉", type:"noun" },
-          { text:"pear", emoji:"🍐", type:"noun" },
-          { text:"peach", emoji:"🍑", type:"noun" },
           { text:"bread", emoji:"🍞", type:"noun" },
           { text:"cake", emoji:"🍰", type:"noun" },
           { text:"pizza", emoji:"🍕", type:"noun" },
           { text:"rice", emoji:"🍚", type:"noun" },
-          { text:"noodles", emoji:"🍜", type:"noun" },
-          { text:"egg", emoji:"🥚", type:"noun" },
           { text:"milk", emoji:"🥛", type:"noun" },
-          { text:"juice", emoji:"🧃", type:"noun" },
-          { text:"ice cream", emoji:"🍦", type:"noun" },
-          { text:"cookie", emoji:"🍪", type:"noun" },
-          { text:"hamburger", emoji:"🍔", type:"noun" },
-          { text:"hot dog", emoji:"🌭", type:"noun" },
-          { text:"chocolate", emoji:"🍫", type:"noun" }
+          { text:"egg", emoji:"🥚", type:"noun" }
         ]
       },
       {
@@ -475,21 +422,11 @@
           { text:"pencil", emoji:"✏️", type:"noun" },
           { text:"bag", emoji:"🎒", type:"noun" },
           { text:"chair", emoji:"🪑", type:"noun" },
-          { text:"table", emoji:"🪑", type:"noun" },
           { text:"desk", emoji:"🪑", type:"noun" },
           { text:"teacher", emoji:"👩‍🏫", type:"noun" },
           { text:"student", emoji:"🧑‍🎓", type:"noun" },
           { text:"classroom", emoji:"🏫", type:"noun" },
-          { text:"school", emoji:"🏫", type:"noun" },
-          { text:"clock", emoji:"🕒", type:"noun" },
-          { text:"computer", emoji:"💻", type:"noun" },
-          { text:"paper", emoji:"📄", type:"noun" },
-          { text:"eraser", emoji:"🧽", type:"noun" },
-          { text:"ruler", emoji:"📏", type:"noun" },
-          { text:"box", emoji:"📦", type:"noun" },
-          { text:"door", emoji:"🚪", type:"noun" },
-          { text:"window", emoji:"🪟", type:"noun" },
-          { text:"board", emoji:"🟩", type:"noun" }
+          { text:"clock", emoji:"🕒", type:"noun" }
         ]
       },
       {
@@ -499,23 +436,13 @@
           { text:"car", emoji:"🚗", type:"noun" },
           { text:"bus", emoji:"🚌", type:"noun" },
           { text:"bike", emoji:"🚲", type:"noun" },
-          { text:"train", emoji:"🚆", type:"noun" },
           { text:"phone", emoji:"📱", type:"noun" },
           { text:"ball", emoji:"⚽", type:"noun" },
           { text:"cup", emoji:"☕", type:"noun" },
-          { text:"bottle", emoji:"🍼", type:"noun" },
-          { text:"plate", emoji:"🍽️", type:"noun" },
-          { text:"spoon", emoji:"🥄", type:"noun" },
           { text:"bed", emoji:"🛏️", type:"noun" },
           { text:"key", emoji:"🔑", type:"noun" },
-          { text:"watch", emoji:"⌚", type:"noun" },
           { text:"hat", emoji:"🧢", type:"noun" },
-          { text:"shirt", emoji:"👕", type:"noun" },
-          { text:"pants", emoji:"👖", type:"noun" },
-          { text:"shoes", emoji:"👟", type:"noun" },
-          { text:"toy", emoji:"🧸", type:"noun" },
-          { text:"lamp", emoji:"💡", type:"noun" },
-          { text:"box", emoji:"📦", type:"noun" }
+          { text:"watch", emoji:"⌚", type:"noun" }
         ]
       },
       {
@@ -527,39 +454,7 @@
           { text:"green", emoji:"🟩", type:"color" },
           { text:"yellow", emoji:"🟨", type:"color" },
           { text:"black", emoji:"⬛", type:"color" },
-          { text:"white", emoji:"⬜", type:"color" },
-          { text:"pink", emoji:"🩷", type:"color" },
-          { text:"purple", emoji:"🟪", type:"color" }
-        ]
-      },
-      {
-        name: "Family",
-        target: 8,
-        items: [
-          { text:"father", emoji:"👨", type:"noun" },
-          { text:"mother", emoji:"👩", type:"noun" },
-          { text:"brother", emoji:"👦", type:"noun" },
-          { text:"sister", emoji:"👧", type:"noun" },
-          { text:"baby", emoji:"👶", type:"noun" },
-          { text:"grandpa", emoji:"👴", type:"noun" },
-          { text:"grandma", emoji:"👵", type:"noun" },
-          { text:"family", emoji:"👨‍👩‍👧‍👦", type:"noun" }
-        ]
-      },
-      {
-        name: "Actions",
-        target: 8,
-        items: [
-          { text:"run", emoji:"🏃", type:"action" },
-          { text:"walk", emoji:"🚶", type:"action" },
-          { text:"jump", emoji:"🤾", type:"action" },
-          { text:"sit", emoji:"🪑", type:"action" },
-          { text:"stand", emoji:"🧍", type:"action" },
-          { text:"eat", emoji:"🍽️", type:"action" },
-          { text:"drink", emoji:"🥤", type:"action" },
-          { text:"sleep", emoji:"😴", type:"action" },
-          { text:"read", emoji:"📖", type:"action" },
-          { text:"write", emoji:"✍️", type:"action" }
+          { text:"white", emoji:"⬜", type:"color" }
         ]
       }
     ];
@@ -567,7 +462,6 @@
     const state = {
       mode: "word",
       currentLevel: 0,
-      unlockedLevel: 0,
       score: 0,
       streak: 0,
       best: 0,
@@ -595,8 +489,8 @@
       replayBtn: document.getElementById("replayBtn"),
       restartBtn: document.getElementById("restartBtn"),
       unlockBtn: document.getElementById("unlockBtn"),
-      trialBox: document.getElementById("trialBox"),
       lineBtn: document.getElementById("lineBtn"),
+      trialBox: document.getElementById("trialBox"),
       stage: document.getElementById("stage"),
       modeLabel: document.getElementById("modeLabel"),
       cue: document.getElementById("cue"),
@@ -610,10 +504,9 @@
     };
 
     function save(){
-      localStorage.setItem("jimmyKidsV22", JSON.stringify({
+      localStorage.setItem("jimmyKidsV23", JSON.stringify({
         mode: state.mode,
         currentLevel: state.currentLevel,
-        unlockedLevel: state.unlockedLevel,
         score: state.score,
         streak: state.streak,
         best: state.best,
@@ -624,12 +517,11 @@
 
     function load(){
       try{
-        const raw = localStorage.getItem("jimmyKidsV22");
+        const raw = localStorage.getItem("jimmyKidsV23");
         if(!raw) return;
         const d = JSON.parse(raw);
         if(typeof d.mode === "string") state.mode = d.mode;
         if(Number.isInteger(d.currentLevel)) state.currentLevel = Math.max(0, Math.min(d.currentLevel, LEVELS.length - 1));
-        if(Number.isInteger(d.unlockedLevel)) state.unlockedLevel = Math.max(0, Math.min(d.unlockedLevel, LEVELS.length - 1));
         if(Number.isInteger(d.score)) state.score = d.score;
         if(Number.isInteger(d.streak)) state.streak = d.streak;
         if(Number.isInteger(d.best)) state.best = d.best;
@@ -646,18 +538,6 @@
       return /^[aeiou]/i.test(word) ? "an" : "a";
     }
 
-    function ingForm(base){
-      const map = {
-        run:"running",
-        swim:"swimming",
-        sit:"sitting",
-        write:"writing"
-      };
-      if(map[base]) return map[base];
-      if(base.endsWith("e")) return base.slice(0,-1) + "ing";
-      return base + "ing";
-    }
-
     function sentenceTemplates(item){
       if(item.type === "color"){
         return [
@@ -665,15 +545,6 @@
           `The color is ${item.text}.`
         ];
       }
-
-      if(item.type === "action"){
-        return [
-          `He is ${ingForm(item.text)}.`,
-          `Look! He is ${ingForm(item.text)}.`,
-          `He can ${item.text}.`
-        ];
-      }
-
       return [
         `This is ${articleFor(item.text)} ${item.text}.`,
         `It is ${articleFor(item.text)} ${item.text}.`,
@@ -706,13 +577,13 @@
 
     function unlockPro(){
       markInteraction();
-      const code = prompt("Enter unlock code:");
+      const code = prompt("請輸入開通碼 / Enter unlock code:");
       if(code === UNLOCK_CODE){
         localStorage.setItem("proUnlocked","yes");
-        alert("Unlocked!");
+        alert("完整版已開通！");
         location.reload();
       }else if(code){
-        alert("Wrong code");
+        alert("開通碼錯誤");
       }
     }
 
@@ -751,8 +622,8 @@
       els.starLabel.innerText = `⭐ ${state.stars}`;
 
       els.trialBox.innerText = isPro()
-        ? "✅ Full version unlocked · All levels are available"
-        : "🎁 Free Trial: Level 1 unlocked · Unlock full content, more levels, and future updates";
+        ? "✅ 完整版已開通：全部關卡都可使用"
+        : "🎁 免費試用：可玩 Level 1。喜歡的話，點上方按鈕加 LINE 開通完整版。";
 
       els.proNote.innerText = isPro()
         ? "✅ Full version unlocked"
@@ -773,7 +644,7 @@
         btn.onclick = () => {
           markInteraction();
           if(!isPro() && i > 0){
-            alert("Unlock Full Version to open more levels.");
+            alert("請先加 LINE 開通完整版");
             return;
           }
           state.currentLevel = i;
@@ -857,8 +728,6 @@
       els.hint.className = "hint";
       els.hint.innerText = "";
       els.options.innerHTML = "";
-
-      els.cue.className = "cue";
       els.cue.innerText = state.current.emoji;
 
       if(state.mode === "word"){
@@ -881,14 +750,13 @@
       if(state.levelProgress < currentPack().target) return false;
 
       if(state.currentLevel < LEVELS.length - 1){
-        if(!isPro() && state.currentLevel >= 0){
+        if(!isPro() && state.currentLevel === 0){
           state.levelProgress = 0;
           prepareQueue();
-          alert("🎉 Level 1 complete! Add LINE to unlock the full version.");
+          alert("🎯 免費試用結束\n\n想繼續學習，請加 LINE 立即開通完整版。");
           return false;
         }
 
-        state.unlockedLevel = Math.max(state.unlockedLevel, state.currentLevel + 1);
         state.currentLevel += 1;
         state.levelProgress = 0;
         prepareQueue();
@@ -909,9 +777,7 @@
     }
 
     function learningAnswer(){
-      if(state.mode === "word"){
-        return state.current.text;
-      }
+      if(state.mode === "word") return state.current.text;
       return state.currentSentence;
     }
 
@@ -923,7 +789,6 @@
 
       if(selected === correct){
         button.classList.add("correct");
-
         state.score += 1;
         state.streak += 1;
         state.levelProgress += 1;
@@ -956,7 +821,6 @@
         button.classList.add("wrong");
         els.hint.className = "hint bad";
         els.hint.innerText = `❌ Try again · Correct answer: ${learningAnswer()}`;
-
         state.streak = 0;
         updateHeader();
         save();
@@ -994,7 +858,6 @@
       speechSynthesis.cancel();
       state.mode = "word";
       state.currentLevel = 0;
-      state.unlockedLevel = 0;
       state.score = 0;
       state.streak = 0;
       state.best = 0;
