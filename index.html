@@ -6,29 +6,24 @@
 <title>JimmyStudio</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
-
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:#f7f8fc;
+  background:#ffffff;
   color:#111827;
 }
 
 /* HERO */
 .hero{
-  text-align:center;
   padding:100px 20px 80px;
-  background:linear-gradient(180deg,#eef2ff 0%,#f7f8fc 100%);
+  text-align:center;
+  background:linear-gradient(180deg,#eef2ff,#ffffff);
 }
 
 .hero h1{
-  font-size:56px;
-  letter-spacing:-1px;
+  font-size:52px;
+  color:#4f46e5;
   margin-bottom:10px;
-  color:#4338ca;
 }
 
 .hero p{
@@ -37,23 +32,26 @@ body{
   margin:8px 0;
 }
 
+.hero .highlight{
+  font-size:22px;
+  color:#111827;
+  margin:20px 0;
+  font-weight:600;
+}
+
+/* BUTTON */
 .btn{
   display:inline-block;
   padding:14px 26px;
   border-radius:14px;
   font-weight:600;
   text-decoration:none;
-  margin:10px 6px;
-  transition:all .2s ease;
+  margin:10px;
 }
 
 .btn-primary{
   background:#4f46e5;
   color:white;
-}
-
-.btn-primary:hover{
-  background:#4338ca;
 }
 
 .btn-line{
@@ -62,74 +60,52 @@ body{
 }
 
 /* SECTION */
-.container{
+.section{
   max-width:1100px;
   margin:auto;
   padding:60px 20px;
 }
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:24px;
+/* PRODUCT */
+.product{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:60px;
 }
 
-/* CARD */
+.product-text{
+  flex:1;
+  min-width:280px;
+}
+
+.product-text h2{
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+.product-text p{
+  color:#4b5563;
+  line-height:1.7;
+}
+
+.product-action{
+  margin-top:15px;
+}
+
+/* SECOND PRODUCT */
 .card{
-  background:white;
-  padding:30px 24px;
-  border-radius:22px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.06);
+  background:#f9fafb;
+  padding:30px;
+  border-radius:20px;
   text-align:center;
-  transition:.2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-}
-
-.card h3{
-  margin:10px 0 6px;
-  font-size:24px;
-}
-
-.status{
-  font-size:13px;
-  color:#6b7280;
-  margin-bottom:12px;
-}
-
-.card p{
-  color:#4b5563;
-  font-size:15px;
-  line-height:1.6;
-}
-
-.card .btn{
-  margin-top:18px;
-}
-
-/* SECTION TITLE */
-.section-title{
-  text-align:center;
-  font-size:28px;
-  margin-bottom:30px;
-}
-
-/* WHAT WE DO */
-.what{
-  text-align:center;
-  line-height:2;
-  color:#4b5563;
 }
 
 /* FOOTER */
 .footer{
   text-align:center;
-  padding:50px 20px;
+  padding:50px;
   color:#9ca3af;
-  font-size:14px;
 }
 </style>
 </head>
@@ -140,72 +116,79 @@ body{
 <div class="hero">
   <h1>JimmyStudio</h1>
   <p>Building simple products that generate real income</p>
-  <p>打造能真正產生現金流的產品</p>
 
-  <div>
-    <a class="btn btn-primary" href="#products">Explore Products</a>
-    <a class="btn btn-line" href="https://line.me/ti/p/~jimmy141319">Add LINE</a>
+  <div class="highlight">
+    每天10分鐘，讓孩子自然開口說英文
   </div>
+
+  <a class="btn btn-primary" href="https://jimmy141319.github.io/guide-quiz/">
+    免費開始學習
+  </a>
+
+  <a class="btn btn-line" href="https://line.me/ti/p/~jimmy141319">
+    加LINE詢問
+  </a>
 </div>
 
-<!-- PRODUCTS -->
-<div class="container" id="products">
+<!-- MAIN PRODUCT -->
+<div class="section">
 
-<div class="section-title">Our Products</div>
+<div class="product">
 
-<div class="grid">
+<div class="product-text">
+<h2>Kids English</h2>
 
-<!-- Kids -->
+<p>
+AI 英文學習遊戲，專為國小設計。<br>
+每天只需10分鐘，讓孩子從「看不懂」到「敢開口」。
+</p>
+
+<div class="product-action">
+<a class="btn btn-primary" href="https://jimmy141319.github.io/guide-quiz/">
+開始學習
+</a>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SECOND PRODUCT -->
+<div class="section">
+
 <div class="card">
-  <h3>Kids English</h3>
-  <div class="status">🟢 Live · Digital Product</div>
-  <p>
-    AI 英文學習遊戲<br>
-    每天10分鐘，自然開口說英文
-  </p>
-  <a class="btn btn-primary" href="https://jimmy141319.github.io/guide-quiz/">Start Learning</a>
-</div>
+<h2>Mustar 手作堅果塔</h2>
 
-<!-- Mustar -->
-<div class="card">
-  <h3>Mustar</h3>
-  <div class="status">🟡 Selling · Handmade Food</div>
-  <p>
-    手作堅果塔<br>
-    純天然 · 低GI · 每日新鮮製作
-  </p>
-  <a class="btn btn-primary" href="https://jimmy141319.github.io/cake/">Order Now</a>
-</div>
+<p>
+純天然 · 低GI · 每日新鮮製作<br>
+適合拜拜、送禮、日常點心
+</p>
 
-<!-- MotoOne -->
-<div class="card">
-  <h3>MotoOne</h3>
-  <div class="status">⚪ Coming Soon</div>
-  <p>
-    安全帽電商品牌<br>
-    即將推出
-  </p>
-  <a class="btn" style="background:#d1d5db;color:#374151;">Coming Soon</a>
+<a class="btn btn-primary" href="https://jimmy141319.github.io/cake/">
+立即訂購
+</a>
 </div>
 
 </div>
 
-</div>
+<!-- TRUST -->
+<div class="section" style="text-align:center;">
 
-<!-- WHAT WE DO -->
-<div class="container">
+<h2>Why JimmyStudio</h2>
 
-<div class="section-title">What We Build</div>
-
-<div class="what">
-  AI Products · Brand Launch · Website Systems · Cashflow Models
-</div>
+<p style="color:#4b5563;line-height:2;">
+✔ 真實產品，不只是概念<br>
+✔ 已開始實際銷售<br>
+✔ 持續優化與擴展
+</p>
 
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-  © JimmyStudio
+© JimmyStudio
 </div>
 
 </body>
