@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V21.1</title>
+  <title>Jimmy Kids English V22</title>
   <style>
     :root{
       --bg:#eef1f7;
       --card:#ffffff;
       --blue:#4a78f0;
-      --blue2:#7a9cff;
+      --blue-dark:#355ed0;
       --green:#12b76a;
       --red:#ef4444;
-      --gold:#f4b400;
+      --gold:#f59e0b;
       --text:#1f2937;
       --muted:#6b7280;
       --shadow:0 10px 24px rgba(0,0,0,.08);
+      --radius:22px;
     }
+
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -25,29 +28,67 @@
       color:var(--text);
       text-align:center;
     }
+
     .wrap{
-      max-width:980px;
+      max-width:1040px;
       margin:0 auto;
-      padding:16px 14px 36px;
+      padding:16px 14px 40px;
     }
+
+    .hero{
+      background:linear-gradient(135deg, #ffffff, #eef4ff);
+      border-radius:28px;
+      padding:18px 16px 20px;
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
+    }
+
     h1{
-      margin:10px 0 6px;
-      font-size:clamp(34px,7vw,56px);
+      margin:8px 0 6px;
+      font-size:clamp(34px,7vw,58px);
       color:var(--blue);
     }
+
     .sub{
       color:var(--muted);
-      margin-bottom:14px;
+      margin-bottom:12px;
       font-size:15px;
+      line-height:1.5;
     }
-    .row{
+
+    .value{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    .tag{
+      display:inline-block;
+      background:#fff;
+      color:var(--blue);
+      border-radius:999px;
+      padding:8px 14px;
+      font-weight:700;
+      box-shadow:var(--shadow);
+      font-size:14px;
+    }
+
+    .cta-row,
+    .stats-row,
+    .levels-row,
+    .modes-row{
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
       gap:10px;
       margin-bottom:12px;
     }
-    .pill,.btn,.level-btn{
+
+    .pill,
+    .btn,
+    .level-btn{
       border:none;
       border-radius:18px;
       padding:12px 18px;
@@ -55,54 +96,78 @@
       font-weight:700;
       box-shadow:var(--shadow);
     }
+
     .pill{
       background:var(--card);
       color:var(--text);
-      min-width:102px;
+      min-width:106px;
     }
+
     .btn{
       background:#64748b;
       color:#fff;
       cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
     }
-    .btn.primary{
-      background:var(--blue);
-    }
-    .btn.unlock{
-      background:#10b981;
-    }
+
+    .btn.primary{ background:var(--blue); }
+    .btn.primary:hover{ background:var(--blue-dark); }
+    .btn.unlock{ background:#10b981; }
+    .btn.line{ background:#06c755; }
+
     .mode-btn{
       background:#fff;
       color:var(--blue);
     }
+
     .mode-btn.active,
     .level-btn.active{
       background:var(--blue);
       color:#fff;
     }
+
     .level-btn{
       background:#fff;
       color:var(--blue);
       min-width:62px;
       cursor:pointer;
     }
+
     .level-btn.locked{
       background:#e5e7eb;
       color:#9ca3af;
     }
-    .stage{
-      background:rgba(255,255,255,.72);
-      border-radius:26px;
-      padding:18px 14px 24px;
+
+    .trial-box{
+      background:#fff8e7;
+      color:#92400e;
+      border-radius:18px;
+      padding:12px 14px;
       box-shadow:var(--shadow);
-      min-height:620px;
+      font-weight:700;
+      line-height:1.5;
+      margin-bottom:14px;
+    }
+
+    .stage{
+      background:rgba(255,255,255,.74);
+      border-radius:28px;
+      padding:18px 14px 26px;
+      box-shadow:var(--shadow);
+      min-height:660px;
       transition:opacity .16s ease, transform .16s ease;
     }
+
     .stage.switching{
       opacity:.45;
       transform:translateY(4px);
     }
-    .badge{
+
+    .mode-badge{
       display:inline-block;
       background:#fff;
       color:var(--muted);
@@ -112,43 +177,53 @@
       box-shadow:var(--shadow);
       margin-bottom:10px;
     }
+
     .cue{
-      min-height:142px;
+      min-height:150px;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:92px;
+      font-size:98px;
       margin:8px 0 8px;
       user-select:none;
       padding:0 10px;
       line-height:1.35;
     }
+
     .cue.text{
       font-size:24px;
       color:var(--blue);
       font-weight:800;
-      min-height:88px;
+      min-height:90px;
     }
+
     .hint{
-      min-height:58px;
+      min-height:60px;
       font-size:24px;
       font-weight:800;
-      margin:8px 0 10px;
+      margin:8px 0 12px;
       line-height:1.4;
       padding:0 8px;
     }
-    .hint.ok{color:var(--green)}
-    .hint.bad{color:var(--red)}
+
+    .hint.ok{ color:var(--green); }
+    .hint.bad{ color:var(--red); }
+
     .progress-wrap{
-      width:min(100%,620px);
+      width:min(100%,680px);
       margin:8px auto 16px;
       text-align:left;
     }
+
     .progress-label{
       font-size:14px;
       color:var(--muted);
       margin-bottom:6px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
     }
+
     .progress-bar{
       width:100%;
       height:12px;
@@ -156,20 +231,23 @@
       border-radius:999px;
       overflow:hidden;
     }
+
     .progress-fill{
       height:100%;
       width:0%;
-      background:linear-gradient(90deg,var(--blue),var(--blue2));
+      background:linear-gradient(90deg, var(--blue), #7a9cff);
       transition:width .18s ease;
     }
+
     .options{
       display:flex;
       flex-direction:column;
       align-items:center;
       gap:12px;
     }
+
     .option{
-      width:min(100%,640px);
+      width:min(100%,700px);
       border:none;
       border-radius:20px;
       background:#fff;
@@ -182,7 +260,8 @@
       line-height:1.45;
       cursor:pointer;
     }
-    .option:active{transform:scale(.985)}
+
+    .option:active{ transform:scale(.985); }
     .option.correct{
       background:var(--green);
       color:#fff;
@@ -196,13 +275,15 @@
       opacity:.98;
       cursor:default;
     }
+
     .footer{
       margin-top:16px;
       color:var(--muted);
       font-size:14px;
-      line-height:1.55;
-      min-height:44px;
+      line-height:1.6;
+      min-height:50px;
     }
+
     .note{
       margin-top:8px;
       color:#92400e;
@@ -210,25 +291,71 @@
       font-weight:700;
       min-height:22px;
     }
-    .star{
-      color:var(--gold);
-      font-size:24px;
+
+    .mini-cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:14px;
     }
-    @media (max-width:560px){
+
+    .card{
+      background:#fff;
+      border-radius:20px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      text-align:left;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:18px;
+      color:var(--blue);
+    }
+
+    .card p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    @media (max-width:600px){
       .pill{min-width:92px}
       .option{font-size:18px}
-      .cue{font-size:82px}
+      .cue{font-size:84px}
       .cue.text{font-size:21px}
       .hint{font-size:22px}
+      .btn,.pill,.level-btn{padding:11px 14px;font-size:15px}
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Jimmy Kids English</h1>
-    <div class="sub">V21.1 · Learning Loop Complete</div>
+    <div class="hero">
+      <h1>Jimmy Kids English</h1>
+      <div class="sub">
+        10 minutes a day · Learn English with pictures, sentences, and listening
+      </div>
 
-    <div class="row">
+      <div class="value">
+        <div class="tag">🎮 Game-based learning</div>
+        <div class="tag">🔊 Voice support</div>
+        <div class="tag">📚 Word + Sentence + Listening</div>
+        <div class="tag">👦 Great for Grade 3</div>
+      </div>
+
+      <div class="cta-row">
+        <button class="btn unlock" id="unlockBtn">🚀 Unlock Full Version</button>
+        <a class="btn line" id="lineBtn" href="https://line.me/ti/p/~jimmy141319" target="_blank" rel="noopener">👉 Add LINE</a>
+      </div>
+    </div>
+
+    <div class="trial-box" id="trialBox">
+      🎁 Free Trial: Level 1 unlocked · Full version opens all levels and future updates
+    </div>
+
+    <div class="stats-row">
       <div class="pill" id="scoreBox">Score: 0</div>
       <div class="pill" id="streakBox">Streak: 0</div>
       <div class="pill" id="bestBox">Best: 0</div>
@@ -236,24 +363,26 @@
       <div class="pill" id="categoryBox">Animals</div>
     </div>
 
-    <div class="row" id="levelsBar"></div>
+    <div class="levels-row" id="levelsBar"></div>
 
-    <div class="row">
+    <div class="modes-row">
       <button class="pill mode-btn active" id="wordBtn">Word</button>
       <button class="pill mode-btn" id="sentenceBtn">Sentence</button>
       <button class="pill mode-btn" id="listeningBtn">Listening</button>
       <button class="btn" id="replayBtn">🔊 Replay</button>
       <button class="btn" id="restartBtn">↺ Restart</button>
-      <button class="btn unlock" id="unlockBtn">🔓 Unlock Full Version</button>
     </div>
 
     <div class="stage" id="stage">
-      <div class="badge" id="modeLabel">Word Mode</div>
+      <div class="mode-badge" id="modeLabel">Word Mode</div>
       <div class="cue" id="cue">❓</div>
       <div class="hint" id="hint"></div>
 
       <div class="progress-wrap">
-        <div class="progress-label" id="progressLabel">Level progress: 0 / 10</div>
+        <div class="progress-label">
+          <span id="progressLabel">Level progress: 0 / 10</span>
+          <span id="starLabel">⭐ 0</span>
+        </div>
         <div class="progress-bar">
           <div class="progress-fill" id="progressFill"></div>
         </div>
@@ -263,9 +392,27 @@
       <div class="footer" id="footer">Look at the picture and choose the correct word.</div>
       <div class="note" id="proNote"></div>
     </div>
+
+    <div class="mini-cards">
+      <div class="card">
+        <h3>Free Trial</h3>
+        <p>Play Level 1 for free. Let your child try the game before upgrading.</p>
+      </div>
+      <div class="card">
+        <h3>Full Version</h3>
+        <p>Unlock all levels, more words, more sentences, and future updates.</p>
+      </div>
+      <div class="card">
+        <h3>For Parents</h3>
+        <p>Simple, direct, and easy to use. Children can play without extra teaching.</p>
+      </div>
+    </div>
   </div>
 
   <script>
+    const LINE_URL = "https://line.me/ti/p/~jimmy141319";
+    const UNLOCK_CODE = "jimmy123";
+
     const LEVELS = [
       {
         name: "Animals",
@@ -424,9 +571,11 @@
       score: 0,
       streak: 0,
       best: 0,
+      stars: 0,
       levelProgress: 0,
       queue: [],
       current: null,
+      currentSentence: "",
       lock: false,
       speechUnlocked: false
     };
@@ -446,32 +595,36 @@
       replayBtn: document.getElementById("replayBtn"),
       restartBtn: document.getElementById("restartBtn"),
       unlockBtn: document.getElementById("unlockBtn"),
+      trialBox: document.getElementById("trialBox"),
+      lineBtn: document.getElementById("lineBtn"),
       stage: document.getElementById("stage"),
       modeLabel: document.getElementById("modeLabel"),
       cue: document.getElementById("cue"),
       hint: document.getElementById("hint"),
       progressLabel: document.getElementById("progressLabel"),
       progressFill: document.getElementById("progressFill"),
+      starLabel: document.getElementById("starLabel"),
       options: document.getElementById("options"),
       footer: document.getElementById("footer"),
       proNote: document.getElementById("proNote")
     };
 
     function save(){
-      localStorage.setItem("jimmyKidsV211", JSON.stringify({
+      localStorage.setItem("jimmyKidsV22", JSON.stringify({
         mode: state.mode,
         currentLevel: state.currentLevel,
         unlockedLevel: state.unlockedLevel,
         score: state.score,
         streak: state.streak,
         best: state.best,
+        stars: state.stars,
         levelProgress: state.levelProgress
       }));
     }
 
     function load(){
       try{
-        const raw = localStorage.getItem("jimmyKidsV211");
+        const raw = localStorage.getItem("jimmyKidsV22");
         if(!raw) return;
         const d = JSON.parse(raw);
         if(typeof d.mode === "string") state.mode = d.mode;
@@ -480,6 +633,7 @@
         if(Number.isInteger(d.score)) state.score = d.score;
         if(Number.isInteger(d.streak)) state.streak = d.streak;
         if(Number.isInteger(d.best)) state.best = d.best;
+        if(Number.isInteger(d.stars)) state.stars = d.stars;
         if(Number.isInteger(d.levelProgress)) state.levelProgress = d.levelProgress;
       }catch(e){}
     }
@@ -504,14 +658,37 @@
       return base + "ing";
     }
 
-    function makeSentence(item){
+    function sentenceTemplates(item){
       if(item.type === "color"){
-        return `It is ${item.text}.`;
+        return [
+          `It is ${item.text}.`,
+          `The color is ${item.text}.`
+        ];
       }
+
       if(item.type === "action"){
-        return `He is ${ingForm(item.text)}.`;
+        return [
+          `He is ${ingForm(item.text)}.`,
+          `Look! He is ${ingForm(item.text)}.`,
+          `He can ${item.text}.`
+        ];
       }
-      return `This is ${articleFor(item.text)} ${item.text}.`;
+
+      return [
+        `This is ${articleFor(item.text)} ${item.text}.`,
+        `It is ${articleFor(item.text)} ${item.text}.`,
+        `Look! ${articleFor(item.text).charAt(0).toUpperCase() + articleFor(item.text).slice(1)} ${item.text}.`
+      ];
+    }
+
+    function makeSentence(item){
+      const list = sentenceTemplates(item);
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function makeWrongSentence(item){
+      const list = sentenceTemplates(item);
+      return list[Math.floor(Math.random() * list.length)];
     }
 
     function markInteraction(){
@@ -520,17 +697,17 @@
 
     function speak(text){
       if(!state.speechUnlocked) return;
+      speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.lang = "en-US";
       u.rate = 0.9;
-      speechSynthesis.cancel();
       speechSynthesis.speak(u);
     }
 
     function unlockPro(){
       markInteraction();
       const code = prompt("Enter unlock code:");
-      if(code === "jimmy123"){
+      if(code === UNLOCK_CODE){
         localStorage.setItem("proUnlocked","yes");
         alert("Unlocked!");
         location.reload();
@@ -550,6 +727,7 @@
     function nextItem(){
       if(state.queue.length === 0) prepareQueue();
       state.current = state.queue.shift();
+      state.currentSentence = makeSentence(state.current);
     }
 
     function updateModeButtons(){
@@ -567,12 +745,18 @@
       els.modeLabel.innerText =
         state.mode === "word" ? "Word Mode" :
         state.mode === "sentence" ? "Sentence Mode" : "Listening Mode";
+
       els.progressLabel.innerText = `Level progress: ${state.levelProgress} / ${currentPack().target}`;
       els.progressFill.style.width = `${(state.levelProgress / currentPack().target) * 100}%`;
+      els.starLabel.innerText = `⭐ ${state.stars}`;
+
+      els.trialBox.innerText = isPro()
+        ? "✅ Full version unlocked · All levels are available"
+        : "🎁 Free Trial: Level 1 unlocked · Unlock full content, more levels, and future updates";
 
       els.proNote.innerText = isPro()
         ? "✅ Full version unlocked"
-        : "🎁 Free Trial: Level 1 unlocked · Unlock full content to continue";
+        : "Need help unlocking? Tap Add LINE.";
 
       updateModeButtons();
       renderLevels();
@@ -630,8 +814,11 @@
     }
 
     function buildSentenceOptions(){
-      const correct = makeSentence(state.current);
-      const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text)).slice(0,2).map(makeSentence);
+      const correct = state.currentSentence;
+      const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text))
+        .slice(0,2)
+        .map(item => makeWrongSentence(item));
+
       const choices = shuffle([correct, ...others]);
 
       choices.forEach(choice => {
@@ -646,8 +833,11 @@
     }
 
     function buildListeningOptions(){
-      const correct = makeSentence(state.current);
-      const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text)).slice(0,2).map(makeSentence);
+      const correct = state.currentSentence;
+      const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text))
+        .slice(0,2)
+        .map(item => makeWrongSentence(item));
+
       const choices = shuffle([correct, ...others]);
 
       choices.forEach(choice => {
@@ -668,25 +858,19 @@
       els.hint.innerText = "";
       els.options.innerHTML = "";
 
-      if(state.mode === "listening"){
-        els.cue.className = "cue";
-        els.cue.innerText = state.current.emoji;
-        buildListeningOptions();
+      els.cue.className = "cue";
+      els.cue.innerText = state.current.emoji;
 
-        // 使用者已經有互動後，進入 listening 題目會自動播一次
+      if(state.mode === "word"){
+        buildWordOptions();
+      } else if(state.mode === "sentence"){
+        buildSentenceOptions();
+      } else {
+        buildListeningOptions();
         if(state.speechUnlocked){
           setTimeout(() => {
-            speak(makeSentence(state.current));
+            speak(state.currentSentence);
           }, 120);
-        }
-
-      } else {
-        els.cue.className = "cue";
-        els.cue.innerText = state.current.emoji;
-        if(state.mode === "word"){
-          buildWordOptions();
-        } else {
-          buildSentenceOptions();
         }
       }
 
@@ -700,9 +884,10 @@
         if(!isPro() && state.currentLevel >= 0){
           state.levelProgress = 0;
           prepareQueue();
-          alert("🎉 Level 1 complete! Unlock Full Version to continue.");
+          alert("🎉 Level 1 complete! Add LINE to unlock the full version.");
           return false;
         }
+
         state.unlockedLevel = Math.max(state.unlockedLevel, state.currentLevel + 1);
         state.currentLevel += 1;
         state.levelProgress = 0;
@@ -727,7 +912,7 @@
       if(state.mode === "word"){
         return state.current.text;
       }
-      return makeSentence(state.current);
+      return state.currentSentence;
     }
 
     function handleChoice(selected, correct, button, speakText){
@@ -742,6 +927,7 @@
         state.score += 1;
         state.streak += 1;
         state.levelProgress += 1;
+        state.stars += 1;
         if(state.streak > state.best) state.best = state.streak;
 
         const leveled = levelUpIfNeeded();
@@ -796,11 +982,10 @@
     function replayCurrent(){
       markInteraction();
       if(!state.current) return;
-
       if(state.mode === "word"){
         speak(state.current.text);
       } else {
-        speak(makeSentence(state.current));
+        speak(state.currentSentence);
       }
     }
 
@@ -813,6 +998,7 @@
       state.score = 0;
       state.streak = 0;
       state.best = 0;
+      state.stars = 0;
       state.levelProgress = 0;
       state.lock = false;
       prepareQueue();
@@ -825,6 +1011,7 @@
     els.replayBtn.onclick = replayCurrent;
     els.restartBtn.onclick = restartAll;
     els.unlockBtn.onclick = unlockPro;
+    els.lineBtn.href = LINE_URL;
 
     load();
     updateHeader();
