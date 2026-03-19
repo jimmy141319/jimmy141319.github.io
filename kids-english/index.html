@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V20.1</title>
+  <title>Jimmy Kids English V21.1</title>
   <style>
     :root{
       --bg:#eef1f7;
@@ -26,7 +26,7 @@
       text-align:center;
     }
     .wrap{
-      max-width:960px;
+      max-width:980px;
       margin:0 auto;
       padding:16px 14px 36px;
     }
@@ -95,7 +95,7 @@
       border-radius:26px;
       padding:18px 14px 24px;
       box-shadow:var(--shadow);
-      min-height:600px;
+      min-height:620px;
       transition:opacity .16s ease, transform .16s ease;
     }
     .stage.switching{
@@ -118,7 +118,7 @@
       align-items:center;
       justify-content:center;
       font-size:92px;
-      margin:8px 0 10px;
+      margin:8px 0 8px;
       user-select:none;
       padding:0 10px;
       line-height:1.35;
@@ -127,18 +127,20 @@
       font-size:24px;
       color:var(--blue);
       font-weight:800;
-      min-height:110px;
+      min-height:88px;
     }
     .hint{
-      min-height:36px;
+      min-height:58px;
       font-size:24px;
       font-weight:800;
       margin:8px 0 10px;
+      line-height:1.4;
+      padding:0 8px;
     }
     .hint.ok{color:var(--green)}
     .hint.bad{color:var(--red)}
     .progress-wrap{
-      width:min(100%,580px);
+      width:min(100%,620px);
       margin:8px auto 16px;
       text-align:left;
     }
@@ -167,7 +169,7 @@
       gap:12px;
     }
     .option{
-      width:min(100%,620px);
+      width:min(100%,640px);
       border:none;
       border-radius:20px;
       background:#fff;
@@ -198,26 +200,33 @@
       margin-top:16px;
       color:var(--muted);
       font-size:14px;
-      line-height:1.5;
+      line-height:1.55;
+      min-height:44px;
     }
-    .pro-note{
-      margin-top:10px;
+    .note{
+      margin-top:8px;
       color:#92400e;
       font-size:14px;
       font-weight:700;
+      min-height:22px;
+    }
+    .star{
+      color:var(--gold);
+      font-size:24px;
     }
     @media (max-width:560px){
       .pill{min-width:92px}
       .option{font-size:18px}
       .cue{font-size:82px}
       .cue.text{font-size:21px}
+      .hint{font-size:22px}
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Jimmy Kids English</h1>
-    <div class="sub">V20.1 · Big Content Version</div>
+    <div class="sub">V21.1 · Learning Loop Complete</div>
 
     <div class="row">
       <div class="pill" id="scoreBox">Score: 0</div>
@@ -252,7 +261,7 @@
 
       <div class="options" id="options"></div>
       <div class="footer" id="footer">Look at the picture and choose the correct word.</div>
-      <div class="pro-note" id="proNote"></div>
+      <div class="note" id="proNote"></div>
     </div>
   </div>
 
@@ -449,7 +458,7 @@
     };
 
     function save(){
-      localStorage.setItem("jimmyKidsV201", JSON.stringify({
+      localStorage.setItem("jimmyKidsV211", JSON.stringify({
         mode: state.mode,
         currentLevel: state.currentLevel,
         unlockedLevel: state.unlockedLevel,
@@ -462,7 +471,7 @@
 
     function load(){
       try{
-        const raw = localStorage.getItem("jimmyKidsV201");
+        const raw = localStorage.getItem("jimmyKidsV211");
         if(!raw) return;
         const d = JSON.parse(raw);
         if(typeof d.mode === "string") state.mode = d.mode;
@@ -558,13 +567,12 @@
       els.modeLabel.innerText =
         state.mode === "word" ? "Word Mode" :
         state.mode === "sentence" ? "Sentence Mode" : "Listening Mode";
-
       els.progressLabel.innerText = `Level progress: ${state.levelProgress} / ${currentPack().target}`;
       els.progressFill.style.width = `${(state.levelProgress / currentPack().target) * 100}%`;
 
       els.proNote.innerText = isPro()
         ? "✅ Full version unlocked"
-        : "Free version: only Level 1 is open. Unlock to play all levels.";
+        : "🎁 Free Trial: Level 1 unlocked · Unlock full content to continue";
 
       updateModeButtons();
       renderLevels();
@@ -638,19 +646,19 @@
     }
 
     function buildListeningOptions(){
-      const correctSentence = makeSentence(state.current);
+      const correct = makeSentence(state.current);
       const others = shuffle(currentPack().items.filter(x => x.text !== state.current.text)).slice(0,2).map(makeSentence);
-      const choices = shuffle([correctSentence, ...others]);
+      const choices = shuffle([correct, ...others]);
 
       choices.forEach(choice => {
         const btn = document.createElement("button");
         btn.className = "option";
         btn.innerText = choice;
-        btn.onclick = () => handleChoice(choice, correctSentence, btn, correctSentence);
+        btn.onclick = () => handleChoice(choice, correct, btn, correct);
         els.options.appendChild(btn);
       });
 
-      els.footer.innerText = "Tap Replay, listen, then choose the correct sentence.";
+      els.footer.innerText = "Listen, look at the picture, then choose the correct sentence. Tap 🔊 if you want to hear it again.";
     }
 
     function buildQuestion(){
@@ -661,9 +669,17 @@
       els.options.innerHTML = "";
 
       if(state.mode === "listening"){
-        els.cue.className = "cue text";
-        els.cue.innerText = "🎧 Listen and choose.";
+        els.cue.className = "cue";
+        els.cue.innerText = state.current.emoji;
         buildListeningOptions();
+
+        // 使用者已經有互動後，進入 listening 題目會自動播一次
+        if(state.speechUnlocked){
+          setTimeout(() => {
+            speak(makeSentence(state.current));
+          }, 120);
+        }
+
       } else {
         els.cue.className = "cue";
         els.cue.innerText = state.current.emoji;
@@ -687,7 +703,6 @@
           alert("🎉 Level 1 complete! Unlock Full Version to continue.");
           return false;
         }
-
         state.unlockedLevel = Math.max(state.unlockedLevel, state.currentLevel + 1);
         state.currentLevel += 1;
         state.levelProgress = 0;
@@ -708,6 +723,13 @@
       return "✅ Correct";
     }
 
+    function learningAnswer(){
+      if(state.mode === "word"){
+        return state.current.text;
+      }
+      return makeSentence(state.current);
+    }
+
     function handleChoice(selected, correct, button, speakText){
       if(state.lock) return;
       state.lock = true;
@@ -725,12 +747,16 @@
         const leveled = levelUpIfNeeded();
 
         els.hint.className = "hint ok";
-        els.hint.innerText = leveled ? "🎉 Level Up!" : correctMessage();
+        if(leveled){
+          els.hint.innerText = "🎉 Level Complete!";
+          speak("Great job!");
+        } else {
+          els.hint.innerText = correctMessage();
+          speak(speakText);
+        }
 
         updateHeader();
         save();
-
-        speak(speakText);
 
         setTimeout(() => {
           switchStage(() => {
@@ -738,12 +764,12 @@
             disableOptions(false);
             state.lock = false;
           });
-        }, 330);
+        }, 420);
 
       } else {
         button.classList.add("wrong");
         els.hint.className = "hint bad";
-        els.hint.innerText = "❌ Try again";
+        els.hint.innerText = `❌ Try again · Correct answer: ${learningAnswer()}`;
 
         state.streak = 0;
         updateHeader();
@@ -753,7 +779,7 @@
           button.classList.remove("wrong");
           disableOptions(false);
           state.lock = false;
-        }, 320);
+        }, 480);
       }
     }
 
@@ -770,6 +796,7 @@
     function replayCurrent(){
       markInteraction();
       if(!state.current) return;
+
       if(state.mode === "word"){
         speak(state.current.text);
       } else {
