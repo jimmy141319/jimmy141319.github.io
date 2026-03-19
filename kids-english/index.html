@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jimmy Kids English V23</title>
+  <title>Jimmy Kids English V23.1</title>
   <style>
     :root{
       --bg:#eef1f7;
@@ -52,14 +52,26 @@
       font-size:22px;
       font-weight:800;
       color:var(--blue);
-      margin:6px 0 10px;
+      margin:6px 0 8px;
       line-height:1.4;
     }
     .price{
-      font-size:28px;
+      font-size:30px;
       font-weight:900;
       color:#111827;
-      margin:4px 0 14px;
+      margin:4px 0 4px;
+    }
+    .sale{
+      color:var(--red);
+      font-size:18px;
+      font-weight:900;
+      margin-bottom:12px;
+    }
+    .trust{
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:14px;
+      line-height:1.6;
     }
     .value{
       display:flex;
@@ -107,8 +119,8 @@
       justify-content:center;
       gap:6px;
     }
-    .btn.primary{ background:var(--blue); }
-    .btn.primary:hover{ background:var(--blue-dark); }
+    .btn.primary{ background:var(--green); }
+    .btn.primary:hover{ filter:brightness(.96); }
     .btn.line{ background:#06c755; }
     .btn.secondary{ background:#64748b; }
     .mode-btn{
@@ -288,7 +300,8 @@
       .hint{font-size:22px}
       .btn,.pill,.level-btn{padding:11px 14px;font-size:15px}
       .headline{font-size:20px}
-      .price{font-size:24px}
+      .price{font-size:26px}
+      .sale{font-size:17px}
     }
   </style>
 </head>
@@ -297,8 +310,10 @@
     <div class="hero">
       <h1>Jimmy Kids English</h1>
       <div class="sub">For Grade 3 kids · Learn with pictures, sentences, and listening</div>
-      <div class="headline">每天 10 分鐘，孩子會更敢開口說英文</div>
-      <div class="price">完整版開通價 NT$299</div>
+      <div class="headline">每天 10 分鐘，孩子更願意開口說英文</div>
+      <div class="price">完整課程體驗價 NT$99</div>
+      <div class="sale">🔥 限時試用價 NT$99（之後恢復 NT$299）</div>
+      <div class="trust">先免費玩 Level 1，喜歡再開通，沒有壓力。</div>
 
       <div class="value">
         <div class="tag">🎮 遊戲化學習</div>
@@ -308,13 +323,13 @@
       </div>
 
       <div class="row">
-        <button class="btn primary" id="unlockBtn">👉 立即解鎖完整課程（NT$299）</button>
-        <a class="btn line" id="lineBtn" href="https://line.me/ti/p/~jimmy141319" target="_blank" rel="noopener">👉 加 LINE 立即開通</a>
+        <a class="btn primary" id="lineBtn" href="https://line.me/ti/p/~jimmy141319" target="_blank" rel="noopener">👉 加 LINE 開通完整課程（NT$99）</a>
+        <button class="btn secondary" id="unlockBtn">輸入開通碼</button>
       </div>
     </div>
 
     <div class="trial-box" id="trialBox">
-      🎁 免費試用中：目前可玩 Level 1。玩完後想繼續，直接加 LINE 開通完整版。
+      🎁 免費試用：先玩 Level 1。孩子喜歡再加 LINE 開通完整版。
     </div>
 
     <div class="row">
@@ -358,15 +373,15 @@
     <div class="cards">
       <div class="card">
         <h3>免費試用</h3>
-        <p>先玩 Level 1，讓孩子直接試玩，不用先付錢也能感受內容。</p>
+        <p>Level 1 可直接玩，先讓孩子試玩，再決定要不要開通。</p>
       </div>
       <div class="card">
-        <h3>完整版</h3>
-        <p>解鎖全部關卡、更多單字、更多句子、更多聽力內容，之後更新也可繼續用。</p>
+        <h3>完整課程</h3>
+        <p>解鎖全部關卡、更多單字、更多句子、更多聽力內容。</p>
       </div>
       <div class="card">
-        <h3>加 LINE 開通</h3>
-        <p>想直接開通完整版，按上方綠色按鈕即可。你也可以先試玩，再決定是否升級。</p>
+        <h3>如何開通</h3>
+        <p>加 LINE 後告訴我你要開通，我會給你完整課程開通碼。</p>
       </div>
     </div>
   </div>
@@ -504,7 +519,7 @@
     };
 
     function save(){
-      localStorage.setItem("jimmyKidsV23", JSON.stringify({
+      localStorage.setItem("jimmyKidsV231", JSON.stringify({
         mode: state.mode,
         currentLevel: state.currentLevel,
         score: state.score,
@@ -517,7 +532,7 @@
 
     function load(){
       try{
-        const raw = localStorage.getItem("jimmyKidsV23");
+        const raw = localStorage.getItem("jimmyKidsV231");
         if(!raw) return;
         const d = JSON.parse(raw);
         if(typeof d.mode === "string") state.mode = d.mode;
@@ -623,11 +638,11 @@
 
       els.trialBox.innerText = isPro()
         ? "✅ 完整版已開通：全部關卡都可使用"
-        : "🎁 免費試用：可玩 Level 1。喜歡的話，點上方按鈕加 LINE 開通完整版。";
+        : "🎁 免費試用：先玩 Level 1。孩子喜歡再加 LINE 開通完整版。";
 
       els.proNote.innerText = isPro()
         ? "✅ Full version unlocked"
-        : "Need help unlocking? Tap Add LINE.";
+        : "👉 試用完 Level 1，想繼續就加 LINE 開通 NT$99 完整版";
 
       updateModeButtons();
       renderLevels();
@@ -644,7 +659,7 @@
         btn.onclick = () => {
           markInteraction();
           if(!isPro() && i > 0){
-            alert("請先加 LINE 開通完整版");
+            alert("免費版只開放 Level 1，請加 LINE 開通完整版。");
             return;
           }
           state.currentLevel = i;
@@ -753,7 +768,7 @@
         if(!isPro() && state.currentLevel === 0){
           state.levelProgress = 0;
           prepareQueue();
-          alert("🎯 免費試用結束\n\n想繼續學習，請加 LINE 立即開通完整版。");
+          alert("🎯 免費試用結束\n\n想繼續玩完整課程，請加 LINE 開通 NT$99 完整版。");
           return false;
         }
 
